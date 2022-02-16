@@ -3,7 +3,7 @@ export default [
     header: 'Message Outbox',
   },
   {
-    title: 'Outbox',
+    title: 'SMS Outbox',
     icon: 'LogOutIcon',
     children: [
       {

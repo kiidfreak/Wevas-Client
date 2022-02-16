@@ -46,6 +46,14 @@ export default {
           .catch(error => reject(error))
       })
     },
+    fetchOrganisationShortCodes(ctx, queryParams) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/organisations/${queryParams.orgId}/senders`, { params: queryParams })
+          .then(response => resolve(response))
+          .catch(error => reject(error))
+      })
+    },
     fetchCampaign(ctx, { id }) {
       return new Promise((resolve, reject) => {
         axios

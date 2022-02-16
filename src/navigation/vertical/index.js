@@ -34,12 +34,12 @@ import dashboard from './dashboard'
 import campaigns from './campaigns'
 import addressbook from './addressbook'
 import outbox from './outbox'
+import inbox from './inbox'
 // import premium from './premium'
 // import others from './others'
 import senders from './senders'
 import topups from './topups'
-import inbox from './inbox'
 import apikeys from './apikeys'
 
 // Array of sections
-export default [...dashboard, ...addressbook, ...campaigns, ...outbox, ...senders, ...topups, ...inbox, ...apikeys]
+export default [...dashboard, ...addressbook, ...campaigns, ...outbox, ...inbox, ...senders, ...topups, ...apikeys]

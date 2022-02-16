@@ -10,16 +10,48 @@
       class="mb-3"
       @on-complete="SubmitForm"
     >
-
-      <!-- contact group and sender -->
-      <tab-content
-        title="Contact Group"
-        :before-change="validationForm"
-      >
-        <validation-observer
-          ref="accountRules"
+      <!-- campaign type -->
+      <tab-content title="Campaign Type" :before-change="validationFormType">
+        <validation-observer 
+          ref="campaignTypeRules" 
           tag="form"
         >
+          <b-row>
+            <b-col md="6">
+              <validation-provider
+                #default="{ errors }"
+                name="Campaign Type"
+                rules="required"
+              >
+                <b-form-group
+                  label="Campaign Type"
+                  label-for="campaign_type"
+                  :state="errors.length > 0 ? false : null"
+                >
+                  <v-select
+                    id="campaign_type"
+                    v-model="composeData.type"
+                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                    :options="campaignTypes"
+                    :reduce="type => type.value"
+                    label="name"
+                  />
+                  <small class="text-muted"> Campaign Type </small>
+                  <b-form-invalid-feedback
+                    :state="errors.length > 0 ? false : null"
+                  >
+                    {{ errors[0] }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </validation-provider>
+            </b-col>
+          </b-row>
+        </validation-observer>
+      </tab-content>
+
+      <!-- contact group and sender -->
+      <tab-content title="Contact Group" :before-change="validationFormAccount">
+        <validation-observer ref="accountRules" tag="form">
           <b-row>
             <b-col md="6">
               <validation-provider
@@ -30,7 +62,7 @@
                 <b-form-group
                   label="From"
                   label-for="sender"
-                  :state="errors.length > 0 ? false:null"
+                  :state="errors.length > 0 ? false : null"
                 >
                   <v-select
                     id="sender"
@@ -39,12 +71,12 @@
                     :options="senders"
                     :reduce="name => name.id"
                     @open="fetchSenders"
-                    label="name"
+                      label="name"
                   />
-                  <small class="text-muted">
-                  Sender Name
-                </small>
-                  <b-form-invalid-feedback :state="errors.length > 0 ? false:null">
+                  <small class="text-muted"> Sender Name </small>
+                  <b-form-invalid-feedback
+                    :state="errors.length > 0 ? false : null"
+                  >
                     {{ errors[0] }}
                   </b-form-invalid-feedback>
                 </b-form-group>
@@ -59,7 +91,7 @@
                 <b-form-group
                   label="To"
                   label-for="groups"
-                  :state="errors.length > 0 ? false:null"
+                  :state="errors.length > 0 ? false : null"
                 >
                   <v-select
                     id="groups"
@@ -69,10 +101,10 @@
                     :options="groups"
                     label="name"
                   />
-                  <small class="text-muted">
-                  Contact Groups
-                </small>
-                  <b-form-invalid-feedback :state="errors.length > 0 ? false:null">
+                  <small class="text-muted"> Contact Groups </small>
+                  <b-form-invalid-feedback
+                    :state="errors.length > 0 ? false : null"
+                  >
                     {{ errors[0] }}
                   </b-form-invalid-feedback>
                 </b-form-group>
@@ -83,29 +115,17 @@
       </tab-content>
 
       <!-- message and subject -->
-      <tab-content
-        title="Message"
-        :before-change="validationFormInfo"
-      >
-        <validation-observer
-          ref="infoRules"
-          tag="form"
-        >
+      <tab-content title="Message" :before-change="validationFormInfo">
+        <validation-observer ref="infoRules" tag="form">
           <b-row>
-            <b-col
-              cols="12"
-              class="mb-2"
-            >
-              <h5 class="mb-0">
-                Type your message Below
-              </h5>
-              <small class="text-muted">Type your message below.Optionally provide a subject</small>
+            <b-col cols="12" class="mb-2">
+              <h5 class="mb-0">Type your message Below</h5>
+              <small class="text-muted"
+                >Type your message below. Optionally provide a subject</small
+              >
             </b-col>
             <b-col md="6">
-              <b-form-group
-                label="Subject"
-                label-for="subject"
-              >
+              <b-form-group label="Subject" label-for="subject">
                 <validation-provider
                   #default="{ errors }"
                   name="Subject"
@@ -115,7 +135,7 @@
                     id="subject"
                     v-model="composeData.subject"
                     placeholder="Subject"
-                    :state="errors.length > 0 ? false:null"
+                    :state="errors.length > 0 ? false : null"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
@@ -123,46 +143,44 @@
             </b-col>
           </b-row>
           <div v-if="placeHolders.length > 0">
-          <b-row>
-            <b-col
-              cols="12"
-              class="mt-1"
+            <b-row>
+              <b-col cols="12" class="mt-1">
+                <h5 class="mb-0">Place Holders:</h5>
+              </b-col>
+            </b-row>
+            <ul
+              id="my-custom-tags-list"
+              class="list-unstyled d-inline-flex flex-wrap mb-0"
+              aria-live="polite"
+              aria-atomic="false"
+              aria-relevant="additions removals"
             >
-              <h5 class="mb-0">
-                Place Holders:
-              </h5>
-            </b-col>
-          </b-row>
-          <ul
-          id="my-custom-tags-list"
-          class="list-unstyled d-inline-flex flex-wrap mb-0"
-          aria-live="polite"
-          aria-atomic="false"
-          aria-relevant="additions removals"
-        >
-          <!-- Always use the tag value as the :key, not the index! -->
-          <!-- Otherwise screen readers will not read the tag
+              <!-- Always use the tag value as the :key, not the index! -->
+              <!-- Otherwise screen readers will not read the tag
              additions and removals correctly -->
-          <b-card
-            v-for="tag in placeHolders"
-            :id="`my-custom-tags-tag_${tag.replace(/\s/g, '_')}_`"
-            :key="tag"
-            tag="li"
-            class="shadow-none border mt-1 mr-1 mb-1"
-            body-class="py-1 pr-2 text-nowrap"
-          >
-            <strong>{{ tag }}</strong>
-            <b-button
-              variant="link"
-              size="sm"
-              :aria-controls="`my-custom-tags-tag_${tag.replace(/\s/g, '_')}_`"
-              class="py-0"
-              @click="insertTag(tag)"
-            >
-              insert
-            </b-button>
-          </b-card>
-        </ul>
+              <b-card
+                v-for="tag in placeHolders"
+                :id="`my-custom-tags-tag_${tag.replace(/\s/g, '_')}_`"
+                :key="tag"
+                tag="li"
+                class="shadow-none border mt-1 mr-1 mb-1"
+                body-class="py-1 pr-2 text-nowrap"
+              >
+                <strong>{{ tag }}</strong>
+                <b-button
+                  variant="link"
+                  size="sm"
+                  :aria-controls="`my-custom-tags-tag_${tag.replace(
+                    /\s/g,
+                    '_'
+                  )}_`"
+                  class="py-0"
+                  @click="insertTag(tag)"
+                >
+                  insert
+                </b-button>
+              </b-card>
+            </ul>
           </div>
           <b-row>
             <b-col md="12">
@@ -174,7 +192,7 @@
                 <b-form-group
                   label="Message"
                   label-for="message"
-                  :state="errors.length > 0 ? false:null"
+                  :state="errors.length > 0 ? false : null"
                 >
                   <b-form-textarea
                     ref="refMessage"
@@ -183,22 +201,29 @@
                     placeholder="Message"
                     rows="8"
                     no-resize
-                    :state="errors.length > 0 ? false:null"
+                    :state="errors.length > 0 ? false : null"
                   />
                   <div
-                  v-if="composeData.message!==undefined && composeData.message.length>0"
+                    v-if="
+                      composeData.message !== undefined &&
+                      composeData.message.length > 0
+                    "
                   >
-                    <b-alert show
-                    class="mt-2 mb-2"
-                    variant="dark"
-                    >
-                     <p class="m-2 mt-2 mb-2"> <small> Message Length: Includes <strong>STOP *456*9*5#</strong> Suffix</small>
-                      <b-badge variant="secondary" class="ml-1">{{composeData.message.length + 14}}</b-badge>
-                     </p>
-
-                     </b-alert>
+                    <b-alert show class="mt-2 mb-2" variant="dark">
+                      <p class="m-2 mt-2 mb-2">
+                        <small>
+                          Message Length: Includes
+                          <strong>STOP *456*9*5#</strong> Suffix</small
+                        >
+                        <b-badge variant="secondary" class="ml-1">{{
+                          composeData.message.length + 14
+                        }}</b-badge>
+                      </p>
+                    </b-alert>
                   </div>
-                  <b-form-invalid-feedback :state="errors.length > 0 ? false:null">
+                  <b-form-invalid-feedback
+                    :state="errors.length > 0 ? false : null"
+                  >
                     {{ errors[0] }}
                   </b-form-invalid-feedback>
                 </b-form-group>
@@ -210,50 +235,62 @@
 
       <!-- preview and send  -->
       <tab-content
-        title="Preview &amp; send"
+        title="Preview &amp send"
         :before-change="validationFormAddress"
       >
-        <validation-observer
-          ref="addressRules"
-          tag="form"
-        >
+        <validation-observer ref="addressRules" tag="form">
           <b-row>
-            <b-col
-              cols="12"
-              class="mb-2"
-            >
-              <h5 class="mb-0">
-                Confirm Details
-              </h5>
+            <b-col cols="12" class="mb-2">
+              <h5 class="mb-0">Confirm Details</h5>
               <!-- <small class="text-muted">send or schedule your message</small> -->
             </b-col>
             <b-col md="12">
-              <div v-if="composeData.subject!==undefined && composeData.subject.length >0">
-                <h5 class="mb-2">Subject: <span class="text-muted">{{composeData.subject}}</span></h5>
+              <div
+                v-if="
+                  composeData.subject !== undefined &&
+                  composeData.subject.length > 0
+                "
+              >
+                <h5 class="mb-2">
+                  Subject:
+                  <span class="text-muted">{{ composeData.subject }}</span>
+                </h5>
               </div>
               <div class="mb-2">
-                To: <span v-for="to in composeData.to" :key="to.id">
-                  <span class="ml-1 text-muted">[ {{ to.name }} - {{ to.num_contacts }} ] </span>
+                To:
+                <span v-for="to in composeData.to" :key="to.id">
+                  <span class="ml-1 text-muted"
+                    >[ {{ to.name }} - {{ to.num_contacts }} ]
+                  </span>
                 </span>
-            </div>
-             <div class="mb-2">
-              Total Contacts:<span class="text-muted"> <b-badge variant="secondary" class="ml-1"> {{ numOfContacts }} </b-badge></span>
+              </div>
+              <div class="mb-2">
+                Total Contacts:<span class="text-muted">
+                  <b-badge variant="secondary" class="ml-1">
+                    {{ numOfContacts }}
+                  </b-badge></span
+                >
               </div>
               <div>
-                <h5 class="mb-0">
-                Message:
-              </h5>
-                <b-form-textarea id="textarea-plaintext" plaintext :value="composeData.message"
+                <h5 class="mb-0">Message:</h5>
+                <b-form-textarea
+                  id="textarea-plaintext"
+                  plaintext
+                  :value="composeData.message"
                   class="mb-2"
                   rows="4"
                   no-resize
                 />
-            </div>
-            <div>
-              <b-alert show class="p-2">
-            <small>Approximately <b class="text-dark mx-auto"> {{ estimateUnits }} </b> SMS Credits will be used</small>
-              </b-alert>
-            </div>
+              </div>
+              <div>
+                <b-alert show class="p-2">
+                  <small
+                    >Approximately
+                    <b class="text-dark mx-auto"> {{ estimateUnits }} </b> SMS
+                    Credits will be used</small
+                  >
+                </b-alert>
+              </div>
             </b-col>
           </b-row>
         </validation-observer>
@@ -266,49 +303,58 @@
               inline
               @change="toggleScheduleSwitch"
             >
-            Schedule Message
-          </b-form-checkbox>
+              Schedule Message
+            </b-form-checkbox>
           </b-col>
-       </b-row>
+        </b-row>
       </tab-content>
-    <div v-if="showSchedule">
-      <b-row>
-        <b-col md="6">
-        <b-form-group>
-          <h5>Date</h5>
-          <flat-pickr
-            v-model="composeData.sendAtDate"
-            class="form-control"
-            :config="{ altInput: true,altFormat: 'F j, Y', dateFormat: 'Y-m-d',}"
-          />
-        </b-form-group>
-      </b-col>
-      <b-col md="6">
-      <b-form-group>
-        <h5>Time</h5>
-        <flat-pickr
-          v-model="composeData.sendAtTime"
-          class="form-control"
-          :config="{ enableTime: true, noCalendar: true, dateFormat: 'H:i', time_24hr: true }"
-        />
-      </b-form-group>
-    </b-col>
-      </b-row>
-    </div>
+      <div v-if="showSchedule">
+        <b-row>
+          <b-col md="6">
+            <b-form-group>
+              <h5>Date</h5>
+              <flat-pickr
+                v-model="composeData.sendAtDate"
+                class="form-control"
+                :config="{
+                  altInput: true,
+                  altFormat: 'F j, Y',
+                  dateFormat: 'Y-m-d',
+                }"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group>
+              <h5>Time</h5>
+              <flat-pickr
+                v-model="composeData.sendAtTime"
+                class="form-control"
+                :config="{
+                  enableTime: true,
+                  noCalendar: true,
+                  dateFormat: 'H:i',
+                  time_24hr: true,
+                }"
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
+      </div>
     </form-wizard>
-
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import { FormWizard, TabContent } from 'vue-form-wizard'
-import vSelect from 'vue-select'
-import flatPickr from 'vue-flatpickr-component'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import 'vue-form-wizard/dist/vue-form-wizard.min.css'
-import Ripple from 'vue-ripple-directive'
+import Vue from "vue"
+import { onUnmounted } from "@vue/composition-api"
+import { FormWizard, TabContent } from "vue-form-wizard"
+import vSelect from "vue-select"
+import flatPickr from "vue-flatpickr-component"
+import { ValidationProvider, ValidationObserver } from "vee-validate"
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue"
+import "vue-form-wizard/dist/vue-form-wizard.min.css"
+import Ripple from "vue-ripple-directive"
 import {
   BRow,
   BCol,
@@ -321,21 +367,19 @@ import {
   BFormCheckbox,
   BButton,
   BCard,
-} from 'bootstrap-vue'
+} from "bootstrap-vue"
 
-import {
-  ref,
-  onBeforeMount,
-  computed,
-} from '@vue/composition-api'
+import { ref, onBeforeMount, computed } from "@vue/composition-api"
 
-import store from '@/store'
-import axios from '@axios'
+import store from "@/store"
+import axios from "@axios"
 
 // Notification
-import { useToast } from 'vue-toastification/composition'
-import { required } from '@validations'
-import { codeIcon } from './code'
+import { useToast } from "vue-toastification/composition"
+import { required } from "@validations"
+import { codeIcon } from "./code"
+
+import campaignStoreModule from "../campaignStoreModule"
 
 export default {
   components: {
@@ -372,23 +416,42 @@ export default {
   setup(props, { emit }) {
     const toast = useToast()
     const blankComposeData = {
-      sender: '',
-      subject: '',
-      message: '',
+      type: 0,
+      sender: "",
+      subject: "",
+      message: "",
       to: Object.keys(props.to).length === 0 ? [] : [props.to],
       sendAtDate: null,
       sendAtTime: null,
     }
+    const campaignTypes = [
+      { name: "Bulk SMS", value: 1 },
+      { name: "Premium SMS", value: 2 },
+    ]
     const groups = ref([])
-    const membership = JSON.parse(JSON.stringify(Vue.$cookies.get('userData').membership))
+    const membership = JSON.parse(
+      JSON.stringify(Vue.$cookies.get("userData").membership)
+    )
     const totalGroups = ref(0)
     const composeData = ref(JSON.parse(JSON.stringify(blankComposeData)))
     const resetComposeData = () => {
       composeData.value = JSON.parse(JSON.stringify(blankComposeData))
     }
+    const CAMPAIGNS_STORE_MODULE_NAME = "campaigns"
+
+    // Register module
+    if (!store.hasModule(CAMPAIGNS_STORE_MODULE_NAME))
+      store.registerModule(CAMPAIGNS_STORE_MODULE_NAME, campaignStoreModule)
+
+    // UnRegister on leave
+    onUnmounted(() => {
+      if (store.hasModule(CAMPAIGNS_STORE_MODULE_NAME))
+        store.unregisterModule(CAMPAIGNS_STORE_MODULE_NAME)
+    })
+
     const fetchGroups = () => {
       store
-        .dispatch('campaigns/fetchCampaignGroups', {
+        .dispatch("campaigns/fetchCampaignGroups", {
           org_id: membership.organisation_id,
         })
         .then(response => {
@@ -401,8 +464,8 @@ export default {
             component: ToastificationContent,
             props: {
               title: "Error fetching groups' list",
-              icon: 'AlertTriangleIcon',
-              variant: 'danger',
+              icon: "AlertTriangleIcon",
+              variant: "danger",
             },
           })
         })
@@ -415,6 +478,7 @@ export default {
         groupIds.push(group.id)
       })
       const postData = {
+        type: composeData.value.type,
         message: composeData.value.message,
         subject: composeData.value.subject,
         groups: groupIds,
@@ -423,33 +487,52 @@ export default {
         sendAtTime: composeData.value.sendAtTime,
         org_id: membership.organisation_id,
       }
-      axios.post('/campaigns/create', postData).then(res => {
-        console.log(res.data)
-        resetComposeData()
-        // composeData.value = {}
-        emit('close-compose-modal')
-      })
-        .catch(res => {
-          console.log('ERROR OCCURED', res)
+      // console.log(postData)
+      // return
+      axios
+        .post('/campaigns/create', postData)
+        .then(res => {
+          console.log(res.data)
+          resetComposeData()
+          // composeData.value = {}
+          emit("close-compose-modal")
+        })
+        .catch(err => {
+          console.log("ERROR OCCURED", err)
         })
     }
     // eslint-disable-next-line arrow-body-style
     const estimateUnits = computed(() => {
-      if (composeData.value.to.length > 0 && composeData.value.to !== undefined) {
+      if (
+        composeData.value.to.length > 0 &&
+        composeData.value.to !== undefined
+      ) {
         const msgLength = composeData.value.message.length + 14
-        return composeData.value.to.reduce((tt, to) => tt + to.num_contacts, 0) * (Math.ceil(msgLength / 160))
+        return (
+          composeData.value.to.reduce((tt, to) => tt + to.num_contacts, 0) *
+          Math.ceil(msgLength / 160)
+        )
       }
       return 0
     })
     const numOfContacts = computed(() => {
-      if (composeData.value.to.length > 0 && composeData.value.to !== undefined) {
+      if (
+        composeData.value.to.length > 0 &&
+        composeData.value.to !== undefined
+      ) {
         return composeData.value.to.reduce((tt, to) => tt + to.num_contacts, 0)
       }
       return 0
     })
     const placeHolders = computed(() => {
-      if (composeData.value.to.length > 0 && composeData.value.to !== undefined) {
-        return composeData.value.to.reduce((tt, to) => tt.concat(to.custom_fields), [])
+      if (
+        composeData.value.to.length > 0 &&
+        composeData.value.to !== undefined
+      ) {
+        return composeData.value.to.reduce(
+          (tt, to) => tt.concat(to.custom_fields),
+          []
+        )
       }
       return []
     })
@@ -457,6 +540,7 @@ export default {
     return {
       composeData,
       resetComposeData,
+      campaignTypes,
       groups,
       fetchGroups,
       estimateUnits,
@@ -490,7 +574,10 @@ export default {
         return
       }
       // insert:
-      this.composeData.message = `${tmpStr.substring(0, startPos)}{${tag}}${tmpStr.substring(endPos, tmpStr.length)}`
+      this.composeData.message = `${tmpStr.substring(
+        0,
+        startPos
+      )}{${tag}}${tmpStr.substring(endPos, tmpStr.length)}`
 
       // move cursor:
       setTimeout(() => {
@@ -500,22 +587,38 @@ export default {
     },
     fetchSenders() {
       store
-        .dispatch('campaigns/fetchOrganisationSenders', {
-          orgId: JSON.parse(JSON.stringify(this.$cookies.get('userData').membership.organisation_id)),
-          type: 1,
+        .dispatch("campaigns/fetchOrganisationSenders", {
+          orgId: JSON.parse(
+            JSON.stringify(
+              this.$cookies.get("userData").membership.organisation_id
+            )
+          ),
+          type: this.composeData.type === 1 ? 1 : 4,
           is_active: true,
         })
         .then(response => {
+          console.log(response.data)
           this.senders = response.data.results
         })
-        .catch(response => {
-          console.log(response)
+        .catch(err => {
+          console.log(err)
         })
-    },
+    }, 
     toggleScheduleSwitch() {
       this.showSchedule = !this.showSchedule
     },
-    validationForm() {
+    validationFormType() {
+      return new Promise((resolve, reject) => {
+        this.$refs.campaignTypeRules.validate().then(success => {
+          if (success) {
+            resolve(true)
+          } else {
+            reject()
+          }
+        })
+      })
+    },
+    validationFormAccount() {
       return new Promise((resolve, reject) => {
         this.$refs.accountRules.validate().then(success => {
           if (success) {
@@ -563,7 +666,7 @@ export default {
 }
 </script>
 <style lang="scss">
-  @import '@core/scss/vue/libs/vue-wizard.scss';
-  @import '@core/scss/vue/libs/vue-select.scss';
-  @import '@core/scss/vue/libs/vue-flatpicker.scss';
+@import "@core/scss/vue/libs/vue-wizard.scss";
+@import "@core/scss/vue/libs/vue-select.scss";
+@import "@core/scss/vue/libs/vue-flatpicker.scss";
 </style>

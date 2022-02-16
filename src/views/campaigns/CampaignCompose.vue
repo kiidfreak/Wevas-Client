@@ -37,7 +37,7 @@
       </div>
     </template>
     <!-- Modal: Body -->
-    <commpose-wizard  :to="composeTo" @close-compose-modal="closeModal"/>
+    <commpose-wizard :to="composeTo" @close-compose-modal="closeModal"/>
   </b-modal>
 </template>
 

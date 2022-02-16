@@ -1,51 +1,38 @@
 <template>
   <section class="invoice-preview-wrapper">
-
     <!-- Alert: No item found -->
-    <b-alert
-      variant="danger"
-      :show="groupData === undefined"
-    >
-      <h4 class="alert-heading">
-        Error fetching group data
-      </h4>
+    <b-alert variant="danger" :show="groupData === undefined">
+      <h4 class="alert-heading">Error fetching group data</h4>
       <div class="alert-body">
         No group found with this group id. Check
-        <b-link
-          class="alert-link"
-          :to="{ name: 'apps-group-list'}"
-        >
+        <b-link class="alert-link" :to="{ name: 'apps-group-list' }">
           Group List
         </b-link>
         for other groups.
       </div>
     </b-alert>
 
-    <b-row
-      v-if="groupData"
-      class="invoice-preview"
-    >
-
+    <b-row v-if="groupData" class="invoice-preview">
       <!-- Col: Left (Group Container) -->
-      <b-col
-        cols="12"
-        xl="9"
-        md="8"
-      >
-        <b-card
-          no-body
-          class="invoice-preview-card"
-        >
+      <b-col cols="12" xl="9" md="8">
+        <b-card no-body class="invoice-preview-card">
           <!-- Header -->
           <b-card-body class="invoice-padding pb-2">
-
-            <div class="d-flex justify-content-between flex-md-row flex-column group-spacing mt-0">
-
+            <div
+              class="
+                d-flex
+                justify-content-between
+                flex-md-row flex-column
+                group-spacing
+                mt-0
+              "
+            >
               <!-- Header: Left Content -->
               <div>
                 <div class="logo-wrapper">
-                  <h3 class="text-secondary group-logo"
-                  style="text-transform: capitalize;"
+                  <h3
+                    class="text-secondary group-logo"
+                    style="text-transform: capitalize"
                   >
                     {{ groupData.name }}
                   </h3>
@@ -54,30 +41,29 @@
                   Description: {{ groupData.description }}
                 </p>
                 <p class="card-text mb-2">
-                 Type: {{ groupData.type_description }}
+                  Type: {{ groupData.type_description }}
                 </p>
                 <p class="card-text mb-2">
                   Status:
-                  <b-badge
-                    class=""
-                    pill
-                    variant="light-success"
-                    >
-                   {{groupData.state_description }}
-                    </b-badge>
+                  <b-badge class="" pill variant="light-success">
+                    {{ groupData.state_description }}
+                  </b-badge>
                 </p>
-              <div v-if="groupData.operators.length >=1">
-              <span class="">Contacts by Operator</span>
-              <b-button
-              class="ml-2"
-               v-for="item in groupData.operators"
-               :key="item.operator"
-                v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-                :variant="`flat-${resolveGroupOperatorVariantAndIcon(item.operator)}`"
-              >
-                {{item.operator}} <span class="ml-1">{{item.count}}</span>
-              </b-button>
-              </div>
+                <div v-if="groupData.operators.length >= 1">
+                  <span class="">Contacts by Operator</span>
+                  <b-button
+                    class="ml-2"
+                    v-for="item in groupData.operators"
+                    :key="item.operator"
+                    v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+                    :variant="`flat-${resolveGroupOperatorVariantAndIcon(
+                      item.operator
+                    )}`"
+                  >
+                    {{ item.operator }}
+                    <span class="ml-1">{{ item.count }}</span>
+                  </b-button>
+                </div>
               </div>
 
               <!-- Header: Right Content -->
@@ -87,24 +73,16 @@
                   <span class="invoice-number">#{{ groupData.id }}</span>
                 </h4>
                 <div class="invoice-date-wrapper">
-                  <p class="invoice-date-title mb-2">
-                    Date Created:
-                  </p>
+                  <p class="invoice-date-title mb-2">Date Created:</p>
                   <p class="invoice-date mb-2">
                     {{ groupData.created_at }}
                   </p>
                 </div>
                 <div class="invoice-date-wrapper">
-                  <p class="invoice-date-title">
-                    All Contacts
-                  </p>
+                  <p class="invoice-date-title">All Contacts</p>
                   <p class="invoice-date">
-                    <b-badge
-                    class=""
-                    pill
-                    variant="secondary"
-                    >
-                    {{ groupData.num_contacts }}
+                    <b-badge class="" pill variant="secondary">
+                      {{ groupData.num_contacts }}
                     </b-badge>
                   </p>
                 </div>
@@ -112,73 +90,61 @@
             </div>
           </b-card-body>
         </b-card>
-
       </b-col>
 
       <!-- Right Col: Card -->
-      <b-col
-        cols="12"
-        md="4"
-        xl="3"
-        class="invoice-actions"
-      >
+      <b-col cols="12" md="4" xl="3" class="invoice-actions">
         <b-card class="border-primary mt-0">
-           <!-- Button: Send Group -->
-          <h5 class="mb-1 text-secondary">Upload Contacts File (.csv, .xlsx)</h5>
+          <!-- Button: Send Group -->
+          <h5 class="mb-1 text-secondary">
+            Upload Contacts File (.csv, .xlsx)
+          </h5>
           <el-upload
-          ref="upload"
-          action=""
-          :auto-upload="false"
-          :http-request="uploadFile"
-          :drag="true"
-          :on-success="onSuccess"
-          :thumbnail-mode="true"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :multiple="false"
-          :before-remove="beforeRemove">
-          <p class="mt-4">Select or Drop Files to Upload</p>
+            ref="upload"
+            action=""
+            :auto-upload="false"
+            :http-request="uploadFile"
+            :drag="true"
+            :on-success="onSuccess"
+            :thumbnail-mode="true"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            multiple
+            :limit="3"
+            :on-exceed="handleExceed"
+            :before-remove="beforeRemove"
+          >
+            <p class="mt-4">Select or Drop Files to Upload</p>
           </el-upload>
           <div class="d-flex justify-content-center mt-1">
-          <b-button
-            variant="success"
-            @click="submitUpload"
-          >
-          Upload Contacts
-          </b-button>
+            <b-button variant="success" @click="submitUpload">
+              Upload Contacts
+            </b-button>
           </div>
         </b-card>
       </b-col>
     </b-row>
-     <!-- Spacer -->
-          <hr class="invoice-spacing">
+    <!-- Spacer -->
+    <hr class="invoice-spacing" />
     <b-row>
-      <b-col
-        cols="12"
-        xl="12"
-        md="12"
-      >
-      <h4 class="card-title">Group Contacts</h4>
-      <b-card
-          no-body
-          class="invoice-preview-card"
-        >
+      <b-col cols="12" xl="12" md="12">
+        <h4 class="card-title">Group Contacts</h4>
+        <b-card no-body class="invoice-preview-card">
           <!-- Header -->
           <b-card-body v-if="groupData != undefined">
             <contact-list :group-id="groupData.id" />
           </b-card-body>
-      </b-card>
-
+        </b-card>
       </b-col>
     </b-row>
   </section>
 </template>
 
 <script>
-import { ref, onUnmounted } from '@vue/composition-api'
-import store from '@/store'
-import router from '@/router'
-import axios from '@axios'
+import { ref, onUnmounted } from "@vue/composition-api"
+import store from "@/store"
+import router from "@/router"
+import axios from "@axios"
 import {
   BRow,
   BCol,
@@ -190,17 +156,17 @@ import {
   BBadge,
   BButton,
   // BTableLite,
-} from 'bootstrap-vue'
-import Ripple from 'vue-ripple-directive'
-import addressBookStoreModule from '../addressBookStoreModule'
-import ContactList from '../contacts-list/ContactList.vue'
+} from "bootstrap-vue"
+import Ripple from "vue-ripple-directive"
+import addressBookStoreModule from "../addressBookStoreModule"
+import ContactList from "../contacts-list/ContactList.vue"
 // import GroupSidebarSendGroup from '../GroupSidebarSendGroup.vue'
 // import GroupSidebarAddPayment from '../GroupSidebarAddPayment.vue'
 
 export default {
   directives: {
     Ripple,
-    'b-toggle': VBToggle,
+    "b-toggle": VBToggle,
   },
   components: {
     ContactList,
@@ -222,25 +188,33 @@ export default {
   setup() {
     const groupData = ref(null)
 
-    const ADDRESS_BOOK_STORE_MODULE_NAME = 'address-books'
+    const ADDRESS_BOOK_STORE_MODULE_NAME = "address-books"
 
     const resolveGroupOperatorVariantAndIcon = operator => {
-      if (operator === 'Safaricom') return 'primary'
-      if (operator === 'Airtel') return 'danger'
-      if (operator === 'Telkom') return 'info'
-      if (operator === 'Finserve') return 'warning'
-      return 'primary'
+      if (operator === "Safaricom") return "primary"
+      if (operator === "Airtel") return "danger"
+      if (operator === "Telkom") return "info"
+      if (operator === "Finserve") return "warning"
+      return "primary"
     }
 
     // Register module
-    if (!store.hasModule(ADDRESS_BOOK_STORE_MODULE_NAME)) store.registerModule(ADDRESS_BOOK_STORE_MODULE_NAME, addressBookStoreModule)
+    if (!store.hasModule(ADDRESS_BOOK_STORE_MODULE_NAME))
+      store.registerModule(
+        ADDRESS_BOOK_STORE_MODULE_NAME,
+        addressBookStoreModule
+      )
 
     // UnRegister on leave
     onUnmounted(() => {
-      if (store.hasModule(ADDRESS_BOOK_STORE_MODULE_NAME)) store.unregisterModule(ADDRESS_BOOK_STORE_MODULE_NAME)
+      if (store.hasModule(ADDRESS_BOOK_STORE_MODULE_NAME))
+        store.unregisterModule(ADDRESS_BOOK_STORE_MODULE_NAME)
     })
 
-    store.dispatch('address-books/fetchGroup', { id: router.currentRoute.params.id })
+    store
+      .dispatch("address-books/fetchGroup", {
+        id: router.currentRoute.params.id,
+      })
       .then(response => {
         groupData.value = response.data
       })
@@ -257,26 +231,59 @@ export default {
   },
   methods: {
     handleRemove(file, fileList) {
-      console.log(file, fileList)
+      this.$bvModal
+        .msgBoxOk(`The file ${file.name} has been removed`)
+        .catch(err => {
+          console.log(err)
+        })
     },
     handlePreview(file) {
       console.log(file)
     },
     handleExceed(files, fileList) {
-      this.$message.warning(`The limit is 3, you selected ${files.length} files this time, add up to ${files.length + fileList.length} totally`)
+      this.$bvModal
+        .msgBoxOk(
+          `The limit is 3, you selected ${
+            files.length
+          } files.`
+        )
+        .catch(err => {
+          console.log(err)
+        })
     },
-    beforeRemove(file, fileList) {
+    async beforeRemove(file, fileList) {
       console.log(file, fileList)
-      return this.$confirm(`Cancel the transfert of ${file.name} ?`)
+      let removeFile = false
+      await this.$bvModal
+        .msgBoxConfirm(
+          `Please confirm that you want to remove the file ${file.name}`,
+          {
+            title: "Remove File",
+            size: "sm",
+            buttonSize: "sm",
+            okVariant: "danger",
+            okTitle: "Remove",
+            cancelTitle: "Cancel",
+            hideHeaderClose: false,
+          }
+        )
+        .then(value => {
+          this.status = value
+          removeFile = value
+        })
+      return removeFile
     },
     submitUpload() {
       this.$refs.upload.submit()
     },
     onSuccess() {
-      store.dispatch('address-books/fetchGroup', { id: router.currentRoute.params.id })
+      store
+        .dispatch("address-books/fetchGroup", {
+          id: router.currentRoute.params.id,
+        })
         .then(response => {
           this.groupData = response.data
-          this.$root.$emit('bv::refresh::table', 'contact-list-table')
+          this.$root.$emit("bv::refresh::table", "contact-list-table")
         })
         .catch(error => {
           if (error.response.status === 404) {
@@ -286,22 +293,24 @@ export default {
     },
     async uploadFile(params) {
       const form = new FormData()
-      form.append('file', params.file)
-      await axios.post(`/address-books/${this.groupData.id}/add-contacts`, form)
+      form.append("file", params.file)
+      await axios.post(
+        `/address-books/${this.groupData.id}/add-contacts`,
+        form
+      )
     },
   },
 }
 </script>
 <style lang="css">
-@import "~@/assets/css/element-ui/theme/index.css";
+  @import "~@/assets/css/element-ui/theme/index.css";
 </style>
 <style lang="scss" scoped>
-@import "~@core/scss/base/pages/app-invoice.scss";
+  @import "~@core/scss/base/pages/app-invoice.scss";  
 </style>
 
 <style lang="scss">
 @media print {
-
   // Global Styles
   body {
     background-color: transparent !important;
@@ -341,7 +350,7 @@ export default {
       .group-preview-card {
         .card-body:nth-of-type(2) {
           .row {
-              > .col-12 {
+            > .col-12 {
               max-width: 50% !important;
             }
 
