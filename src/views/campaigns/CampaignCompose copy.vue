@@ -209,11 +209,11 @@ export default {
         groups: groupIds,
       }
       axios.post('/campaigns/create', postData).then(res => {
-        console.log('SENT', res.data)
+        // console.log('SENT', res.data)
         composeData.value = {}
       })
         .catch(res => {
-          console.log('ERROR OCCURED', res.data)
+          // console.log('ERROR OCCURED', res.data)
         })
     }
 

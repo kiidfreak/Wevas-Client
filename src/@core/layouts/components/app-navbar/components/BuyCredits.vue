@@ -150,7 +150,7 @@ export default {
         resetPayloadData()
         onSucceedText.value = res.data.description
         submitSucceeded.value = true
-        console.log('Succedd', submitSucceeded)
+        // console.log('Succedd', submitSucceeded)
       })
         .catch(() => {
           toast({

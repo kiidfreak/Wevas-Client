@@ -12,7 +12,10 @@
               <h5 class="mb-0">
                 Traffic-: <b-badge class="ml-1" variant="secondary">{{ progressReport.traffic }}</b-badge>
                 <span class="ml-2">
-                Delivered-: <b-badge class="ml-1" variant="primary">{{ progressReport.delivered }}</b-badge>
+                Delivered-: <b-badge class="ml-1" variant="success">{{ progressReport.delivered }}</b-badge>
+                </span>                
+                <span class="ml-2">
+                  Sent-: <b-badge class="ml-1" variant="primary">{{ progressReport.sent }}</b-badge>
                 </span>
                 <span class="ml-2">
                 Undelivered-: <b-badge class="ml-1" variant="warning">{{ progressReport.undelivered }}</b-badge>
@@ -91,6 +94,7 @@ export default {
       failed: 0,
       undelivered: 0,
       delivered: 0,
+      sent: 0,
       queued: 0,
       stopped: 0,
       waiting: 0,

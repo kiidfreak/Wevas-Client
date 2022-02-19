@@ -64,11 +64,11 @@ export default {
   methods: {
     refreshBulkAccount() {
       axios.get(`/organisations/bulk-account/${this.bulkAccounts.id}`).then(res => {
-        console.log(res.data)
+        // console.log(res.data)
         this.bulkAccounts = res.data
       })
         .catch(res => {
-          console.log('ERROR OCCURED', res)
+          // console.log('ERROR OCCURED', res)
         })
     },
   },

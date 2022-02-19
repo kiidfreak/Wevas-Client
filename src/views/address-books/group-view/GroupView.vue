@@ -234,11 +234,11 @@ export default {
       this.$bvModal
         .msgBoxOk(`The file ${file.name} has been removed`)
         .catch(err => {
-          console.log(err)
+          // console.log(err)
         })
     },
     handlePreview(file) {
-      console.log(file)
+      // console.log(file)
     },
     handleExceed(files, fileList) {
       this.$bvModal
@@ -248,11 +248,11 @@ export default {
           } files.`
         )
         .catch(err => {
-          console.log(err)
+          // console.log(err)
         })
     },
     async beforeRemove(file, fileList) {
-      console.log(file, fileList)
+      // console.log(file, fileList)
       let removeFile = false
       await this.$bvModal
         .msgBoxConfirm(

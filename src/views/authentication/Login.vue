@@ -300,7 +300,7 @@ export default {
                 useJwt.setRefreshToken(response.data.tokens.refresh_token)
                 this.$cookies.set('userData', userData, '2m')
                 this.$ability.update(response.data.ability)
-                console.log('UserData', JSON.parse(JSON.stringify(this.$cookies.get('userData'))))
+                // console.log('UserData', JSON.parse(JSON.stringify(this.$cookies.get('userData'))))
                 // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
                 this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
                   .then(() => {
@@ -318,7 +318,7 @@ export default {
               }
             })
             .catch(error => {
-              console.log('Errror', error)
+              // console.log('Errror', error)
               this.$refs.loginForm.setErrors('Error')
             })
         }

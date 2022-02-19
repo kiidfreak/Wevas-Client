@@ -141,7 +141,7 @@ export default {
           this.items = JSON.parse(JSON.stringify(res.data.results))
         })
         .catch(res => {
-          console.log('ERROR OCCURED', res.data)
+          // console.log('ERROR OCCURED', res.data)
         })
     },
   },

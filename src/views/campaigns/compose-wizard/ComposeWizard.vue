@@ -492,13 +492,13 @@ export default {
       axios
         .post('/campaigns/create', postData)
         .then(res => {
-          console.log(res.data)
+          // console.log(res.data)
           resetComposeData()
           // composeData.value = {}
           emit("close-compose-modal")
         })
         .catch(err => {
-          console.log("ERROR OCCURED", err)
+          // console.log("ERROR OCCURED", err)
         })
     }
     // eslint-disable-next-line arrow-body-style
@@ -597,11 +597,11 @@ export default {
           is_active: true,
         })
         .then(response => {
-          console.log(response.data)
+          // console.log(response.data)
           this.senders = response.data.results
         })
         .catch(err => {
-          console.log(err)
+          // console.log(err)
         })
     }, 
     toggleScheduleSwitch() {

@@ -385,7 +385,7 @@ export default {
       axios
         .post("/inbox/reply", postData)
         .then(res => {
-          console.log(res.data)
+          // console.log(res.data)
           if (res.status === 200)
             this.toast({
               component: ToastificationContent,
@@ -400,7 +400,7 @@ export default {
           refetchData()
         })
         .catch(err => {
-          console.log("ERROR OCCURED", err)
+          // console.log("ERROR OCCURED", err)
         })
     },
   },

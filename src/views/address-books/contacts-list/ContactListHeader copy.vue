@@ -112,20 +112,20 @@ export default {
           this.items = JSON.parse(JSON.stringify(res.data.results))
         })
         .catch(res => {
-          console.log('ERROR OCCURED', res.data)
+          // console.log('ERROR OCCURED', res.data)
         })
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList)
+      // console.log(file, fileList)
     },
     handlePreview(file) {
-      console.log(file)
+      // console.log(file)
     },
     handleExceed(files, fileList) {
       this.$message.warning(`The limit is 3, you selected ${files.length} files this time, add up to ${files.length + fileList.length} totally`)
     },
     beforeRemove(file, fileList) {
-      console.log(file, fileList)
+      // console.log(file, fileList)
       return this.$confirm(`Cancel the transfert of ${file.name} ?`)
     },
   },
