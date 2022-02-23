@@ -67,7 +67,7 @@
           class="email-label">
 
             <span>
-               Started at: {{ emailViewData.created_at }}
+               Started at: {{ emailViewData.started_at }}
             </span>
           </div>
           <div

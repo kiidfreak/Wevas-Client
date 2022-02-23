@@ -21,12 +21,11 @@
         >
           <b-media no-body>
             <b-media-aside
-
               class="mr-2"
             >
               <b-avatar
                 size="48"
-                variant="primary"
+                variant="success"
               >
                 <feather-icon
                   size="24"
@@ -57,7 +56,7 @@
             >
               <b-avatar
                 size="48"
-                variant="success"
+                variant="info"
               >
                 <feather-icon
                   size="24"
