@@ -56,7 +56,7 @@ export default function useApiOutboxList() {
     store
       .dispatch('outbox/fetchOutboxList', {
         org_id: JSON.parse(JSON.stringify(Vue.$cookies.get('userData').membership.organisation_id)),
-        type: 4,
+        req_type: 2,
         q: searchQuery.value,
         per_page: perPage.value,
         page: currentPage.value,

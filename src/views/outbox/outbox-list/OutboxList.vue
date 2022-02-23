@@ -21,12 +21,12 @@
             :clearable="false"
             class="per-page-selector d-inline-block ml-50 mr-1"
           />
-          <!-- <b-button
+           <b-button
             variant="primary"
             @click="isAddNewOutboxSidebarActive = true"
           >
             <span  class="text-nowrap">Add New Outbox</span>
-          </b-button> -->
+          </b-button>
         </b-col>
 
         <!-- Search -->

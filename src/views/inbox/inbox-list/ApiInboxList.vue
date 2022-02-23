@@ -259,8 +259,7 @@ import { onUnmounted } from '@vue/composition-api'
 import store from '@/store'
 import { formatDateToMonthLong, title } from '@utils/filters'
 import useApiInboxList from './useApiInboxList'
-
-import outBoxStoreModule from '../outBoxStoreModule'
+import outBoxStoreModule from '../../outbox/outBoxStoreModule'
 
 export default {
   components: {

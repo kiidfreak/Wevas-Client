@@ -7,8 +7,8 @@ const axiosIns = axios.create({
   // You can add your headers here
   // ================================
   // baseURL: '/api/',
-  baseURL: 'http://evilcorp.localhost:8000/api/',
   // baseURL: 'https://bulkdev.swifttdial.com:2778/api/',
+  baseURL: 'http://swiftt.localhost:8000/api/',
   // baseURL: 'https://sms.api.swifttdial.com:2778/api/',
   timeout: 9000,
   // headers: {'X-Custom-Header': 'foobar'}
@@ -16,4 +16,4 @@ const axiosIns = axios.create({
 
 Vue.prototype.$http = axiosIns
 
-export default axiosIns 
+export default axiosIns

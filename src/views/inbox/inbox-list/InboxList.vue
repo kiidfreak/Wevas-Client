@@ -22,7 +22,10 @@
           </b-col>
 
           <!-- Search -->
-          <b-col cols="12" md="6">
+          <b-col
+            cols="12"
+            md="6"
+          >
             <div class="d-flex align-items-center justify-content-end">
               <b-form-input
                 v-model="searchQuery"
@@ -37,8 +40,7 @@
                 :reduce="(name) => name.value"
                 class="inbox-filter-select"
                 placeholder="Select Status"
-              >
-              </v-select>
+              />
             </div>
           </b-col>
         </b-row>
@@ -61,13 +63,17 @@
       >
         <template #table-busy>
           <div class="text-center text-primary my-2">
-            <b-spinner class="align-middle"></b-spinner>
+            <b-spinner class="align-middle" />
             <strong class="p-2">Loading...</strong>
           </div>
         </template>
         <template #cell(show_details)="row">
           <div class="text-nowrap">
-            <b-button variant="success" @click="row.toggleDetails" class="mr-2">
+            <b-button
+              variant="success"
+              class="mr-2"
+              @click="row.toggleDetails"
+            >
               {{ row.detailsShowing ? "Hide" : "Show" }} Details
             </b-button>
           </div>
@@ -118,8 +124,8 @@
         <!-- Column: Created Date -->
         <template #cell(created_at)="data">
           <span
-            class="text-nowrap"
             :id="`inbox-row-${data.item.id}-created-at`"
+            class="text-nowrap"
           >
             {{ formatDateToMonthLong(data.value) }}
             <b-tooltip
@@ -139,26 +145,25 @@
             <b-row>
               <b-col cols="12">
                 <div>
-                  <span class="ml-1"
-                    ><strong class="mr-1 text-muted">Link ID : </strong>
-                    {{ row.item.link_id }}</span
-                  >
+                  <span
+                    class="ml-1"
+                  ><strong class="mr-1 text-muted">Link ID : </strong>
+                    {{ row.item.link_id }}</span>
                   <span class="ml-2">
-                    <strong class="ml-3 text-muted">Operator : </strong
-                    ><span class="ml-1">{{ row.item.operator }}</span>
+                    <strong class="ml-3 text-muted">Operator : </strong><span class="ml-1">{{ row.item.operator }}</span>
                   </span>
                   <span class="ml-2">
                     <strong class="ml-3 text-muted">Reference No. :</strong>
-                    <span class="ml-1"
-                      ><em>{{ row.item.ref_no }}</em></span
-                    >
+                    <span
+                      class="ml-1"
+                    ><em>{{ row.item.ref_no }}</em></span>
                   </span>
                 </div>
                 <div>
                   <b-form
+                    v-if="row.item.replied === 'No'"
                     class="ml-1 mt-2"
                     @submit="e => onSubmitReply(e, row.item)"
-                    v-if="row.item.replied === 'No'"
                   >
                     <b-form-group
                       id="input-group-1"
@@ -170,12 +175,14 @@
                         v-model="replyData.reply"
                         placeholder="Enter your message here"
                         required
-                      ></b-form-input>
+                      />
                     </b-form-group>
 
-                    <b-button class="h-10" type="submit" variant="primary"
-                      >Reply</b-button
-                    >
+                    <b-button
+                      class="h-10"
+                      type="submit"
+                      variant="primary"
+                    >Reply</b-button>
                   </b-form>
                 </div>
               </b-col>
@@ -194,10 +201,10 @@
               justify-content-center justify-content-sm-start
             "
           >
-            <span class="text-muted"
-              >Showing {{ dataMeta.from }} to {{ dataMeta.to }} of
-              {{ dataMeta.of }} entries</span
-            >
+            <span
+              class="text-muted"
+            >Showing {{ dataMeta.from }} to {{ dataMeta.to }} of
+              {{ dataMeta.of }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -220,10 +227,16 @@
               next-class="next-item"
             >
               <template #prev-text>
-                <feather-icon icon="ChevronLeftIcon" size="18" />
+                <feather-icon
+                  icon="ChevronLeftIcon"
+                  size="18"
+                />
               </template>
               <template #next-text>
-                <feather-icon icon="ChevronRightIcon" size="18" />
+                <feather-icon
+                  icon="ChevronRightIcon"
+                  size="18"
+                />
               </template>
             </b-pagination>
           </b-col>
@@ -247,18 +260,18 @@ import {
   BForm,
   BFormGroup,
   BFormInput,
-} from "bootstrap-vue"
+} from 'bootstrap-vue'
 // import { avatarText } from '@core/utils/filter'
-import vSelect from "vue-select"
-import Ripple from "vue-ripple-directive"
-import { ref, onUnmounted } from "@vue/composition-api"
-import { useToast } from "vue-toastification/composition"
-import store from "@/store"
-import axios from "@axios"
-import { title, formatDateToMonthLong } from "@utils/filters"
-import ToastificationContent from "@core/components/toastification/ToastificationContent.vue"
-import useInboxList from "./useInboxList"
-import inBoxStoreModule from "../inBoxStoreModule"
+import vSelect from 'vue-select'
+import Ripple from 'vue-ripple-directive'
+import { ref, onUnmounted } from '@vue/composition-api'
+import { useToast } from 'vue-toastification/composition'
+import store from '@/store'
+import axios from '@axios'
+import { title, formatDateToMonthLong } from '@utils/filters'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import useInboxList from './useInboxList'
+import inBoxStoreModule from '../inBoxStoreModule'
 
 export default {
   directives: {
@@ -287,33 +300,31 @@ export default {
   },
   setup() {
     const toast = useToast()
-    const INBOX_STORE_MODULE_NAME = "inbox"
+    const INBOX_STORE_MODULE_NAME = 'inbox'
 
     // Register module
-    if (!store.hasModule(INBOX_STORE_MODULE_NAME))
-      store.registerModule(INBOX_STORE_MODULE_NAME, inBoxStoreModule)
+    if (!store.hasModule(INBOX_STORE_MODULE_NAME)) store.registerModule(INBOX_STORE_MODULE_NAME, inBoxStoreModule)
 
     // UnRegister on leave
     onUnmounted(() => {
-      if (store.hasModule(INBOX_STORE_MODULE_NAME))
-        store.unregisterModule(INBOX_STORE_MODULE_NAME)
+      if (store.hasModule(INBOX_STORE_MODULE_NAME)) store.unregisterModule(INBOX_STORE_MODULE_NAME)
     })
 
     const replyData = ref({
       message: {},
-      reply: "",
+      reply: '',
     })
 
     const resetReplyData = () => {
       replyData.value = {
         message: {},
-        reply: "",
+        reply: '',
       }
     }
 
     const statusOptions = [
-      { name: "Replied", value: true },
-      { name: "Not replied", value: false },
+      { name: 'Replied', value: true },
+      { name: 'Not replied', value: false },
     ]
     const {
       fetchInbox,
@@ -374,7 +385,7 @@ export default {
   methods: {
     onSubmitReply(e, message) {
       e.preventDefault()
-      const reply = this.replyData.reply
+      const { reply } = this.replyData
       const postData = {
         message: reply,
         shortcode_id: 2,
@@ -383,24 +394,25 @@ export default {
         org_id: message.org_id,
       }
       axios
-        .post("/inbox/reply", postData)
+        .post('/inbox/reply', postData)
         .then(res => {
           console.log(res.data)
-          if (res.status === 200)
+          if (res.status === 200) {
             this.toast({
               component: ToastificationContent,
               props: {
-                title: "Changes Saved",
-                icon: "CoffeeIcon",
-                variant: "success",
-                text: "Reply has been sent successfully",
+                title: 'Changes Saved',
+                icon: 'CoffeeIcon',
+                variant: 'success',
+                text: 'Reply has been sent successfully',
               },
             })
+          }
           this.resetReplyData()
-          refetchData()
+          // refetchData()
         })
         .catch(err => {
-          console.log("ERROR OCCURED", err)
+          console.log('ERROR OCCURED', err)
         })
     },
   },
