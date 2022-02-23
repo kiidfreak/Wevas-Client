@@ -163,7 +163,7 @@
                   <b-form
                     v-if="row.item.replied === 'No'"
                     class="ml-1 mt-2"
-                    @submit="e => onSubmitReply(e, row.item)"
+                    @submit="(e) => onSubmitReply(e, row.item)"
                   >
                     <b-form-group
                       id="input-group-1"
@@ -396,7 +396,7 @@ export default {
       axios
         .post('/inbox/reply', postData)
         .then(res => {
-          console.log(res.data)
+          // console.log(res.data)
           if (res.status === 200) {
             this.toast({
               component: ToastificationContent,
@@ -408,32 +408,33 @@ export default {
               },
             })
           }
+
           this.resetReplyData()
           // refetchData()
-        })
-        .catch(err => {
+        }).catch(err => {
           console.log('ERROR OCCURED', err)
         })
     },
   },
 }
+
 </script>
 
 <style lang="scss" scoped>
 .per-page-selector {
-  width: 90px;
+width: 90px;
 }
 
 .inbox-filter-select {
-  min-width: 190px;
+min-width: 190px;
 
-  ::v-deep .vs__selected-options {
-    flex-wrap: nowrap;
-  }
+::v-deep .vs__selected-options {
+flex-wrap: nowrap;
+}
 
-  ::v-deep .vs__selected {
-    width: 100px;
-  }
+::v-deep .vs__selected {
+width: 100px;
+}
 }
 </style>
 

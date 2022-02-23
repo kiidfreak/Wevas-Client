@@ -21,7 +21,6 @@
         >
           <b-media no-body>
             <b-media-aside
-
               class="mr-2"
             >
               <b-avatar
@@ -30,17 +29,17 @@
               >
                 <feather-icon
                   size="24"
-                  icon="BarChart2Icon"
+                  icon="CheckCircleIcon"
                   class="text-secondary"
                 />
               </b-avatar>
             </b-media-aside>
             <b-media-body class="my-auto">
               <h4 class="font-weight-bolder mb-0">
-                {{ deliveryReport.total.toLocaleString() }}
+                {{ deliveryReport.delivered.toLocaleString() }}
               </h4>
               <b-card-text class="font-small-3 mb-0">
-               Traffic
+               Delivered
               </b-card-text>
             </b-media-body>
           </b-media>
@@ -57,21 +56,21 @@
             >
               <b-avatar
                 size="48"
-                variant="primary"
+                variant="info"
               >
                 <feather-icon
                   size="24"
-                  icon="CheckCircleIcon"
+                  icon="BarChart2Icon"
                   class="text-secondary"
                 />
               </b-avatar>
             </b-media-aside>
             <b-media-body class="my-auto">
               <h4 class="font-weight-bolder mb-0">
-                {{ deliveryReport.delivered.toLocaleString() }}
+                {{ deliveryReport.sent.toLocaleString() }}
               </h4>
               <b-card-text class="font-small-3 mb-0">
-               Delivered
+               Sent
               </b-card-text>
             </b-media-body>
           </b-media>

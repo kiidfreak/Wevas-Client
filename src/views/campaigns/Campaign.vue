@@ -334,10 +334,10 @@ export default {
         campaign_ids: JSON.parse(JSON.stringify(selectedCampaigns.value)),
         org_id: membership.value.organisation_id,
       }
-      console.log('Post Data', postData)
+      // console.log('Post Data', postData)
       store.dispatch('campaigns/deleteCampaigns', postData)
         .then(response => {
-          console.log(response.data)
+          // console.log(response.data)
           toast({
             component: ToastificationContent,
             props: {

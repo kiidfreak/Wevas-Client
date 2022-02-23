@@ -269,10 +269,10 @@ export default {
       isBusy,
     } = useApiKeysList()
     const addApiKeys = () => {
-      console.log('Post data', JSON.parse(JSON.stringify(addApiKeyPayload.value)))
+      // console.log('Post data', JSON.parse(JSON.stringify(addApiKeyPayload.value)))
       store.dispatch('apikeys/addNewApiKey', JSON.parse(JSON.stringify(addApiKeyPayload.value)))
         .then(response => {
-          console.log(response.data)
+          // console.log(response.data)
           toast({
             component: ToastificationContent,
             props: {

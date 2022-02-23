@@ -540,8 +540,8 @@ export default {
       // return
       axios
         .post('/campaigns/create', postData)
-        .then(res => {
-          console.log(res.data)
+        .then(() => {
+          // console.log(res.data)
           resetComposeData()
           // composeData.value = {}
           emit('close-compose-modal')
@@ -646,11 +646,11 @@ export default {
           is_active: true,
         })
         .then(response => {
-          console.log(response.data)
+          // console.log(response.data)
           this.senders = response.data.results
         })
-        .catch(err => {
-          console.log(err)
+        .catch(() => {
+          // console.log(err)
         })
     },
     toggleScheduleSwitch() {

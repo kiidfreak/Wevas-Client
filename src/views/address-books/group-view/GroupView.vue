@@ -193,6 +193,7 @@
 import { ref, onUnmounted } from '@vue/composition-api'
 import store from '@/store'
 import router from '@/router'
+// eslint-disable-next-line import/no-named-as-default
 import axios from '@axios'
 import {
   BRow,
@@ -282,12 +283,12 @@ export default {
     handleRemove(file) {
       this.$bvModal
         .msgBoxOk(`The file ${file.name} has been removed`)
-        .catch(err => {
-          console.log(err)
+        .catch(() => {
+          // console.log(err)
         })
     },
-    handlePreview(file) {
-      console.log(file)
+    handlePreview() {
+      // console.log(file)
     },
     handleExceed(files) {
       this.$bvModal
@@ -296,12 +297,12 @@ export default {
             files.length
           } files.`,
         )
-        .catch(err => {
-          console.log(err)
+        .catch(() => {
+          // console.log(err)
         })
     },
-    async beforeRemove(file, fileList) {
-      console.log(file, fileList)
+    async beforeRemove(file) {
+      // console.log(file, fileList)
       let removeFile = false
       await this.$bvModal
         .msgBoxConfirm(
