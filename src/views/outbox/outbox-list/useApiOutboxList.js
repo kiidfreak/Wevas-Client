@@ -68,7 +68,6 @@ export default function useApiOutboxList() {
       .then(response => {
         const { results, count } = response.data
         isBusy.value = false
-
         callback(results)
         totalOutbox.value = count
       })

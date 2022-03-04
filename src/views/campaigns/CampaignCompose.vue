@@ -11,12 +11,12 @@
     ok-only
     ok-variant="default"
     ok-title=""
-    header-text-variant="secondary"
+    header-text-variant="primary"
     @change="(val) => $emit('update:shall-show-email-compose-modal', val)"
   >
     <!-- Modal Header -->
     <template #modal-header>
-      <h5 class="modal-title text-white">
+      <h5 class="modal-title text-secondary">
         Compose Message
       </h5>
       <div class="modal-actions">

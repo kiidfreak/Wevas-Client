@@ -15,11 +15,12 @@ export default function useApiOutboxList() {
   // Table Handlers
   const tableColumns = [
     // { key: 'campaign', sortable: true },
-    { key: 'sender', label: 'Short Code', sortable: true },
-    { key: 'type_label', label: 'Type', sortable: true },
+    { key: 'sender', sortable: true },
+    // { key: 'type', sortable: true },
+    { key: 'state', label: 'Status', sortable: true },
     { key: 'recipient', sortable: true },
     { key: 'message', sortable: true },
-    { key: 'replied', label: 'Is Replied', sortable: true },
+    { key: 'sms_count', label: 'SMS Units Used', sortable: true },
     { key: 'created_at', label: 'Sent At', sortable: true },
     { key: 'show_details', label: 'Actions' },
     // { key: 'actions' },
@@ -56,18 +57,19 @@ export default function useApiOutboxList() {
     store
       .dispatch('outbox/fetchOutboxList', {
         org_id: JSON.parse(JSON.stringify(Vue.$cookies.get('userData').membership.organisation_id)),
-        type: 4,
         q: searchQuery.value,
+        req_type: 4,
         per_page: perPage.value,
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
+        state: statusFilter.value,
+        api: false,
       })
       .then(response => {
         const { results, count } = response.data
         isBusy.value = false
-
-        callback(results.filter(item => item.status === statusFilter.value))
+        callback(results)
         totalOutbox.value = count
       })
       .catch(() => {
@@ -86,15 +88,19 @@ export default function useApiOutboxList() {
   // *--------- UI ---------------------------------------*
   // *===============================================---*
 
-  const resolveOutboxStatusVariantAndIcon = replied => {
-    if (replied === 'Yes') return { variant: 'success', icon: 'PhoneIcon' }
-    if (replied === 'No') return { variant: 'warning', icon: 'PhoneIcon' }
+  const resolveOutboxStatusVariantAndIcon = state => {
+    if (state === 'SENT') return { variant: 'info', icon: 'PhoneIcon' }
+    if (state === 'DELIVERED') return { variant: 'warning', icon: 'MailIcon' }
     return { variant: 'success', icon: 'PhoneIcon' }
   }
-  const resolveOutboxStatusVariant = replied => {
-    if (replied === 'Yes') return { variant: 'success' }
-    if (replied === 'No') return { variant: 'secondary' }
-    return { variant: 'secondary' }
+  const resolveOutboxStatusVariant = state => {
+    if (state === 'SENT') return { variant: 'info' }
+    if (state === 'DELIVERED') return { variant: 'success' }
+    if (state === 'ERRORED') return { variant: 'danger' }
+    if (state === 'UNDELIVERED') return { variant: 'warning' }
+    if (state === 'QUEUED') return { variant: 'secondary' }
+    if (state === 'WAITING') return { variant: 'dark' }
+    return { variant: 'primary' }
   }
   const resolveOutboxSenderTypeVariant = type => {
     if (type === 'MO') return { variant: 'dark' }

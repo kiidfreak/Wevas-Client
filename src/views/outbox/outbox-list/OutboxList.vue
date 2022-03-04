@@ -21,12 +21,13 @@
             :clearable="false"
             class="per-page-selector d-inline-block ml-50 mr-1"
           />
-          <!-- <b-button
+          <!-- Create Outbox -->
+          <b-button
             variant="primary"
-            @click="isAddNewOutboxSidebarActive = true"
+            @click="isExpressComposeModalOpen = true"
           >
-            <span  class="text-nowrap">Add New Outbox</span>
-          </b-button> -->
+            <span class="text-nowrap">Express Message</span>
+          </b-button>
         </b-col>
 
         <!-- Search -->
@@ -137,7 +138,7 @@
           {{ data.item.state }}
           </b-badge>
           <b-tooltip
-          v-if="data.item.notes && data.item.notes.length >0"
+          v-if="data.item.notes && data.item.notes.length > 0"
             title="Notes"
             class="cursor-pointer"
             :target="`outbox-row-${data.item.id}-state`"
@@ -243,6 +244,7 @@
       </b-row>
     </div>
   </b-card>
+  <express-compose v-model="isExpressComposeModalOpen" />
 </div>
 </template>
 
@@ -255,7 +257,8 @@ import {
 } from 'bootstrap-vue'
 // import { avatarText } from '@core/utils/filter'
 import vSelect from 'vue-select'
-import { onUnmounted } from '@vue/composition-api'
+import ExpressCompose from './ExpressCompose.vue'
+import { onUnmounted, ref } from '@vue/composition-api'
 import store from '@/store'
 import { title, formatDateToMonthLong } from '@utils/filters'
 import useOutboxList from './useOutboxList'
@@ -282,6 +285,7 @@ export default {
     BTooltip,
 
     vSelect,
+    ExpressCompose,
   },
   setup() {
     const OUTBOX_STORE_MODULE_NAME = 'outbox'
@@ -293,11 +297,10 @@ export default {
     onUnmounted(() => {
       if (store.hasModule(OUTBOX_STORE_MODULE_NAME)) store.unregisterModule(OUTBOX_STORE_MODULE_NAME)
     })
-
-    // const isAddNewOutboxSidebarActive = ref(false)
-
+    const isExpressComposeModalOpen = ref(false)
     const statusOptions = [
       { name: 'Delivered', value: 3 },
+      { name: 'Sent', value: 2 },
       { name: 'Undelivered', value: 4 },
       { name: 'Queued', value: 1 },
       { name: 'Failed', value: 6 },
@@ -350,7 +353,7 @@ export default {
 
       // avatarText,
       // resolveOutboxStatusVariantAndIcon,
-      // isAddNewOutboxSidebarActive,
+      isExpressComposeModalOpen,
     }
   },
 }
