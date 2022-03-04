@@ -40,4 +40,4 @@ axiosIns.interceptors.request.use(function (config) {
 
 Vue.prototype.$http = axiosIns
 
-export default axiosIns 
+export default axiosIns

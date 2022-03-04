@@ -21,8 +21,7 @@
             :clearable="false"
             class="per-page-selector d-inline-block ml-50 mr-1"
           />
-          <!-- Create Outbox -->
-          <b-button
+           <b-button
             variant="primary"
             @click="isExpressComposeModalOpen = true"
           >

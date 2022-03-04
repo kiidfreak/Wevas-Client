@@ -12,7 +12,7 @@ export default [
         },
       ],
     },
-  },  {
+  }, {
     path: '/short-code/outbox',
     name: 'short-code-outbox',
     component: () => import('@/views/outbox/outbox-list/PremiumOutboxList.vue'),
