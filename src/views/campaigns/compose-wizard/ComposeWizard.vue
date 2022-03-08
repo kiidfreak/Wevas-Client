@@ -269,7 +269,7 @@
 
       <!-- preview and send  -->
       <tab-content
-        title="Preview &amp send"
+        title="Preview &amp; send"
         :before-change="validationFormAddress"
       >
         <validation-observer
@@ -301,12 +301,12 @@
               <div class="mb-2">
                 To:
                 <span
-                  v-for="to in composeData.to"
-                  :key="to.id"
+                  v-for="grp in composeData.to"
+                  :key="grp.id"
                 >
                   <span
                     class="ml-1 text-muted"
-                  >[ {{ to.name }} - {{ to.num_contacts }} ]
+                  >[ {{ grp.name }} - {{ grp.num_contacts }} ]
                   </span>
                 </span>
               </div>

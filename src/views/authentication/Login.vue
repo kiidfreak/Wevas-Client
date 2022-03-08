@@ -296,6 +296,7 @@ export default {
                 userData.membership = response.data.membership
                 userData.bulk_accounts = response.data.bulk_accounts
                 userData.tenantInfo = response.data.tenantInfo
+                userData.currency = {}
                 useJwt.setToken(response.data.tokens.access_token)
                 useJwt.setRefreshToken(response.data.tokens.refresh_token)
                 this.$cookies.set('userData', userData, '2m')
