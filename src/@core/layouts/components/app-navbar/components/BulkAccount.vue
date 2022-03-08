@@ -170,7 +170,7 @@ export default {
 
     const changeCurrency = curr => {
       // refresh org currency
-      get(`https://v6.exchangerate-api.com/v6/0b08af45a2a114487fd3f064/pair/KES/${curr}`)
+      get(`https://v6.exchangerate-api.com/v6/{API_KEY}/pair/KES/${curr}`)
         .then(res => {
           // console.log(res.data.conversion_rate)
           orgCurrency.value = {
