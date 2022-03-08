@@ -67,7 +67,7 @@ export default {
         // console.log(res.data)
         this.bulkAccounts = res.data
       })
-        .catch(res => {
+        .catch(() => {
           // console.log('ERROR OCCURED', res)
         })
     },

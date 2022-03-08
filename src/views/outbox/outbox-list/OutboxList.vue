@@ -256,10 +256,10 @@ import {
 } from 'bootstrap-vue'
 // import { avatarText } from '@core/utils/filter'
 import vSelect from 'vue-select'
-import ExpressCompose from './ExpressCompose.vue'
 import { onUnmounted, ref } from '@vue/composition-api'
 import store from '@/store'
 import { title, formatDateToMonthLong } from '@utils/filters'
+import ExpressCompose from './ExpressCompose.vue'
 import useOutboxList from './useOutboxList'
 
 import outBoxStoreModule from '../outBoxStoreModule'

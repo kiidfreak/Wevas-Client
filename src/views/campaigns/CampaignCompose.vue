@@ -87,7 +87,7 @@ export default {
         composeTo.value = res.data
         emit('update:shall-show-email-compose-modal', true)
       })
-        .catch(res => {
+        .catch(() => {
           // console.log('ERROR OCCURED', res.data)
         })
     }

@@ -13,7 +13,7 @@
                 Traffic-: <b-badge class="ml-1" variant="secondary">{{ progressReport.traffic }}</b-badge>
                 <span class="ml-2">
                 Delivered-: <b-badge class="ml-1" variant="success">{{ progressReport.delivered }}</b-badge>
-                </span>                
+                </span>
                 <span class="ml-2">
                   Sent-: <b-badge class="ml-1" variant="primary">{{ progressReport.sent }}</b-badge>
                 </span>

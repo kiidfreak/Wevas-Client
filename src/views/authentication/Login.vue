@@ -317,7 +317,7 @@ export default {
                   })
               }
             })
-            .catch(error => {
+            .catch(() => {
               // console.log('Errror', error)
               this.$refs.loginForm.setErrors('Error')
             })

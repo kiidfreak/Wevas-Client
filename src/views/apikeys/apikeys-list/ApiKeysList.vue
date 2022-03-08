@@ -271,7 +271,7 @@ export default {
     const addApiKeys = () => {
       // console.log('Post data', JSON.parse(JSON.stringify(addApiKeyPayload.value)))
       store.dispatch('apikeys/addNewApiKey', JSON.parse(JSON.stringify(addApiKeyPayload.value)))
-        .then(response => {
+        .then(() => {
           // console.log(response.data)
           toast({
             component: ToastificationContent,

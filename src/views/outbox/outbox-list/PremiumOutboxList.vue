@@ -28,8 +28,8 @@
           </b-col>
 
           <!-- Search -->
-          <b-col 
-            cols="12" 
+          <b-col
+            cols="12"
             md="6"
           >
             <div class="d-flex align-items-center justify-content-end">
@@ -46,8 +46,7 @@
                 :reduce="(name) => name.value"
                 class="outbox-filter-select"
                 placeholder="Select Status"
-              >
-              </v-select>
+              />
             </div>
           </b-col>
         </b-row>
@@ -67,17 +66,21 @@
         :sort-desc.sync="isSortDirDesc"
         class="position-relative"
       >
-      <template #table-busy>
+        <template #table-busy>
           <div class="text-center text-primary my-2">
-            <b-spinner class="align-middle"></b-spinner>
+            <b-spinner class="align-middle" />
             <strong class="p-2"> Loading...</strong>
           </div>
-      </template>
-      <template #cell(show_details)="row">
-        <div class="text-nowrap">
-            <b-button variant="success" @click="row.toggleDetails" class="mr-2">
-            {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
-        </b-button>
+        </template>
+        <template #cell(show_details)="row">
+          <div class="text-nowrap">
+            <b-button
+              variant="success"
+              class="mr-2"
+              @click="row.toggleDetails"
+            >
+              {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
+            </b-button>
           <!-- <b-dropdown
             variant="link"
             toggle-class="p-0"
@@ -101,15 +104,15 @@
             </b-dropdown-item>
           </b-dropdown> -->
           </div>
-      </template>
+        </template>
         <!-- Column: SMS Count -->
         <template #cell(sms_count)="data">
           <span class="text-nowrap">
             <b-badge
-            :id="`outbox-row-${data.item.id}-sms-count`"
-            variant="warning"
+              :id="`outbox-row-${data.item.id}-sms-count`"
+              variant="warning"
             >
-            {{ data.item.sms_count }}
+              {{ data.item.sms_count }}
             </b-badge>
             <b-tooltip
               title="Sms Lemgth"
@@ -117,79 +120,80 @@
               :target="`outbox-row-${data.item.id}-sms-count`"
               placement="topright"
             >
-            <p class="mb-0">
-              Message Length: {{ data.item.sms_count }}
-            </p>
-          </b-tooltip>
+              <p class="mb-0">
+                Message Length: {{ data.item.sms_count }}
+              </p>
+            </b-tooltip>
           </span>
         </template>
         <!-- Column: SMS State -->
         <template #cell(state)="data">
           <span class="text-nowrap">
             <b-badge
-            :id="`outbox-row-${data.item.id}-state`"
-            :variant="resolveOutboxStatusVariant(data.item.state).variant"
+              :id="`outbox-row-${data.item.id}-state`"
+              :variant="resolveOutboxStatusVariant(data.item.state).variant"
             >
-            {{ data.item.state }}
+              {{ data.item.state }}
             </b-badge>
             <b-tooltip
-            v-if="data.item.notes && data.item.notes.length >0"
+              v-if="data.item.notes && data.item.notes.length >0"
               title="Notes"
               class="cursor-pointer"
               :target="`outbox-row-${data.item.id}-state`"
               placement="topright"
             >
-            <p class="mb-0">
-              Notes: {{ data.item.notes }}
-            </p>
-          </b-tooltip>
+              <p class="mb-0">
+                Notes: {{ data.item.notes }}
+              </p>
+            </b-tooltip>
           </span>
         </template>
         <!-- Column: Recipient -->
         <template #cell(recipient)="data">
           <span class="text-nowrap">
             <feather-icon
-                  icon="PhoneIcon"
-                  class="text-success mr-1"
-                  size="18"
+              icon="PhoneIcon"
+              class="text-success mr-1"
+              size="18"
             />
             {{ data.item.recipient }}
           </span>
         </template>
         <!-- Column: Created Date -->
         <template #cell(created_at)="data">
-          <span class="text-nowrap"
-          :id="`outbox-row-${data.item.id}-sent-at`"
+          <span
+            :id="`outbox-row-${data.item.id}-sent-at`"
+            class="text-nowrap"
           >
             {{ formatDateToMonthLong(data.value) }}
-          <b-tooltip
+            <b-tooltip
               title="Sent At"
               class="cursor-pointer"
               :target="`outbox-row-${data.item.id}-sent-at`"
               placement="topright"
             >
-            <p class="mb-0">
-              {{ data.item.created_at }}
-            </p>
-          </b-tooltip>
+              <p class="mb-0">
+                {{ data.item.created_at }}
+              </p>
+            </b-tooltip>
           </span>
         </template>
         <template #row-details="row">
           <b-card>
             <b-row>
-          <b-col cols="12">
-              <div>
-                <span class="ml-1"><strong class="mr-1 text-muted">Type:</strong> {{ row.item.type }}</span>
+              <b-col cols="12">
+                <div>
+                  <span class="ml-1"><strong class="mr-1 text-muted">Type:</strong> {{ row.item.type }}</span>
                   <span class="ml-2">
-                  <strong class="ml-3 text-muted">Operator : </strong><span class="ml-1">{{ row.item.operator }}</span>
+                    <strong class="ml-3 text-muted">Operator : </strong><span class="ml-1">{{ row.item.operator }}</span>
                   </span>
                   <span class="ml-2">
-                  <strong class="ml-3 text-muted">Reference No. :</strong> <span class="ml-1"><em>{{ row.item.ref_no }}</em></span>
+                    <strong class="ml-3 text-muted">Reference No. :</strong> <span class="ml-1"><em>{{ row.item.ref_no }}</em></span>
                   </span>
-              </div>
-          </b-col>
-          </b-row>
-        </b-card>
+                </div>
+              </b-col>
+            </b-row>
+          </b-card>
         </template>
 
       </b-table>
@@ -204,10 +208,10 @@
               justify-content-center justify-content-sm-start
             "
           >
-            <span class="text-muted"
-              >Showing {{ dataMeta.from }} to {{ dataMeta.to }} of
-              {{ dataMeta.of }} entries</span
-            >
+            <span
+              class="text-muted"
+            >Showing {{ dataMeta.from }} to {{ dataMeta.to }} of
+              {{ dataMeta.of }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -230,10 +234,16 @@
               next-class="next-item"
             >
               <template #prev-text>
-                <feather-icon icon="ChevronLeftIcon" size="18" />
+                <feather-icon
+                  icon="ChevronLeftIcon"
+                  size="18"
+                />
               </template>
               <template #next-text>
-                <feather-icon icon="ChevronRightIcon" size="18" />
+                <feather-icon
+                  icon="ChevronRightIcon"
+                  size="18"
+                />
               </template>
             </b-pagination>
           </b-col>
@@ -257,15 +267,15 @@ import {
   BTooltip,
   BBadge,
   BButton,
-} from "bootstrap-vue"
-import ExpressCompose from './ExpressCompose.vue'
+} from 'bootstrap-vue'
 // import { avatarText } from '@core/utils/filter'
-import vSelect from "vue-select"
-import { onUnmounted, ref } from "@vue/composition-api"
-import store from "@/store"
-import { title, formatDateToMonthLong } from "@utils/filters"
-import usePremiumOutboxList from "./usePremiumOutboxList"
-import outBoxStoreModule from "../outBoxStoreModule"
+import vSelect from 'vue-select'
+import { onUnmounted, ref } from '@vue/composition-api'
+import store from '@/store'
+import { title, formatDateToMonthLong } from '@utils/filters'
+import ExpressCompose from './ExpressCompose.vue'
+import usePremiumOutboxList from './usePremiumOutboxList'
+import outBoxStoreModule from '../outBoxStoreModule'
 
 export default {
   components: {
@@ -289,16 +299,14 @@ export default {
     ExpressCompose,
   },
   setup() {
-    const OUTBOX_STORE_MODULE_NAME = "outbox"
+    const OUTBOX_STORE_MODULE_NAME = 'outbox'
 
     // Register module
-    if (!store.hasModule(OUTBOX_STORE_MODULE_NAME))
-      store.registerModule(OUTBOX_STORE_MODULE_NAME, outBoxStoreModule)
+    if (!store.hasModule(OUTBOX_STORE_MODULE_NAME)) { store.registerModule(OUTBOX_STORE_MODULE_NAME, outBoxStoreModule) }
 
     // UnRegister on leave
     onUnmounted(() => {
-      if (store.hasModule(OUTBOX_STORE_MODULE_NAME))
-        store.unregisterModule(OUTBOX_STORE_MODULE_NAME)
+      if (store.hasModule(OUTBOX_STORE_MODULE_NAME)) { store.unregisterModule(OUTBOX_STORE_MODULE_NAME) }
     })
     const isExpressComposeModalOpen = ref(false)
     const statusOptions = [
