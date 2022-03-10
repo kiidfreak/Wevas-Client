@@ -29,8 +29,8 @@
       </template>
       <b-dropdown-item
         v-for="(curr, index) in currencies"
-        :key="index"
-        @click="changeCurrency(curr.value)"
+        v-bind:key="index"
+        v-on:click="changeCurrency(curr.value)"
       >
         <span
           class="ml-2"
@@ -84,20 +84,111 @@ export default {
         name: 'CAD',
         value: 'CAD',
       },
+<<<<<<< Updated upstream
+=======
+      {
+        name: 'AUD',
+        value: 'AUD',
+      },
+      {
+        name: 'NZD',
+        value: 'NZD',
+      },
+      {
+        name: 'SGD',
+        value: 'SGD',
+      },
+      {
+        name: 'JPY',
+        value: 'JPY',
+      },
+      {
+        name: 'CHF',
+        value: 'CHF',
+      },
+      {
+        name: 'CNY',
+        value: 'CNY',
+      },
+      {
+        name: 'INR',
+        value: 'INR',
+      },
+      {
+        name: 'MYR',
+        value: 'MYR',
+      },
+      {
+        name: 'THB',
+        value: 'THB',
+      },
+      {
+        name: 'PHP',
+        value: 'PHP',
+      },
+      {
+        name: 'IDR',
+        value: 'IDR',
+      },
+      {
+        name: 'KRW',
+        value: 'KRW',
+      },
+      {
+        name: 'VND',
+        value: 'VND',
+      },
+      {
+        name: 'RUB',
+        value: 'RUB',
+      },
+      {
+        name: 'BRL',
+        value: 'BRL',
+      },
+      {
+        name: 'MXN',
+        value: 'MXN',
+      },
+      {
+        name: 'ZAR',
+        value: 'ZAR',
+      },
+      {
+        name: 'TRY',
+        value: 'TRY',
+      },
+      {
+        name: 'PLN',
+        value: 'PLN',
+      },
+>>>>>>> Stashed changes
     ]
     /* eslint-disable global-require */
 
     if (userData.value.currency.name === undefined || userData.value.currency.rate === undefined) {
       userData.value.currency = JSON.parse(JSON.stringify(orgCurrency.value))
+<<<<<<< Updated upstream
       Vue.$cookies.set('userData', JSON.parse(JSON.stringify(userData.value)), '2m')
     } else {
       orgCurrency.value = JSON.parse(JSON.stringify(userData.value.currency))
+=======
+      // console.log('New currency: ', JSON.parse(JSON.stringify(userData.value.currency)))
+      Vue.$cookies.set('userData', JSON.parse(JSON.stringify(userData.value)), '2m')
+    } else {
+      orgCurrency.value = JSON.parse(JSON.stringify(userData.value.currency))
+      // console.log('Saved Currency:', JSON.parse(JSON.stringify(orgCurrency.value)))
+>>>>>>> Stashed changes
     }
 
     const changeCurrency = curr => {
       // refresh org currency
       get(`https://v6.exchangerate-api.com/v6/0b08af45a2a114487fd3f064/pair/KES/${curr}`)
         .then(res => {
+<<<<<<< Updated upstream
+=======
+          // console.log(res.data.conversion_rate)
+>>>>>>> Stashed changes
           orgCurrency.value = {
             name: curr,
             value: curr,
@@ -108,7 +199,11 @@ export default {
           Vue.$cookies.set('userData', JSON.parse(JSON.stringify(userData.value)), '2m')
         })
         .catch(err => {
+<<<<<<< Updated upstream
           // console.log('ERROR OCCURED', err)
+=======
+          console.log('ERROR OCCURED', err)
+>>>>>>> Stashed changes
         })
     }
 
@@ -122,10 +217,22 @@ export default {
   },
   methods: {
     refreshBulkAccount() {
+<<<<<<< Updated upstream
       axios.get(`/organisations/bulk-account/${this.bulkAccounts.id}`).then(res => {
         this.bulkAccounts = res.data
       })
         .catch(() => {
+=======
+      // refresh bulk account
+      axios
+        .get(`/organisations/bulk-account/${this.bulkAccounts.id}`)
+        .then(res => {
+          // console.log(res.data)
+          this.bulkAccounts = res.data
+        })
+        .catch(err => {
+          console.log('ERROR OCCURED', err)
+>>>>>>> Stashed changes
         })
     },
   },
