@@ -84,8 +84,6 @@ export default {
         name: 'CAD',
         value: 'CAD',
       },
-<<<<<<< Updated upstream
-=======
       {
         name: 'AUD',
         value: 'AUD',
@@ -162,33 +160,22 @@ export default {
         name: 'PLN',
         value: 'PLN',
       },
->>>>>>> Stashed changes
     ]
     /* eslint-disable global-require */
 
     if (userData.value.currency.name === undefined || userData.value.currency.rate === undefined) {
       userData.value.currency = JSON.parse(JSON.stringify(orgCurrency.value))
-<<<<<<< Updated upstream
       Vue.$cookies.set('userData', JSON.parse(JSON.stringify(userData.value)), '2m')
     } else {
       orgCurrency.value = JSON.parse(JSON.stringify(userData.value.currency))
-=======
       // console.log('New currency: ', JSON.parse(JSON.stringify(userData.value.currency)))
       Vue.$cookies.set('userData', JSON.parse(JSON.stringify(userData.value)), '2m')
-    } else {
-      orgCurrency.value = JSON.parse(JSON.stringify(userData.value.currency))
-      // console.log('Saved Currency:', JSON.parse(JSON.stringify(orgCurrency.value)))
->>>>>>> Stashed changes
     }
 
     const changeCurrency = curr => {
       // refresh org currency
       get(`https://v6.exchangerate-api.com/v6/0b08af45a2a114487fd3f064/pair/KES/${curr}`)
         .then(res => {
-<<<<<<< Updated upstream
-=======
-          // console.log(res.data.conversion_rate)
->>>>>>> Stashed changes
           orgCurrency.value = {
             name: curr,
             value: curr,
@@ -199,11 +186,7 @@ export default {
           Vue.$cookies.set('userData', JSON.parse(JSON.stringify(userData.value)), '2m')
         })
         .catch(err => {
-<<<<<<< Updated upstream
           // console.log('ERROR OCCURED', err)
-=======
-          console.log('ERROR OCCURED', err)
->>>>>>> Stashed changes
         })
     }
 
@@ -217,12 +200,6 @@ export default {
   },
   methods: {
     refreshBulkAccount() {
-<<<<<<< Updated upstream
-      axios.get(`/organisations/bulk-account/${this.bulkAccounts.id}`).then(res => {
-        this.bulkAccounts = res.data
-      })
-        .catch(() => {
-=======
       // refresh bulk account
       axios
         .get(`/organisations/bulk-account/${this.bulkAccounts.id}`)
@@ -232,7 +209,6 @@ export default {
         })
         .catch(err => {
           console.log('ERROR OCCURED', err)
->>>>>>> Stashed changes
         })
     },
   },
