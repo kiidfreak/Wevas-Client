@@ -658,6 +658,14 @@ export default {
     },
     validationFormType() {
       return new Promise((resolve, reject) => {
+        if (this.senders.length > 0 && this.composeData.sender === '') {
+          this.senders.map(sender => {
+            if (sender.id === this.composeData.sender) {
+              resolve(sender.type === 1 || sender.type === 5)
+            }
+            return sender
+          })
+        }
         this.$refs.campaignTypeRules.validate().then(success => {
           if (success) {
             resolve(true)

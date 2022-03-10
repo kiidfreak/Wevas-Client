@@ -9,7 +9,7 @@
       <template #button-content>
         <span> SMS Credits: {{ orgCurrency.name }}</span>
         <span class="text-body">
-          {{ parseFloat(parseFloat(bulkAccounts.credits) * parseFloat(orgCurrency.rate)).toFixed(2) }}
+          {{ bulkAccounts.credits && orgCurrency.rate ? parseFloat(parseFloat(bulkAccounts.credits) * parseFloat(orgCurrency.rate)).toFixed(2) : 0.00 }}
         </span>
         <span>
           <feather-icon
@@ -96,7 +96,7 @@ export default {
 
     const changeCurrency = curr => {
       // refresh org currency
-      get(`https://v6.exchangerate-api.com/v6/{API_KEY}/pair/KES/${curr}`)
+      get(`https://v6.exchangerate-api.com/v6/0b08af45a2a114487fd3f064/pair/KES/${curr}`)
         .then(res => {
           orgCurrency.value = {
             name: curr,
@@ -108,7 +108,7 @@ export default {
           Vue.$cookies.set('userData', JSON.parse(JSON.stringify(userData.value)), '2m')
         })
         .catch(err => {
-          console.log('ERROR OCCURED', err)
+          // console.log('ERROR OCCURED', err)
         })
     }
 

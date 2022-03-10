@@ -14,10 +14,10 @@ export default function useTopUpList() {
   const refTopupListTable = ref(null)
   // Table Handlers
   const tableColumns = [
-    { key: 'account_type_label', label: 'Sub Account Credited', sortable: true },
+    { key: 'payment_ref', label: 'Payment Reference', sortable: true },
+    // { key: 'account_type_label', label: 'Sub Account Credited', sortable: true },
     { key: 'credits', label: 'Units Credited', sortable: true },
     { key: 'payment_method_label', label: 'Payment Method', sortable: true },
-    { key: 'payment_ref', label: 'Payment Reference', sortable: true },
     { key: 'created_at', label: 'Credited On', sortable: true },
     // { key: 'actions' },
   ]

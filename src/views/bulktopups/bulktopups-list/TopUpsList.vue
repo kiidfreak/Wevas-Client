@@ -30,7 +30,7 @@
         </b-col>
 
         <!-- Search -->
-        <b-col
+        <!-- <b-col
           cols="12"
           md="6"
         >
@@ -51,7 +51,7 @@
             >
             </v-select>
           </div>
-        </b-col>
+        </b-col> -->
       </b-row>
 
     </div>
@@ -154,7 +154,8 @@
 <script>
 import {
   BCard, BRow, BCol,
-  BFormInput, BTable, BSpinner,
+  // BFormInput,
+  BTable, BSpinner,
   BPagination,
   BTooltip,
 } from 'bootstrap-vue'
@@ -171,7 +172,7 @@ export default {
     BCard,
     BRow,
     BCol,
-    BFormInput,
+    // BFormInput,
     BTable,
     BSpinner,
     // BBadge,

@@ -14,7 +14,10 @@
       @change="(val) => $emit('update:is-express-compose-modal-open', val)"
       @ok="sendExpressMessages"
     >
-      <b-form class="m-2">
+      <b-form
+        class="m-2"
+        validated
+      >
         <b-form-group
           label="Type"
           label-for="message_type"
@@ -195,40 +198,52 @@ export default {
         })
     },
     sendExpressMessages() {
+      if (this.composeData.recipients.length === 0) {
+        this.toast({
+          component: ToastificationContent,
+          props: {
+            title: 'Please enter at least one recipient',
+            icon: 'AlertTriangleIcon',
+            variant: 'danger',
+          },
+        })
+        return
+      }
+      const postData = {
+        profile_code: this.composeData.sender,
+        message: this.composeData.message,
+        recipients: this.composeData.recipients,
+      }
       axios
-        .get(`/organisations/api-keys/${this.composeData.org_id}`)
-        .then(response => {
-          if (response.status === 200) {
-            const postData = {
-              profile_code: this.composeData.sender,
-              message: this.composeData.message,
-              recipients: this.composeData.recipients,
-            }
-            axios
-              .post(
-                '/outbox/express',
-                postData,
-              )
-              .then(res => {
-                console.log(res.data)
-                this.resetComposeData()
-                this.emit('update:is-express-compose-modal-open', false)
-              })
-              .catch(err => {
-                console.log('ERROR OCCURED', err)
-                this.toast({
-                  component: ToastificationContent,
-                  props: {
-                    title: 'Error occurred while sending messages',
-                    icon: 'AlertTriangleIcon',
-                    variant: 'danger',
-                  },
-                })
-              })
+        .post(
+          '/outbox/express',
+          postData,
+        )
+        .then(res => {
+          // console.log(res.data)
+          if (res.status === 200) {
+            this.toast({
+              component: ToastificationContent,
+              props: {
+                title: 'Messages Sent Successfully!',
+                icon: 'CoffeeIcon',
+                variant: 'success',
+              },
+            })
+            this.resetComposeData()
+            this.emit('update:is-express-compose-modal-open', false)
           }
         })
-        .catch(err => {
-          console.log(err)
+        .catch(() => {
+          // console.log('ERROR OCCURED', err)
+          this.toast({
+            component: ToastificationContent,
+            props: {
+              title: 'Error Occured!',
+              icon: 'AlertTriangleIcon',
+              variant: 'danger',
+            },
+          })
         })
     },
   },

@@ -198,9 +198,7 @@ export default {
         .then(response => {
           senderOptions.value = response.data.results
         })
-        .catch(response => {
-          console.log(response)
-        })
+        .catch(err => err)
     }
     const {
       fetchStoplists,

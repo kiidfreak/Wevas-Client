@@ -108,7 +108,7 @@ export default {
       store
         .dispatch('campaigns/getCampaignProgress', { id: props.campaignId })
         .then(response => {
-          console.log('Res', response.data)
+          // console.log('Res', response.data)
           progressReport.value = response.data
           refreshCard.value.showLoading = false
         })
@@ -127,7 +127,7 @@ export default {
       store
         .dispatch('campaigns/stopCampaign', { id: props.campaignId })
         .then(response => {
-          console.log('Res', response.data)
+          // console.log('Res', response.data)
           toast({
             component: ToastificationContent,
             props: {
