@@ -48,7 +48,7 @@
             Please sign-in to your account and start the adventure
           </b-card-text>
           <b-alert
-          v-if="errors"
+            v-if="errors"
             variant="danger"
             show
           >

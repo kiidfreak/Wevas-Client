@@ -12,7 +12,11 @@
           {{ parseFloat(parseFloat(bulkAccounts.credits) * parseFloat(orgCurrency.rate)).toFixed(2) }}
         </span>
         <span>
-          <feather-icon size="16" icon="ChevronDownIcon" class="ml-1" />
+          <feather-icon
+            size="16"
+            icon="ChevronDownIcon"
+            class="ml-1"
+          />
         </span>
         <span>
           <feather-icon
@@ -25,8 +29,8 @@
       </template>
       <b-dropdown-item
         v-for="(curr, index) in currencies"
-        v-bind:key="index"
-        v-on:click="changeCurrency(curr.value)"
+        :key="index"
+        @click="changeCurrency(curr.value)"
       >
         <span
           class="ml-2"
@@ -80,99 +84,20 @@ export default {
         name: 'CAD',
         value: 'CAD',
       },
-      {
-        name: 'AUD',
-        value: 'AUD',
-      },
-      {
-        name: 'NZD',
-        value: 'NZD',
-      },
-      {
-        name: 'SGD',
-        value: 'SGD',
-      },
-      {
-        name: 'JPY',
-        value: 'JPY',
-      },
-      {
-        name: 'CHF',
-        value: 'CHF',
-      },
-      {
-        name: 'CNY',
-        value: 'CNY',
-      },
-      {
-        name: 'INR',
-        value: 'INR',
-      },
-      {
-        name: 'MYR',
-        value: 'MYR',
-      },
-      {
-        name: 'THB',
-        value: 'THB',
-      },
-      {
-        name: 'PHP',
-        value: 'PHP',
-      },
-      {
-        name: 'IDR',
-        value: 'IDR',
-      },
-      {
-        name: 'KRW',
-        value: 'KRW',
-      },
-      {
-        name: 'VND',
-        value: 'VND',
-      },
-      {
-        name: 'RUB',
-        value: 'RUB',
-      },
-      {
-        name: 'BRL',
-        value: 'BRL',
-      },
-      {
-        name: 'MXN',
-        value: 'MXN',
-      },
-      {
-        name: 'ZAR',
-        value: 'ZAR',
-      },
-      {
-        name: 'TRY',
-        value: 'TRY',
-      },
-      {
-        name: 'PLN',
-        value: 'PLN',
-      },
     ]
     /* eslint-disable global-require */
 
     if (userData.value.currency.name === undefined || userData.value.currency.rate === undefined) {
       userData.value.currency = JSON.parse(JSON.stringify(orgCurrency.value))
-      // console.log('New currency: ', JSON.parse(JSON.stringify(userData.value.currency)))
       Vue.$cookies.set('userData', JSON.parse(JSON.stringify(userData.value)), '2m')
     } else {
       orgCurrency.value = JSON.parse(JSON.stringify(userData.value.currency))
-      // console.log('Saved Currency:', JSON.parse(JSON.stringify(orgCurrency.value)))
     }
 
     const changeCurrency = curr => {
       // refresh org currency
       get(`https://v6.exchangerate-api.com/v6/{API_KEY}/pair/KES/${curr}`)
         .then(res => {
-          // console.log(res.data.conversion_rate)
           orgCurrency.value = {
             name: curr,
             value: curr,
@@ -198,11 +123,9 @@ export default {
   methods: {
     refreshBulkAccount() {
       axios.get(`/organisations/bulk-account/${this.bulkAccounts.id}`).then(res => {
-        // console.log(res.data)
         this.bulkAccounts = res.data
       })
         .catch(() => {
-          // console.log('ERROR OCCURED', res)
         })
     },
   },
