@@ -57,14 +57,14 @@ export default function useApiOutboxList() {
     store
       .dispatch('outbox/fetchOutboxList', {
         org_id: JSON.parse(JSON.stringify(Vue.$cookies.get('userData').membership.organisation_id)),
-        req_type: 4,
         q: searchQuery.value,
         per_page: perPage.value,
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
         state: statusFilter.value,
-        api: false,
+        req_type: 6,
+        api: true,
       })
       .then(response => {
         const { results, count } = response.data

@@ -130,7 +130,7 @@ export default {
     status: '',
     senders: [],
   }),
-  setup() {
+  setup(props, { emit }) {
     const membership = ref(
       JSON.parse(JSON.stringify(Vue.$cookies.get('userData').membership)),
     )
@@ -143,8 +143,7 @@ export default {
       if (store.hasModule(CAMPAIGNS_STORE_MODULE_NAME)) { store.unregisterModule(CAMPAIGNS_STORE_MODULE_NAME) }
     })
     const expressOptions = [
-      { name: 'Ex. Bulk SMS', value: 1 },
-      { name: 'Ex. Premium SMS', value: 4 },
+      { name: 'Ex. Bulk SMS', value: 2 },
       { name: 'Ex. Two-Way SMS', value: 5 },
     ]
     const blankComposeData = {
@@ -159,6 +158,7 @@ export default {
     const composeData = ref(JSON.parse(JSON.stringify(blankComposeData)))
     const resetComposeData = () => {
       composeData.value = JSON.parse(JSON.stringify(blankComposeData))
+      emit('update:is-express-compose-modal-open', false)
     }
     return {
       resetComposeData,
@@ -209,7 +209,20 @@ export default {
         })
         return
       }
+      const selectedSender = this.senders.filter(s => s.code === this.composeData.sender)[0]
+      if (this.composeData.type === 5 && selectedSender.type === 2) {
+        this.toast({
+          component: ToastificationContent,
+          props: {
+            title: 'Please select correct express message type',
+            icon: 'AlertTriangleIcon',
+            variant: 'danger',
+          },
+        })
+        return
+      }
       const postData = {
+        req_type: this.composeData.type,
         profile_code: this.composeData.sender,
         message: this.composeData.message,
         recipients: this.composeData.recipients,
@@ -231,7 +244,6 @@ export default {
               },
             })
             this.resetComposeData()
-            this.emit('update:is-express-compose-modal-open', false)
           }
         })
         .catch(() => {

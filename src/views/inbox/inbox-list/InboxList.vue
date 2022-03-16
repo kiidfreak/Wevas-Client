@@ -388,11 +388,12 @@ export default {
       const { reply } = this.replyData
       const postData = {
         message: reply,
-        shortcode_id: 2,
+        shortcode_id: message.short_code,
         link_id: message.link_id,
         recipient: message.recipient,
         org_id: message.org_id,
       }
+      console.log(postData)
       axios
         .post('/inbox/reply', postData)
         .then(res => {
@@ -408,11 +409,19 @@ export default {
               },
             })
           }
-
           this.resetReplyData()
-          // refetchData()
+          this.refetchData()
         }).catch(err => {
-          // console.log('ERROR OCCURED', err)
+          console.log('ERROR OCCURED', err)
+          this.toast({
+            component: ToastificationContent,
+            props: {
+              title: 'Error ocurred!',
+              icon: 'AlertTriangleIcon',
+              variant: 'danger',
+              text: 'There was an error replying!. Please try again',
+            },
+          })
         })
     },
   },
