@@ -64,7 +64,7 @@ export default function useApiOutboxList() {
         sortDesc: isSortDirDesc.value,
         state: statusFilter.value,
         req_type: 6,
-        api: true,
+        api: false,
       })
       .then(response => {
         const { results, count } = response.data

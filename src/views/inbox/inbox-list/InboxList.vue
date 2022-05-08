@@ -393,7 +393,7 @@ export default {
         recipient: message.recipient,
         org_id: message.org_id,
       }
-      console.log(postData)
+      // console.log(postData)
       axios
         .post('/inbox/reply', postData)
         .then(res => {
@@ -411,8 +411,8 @@ export default {
           }
           this.resetReplyData()
           this.refetchData()
-        }).catch(err => {
-          console.log('ERROR OCCURED', err)
+        }).catch(() => {
+          // console.log('ERROR OCCURED', err)
           this.toast({
             component: ToastificationContent,
             props: {

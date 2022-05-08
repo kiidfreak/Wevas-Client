@@ -9,8 +9,7 @@ const axiosIns = axios.create({
   // ================================
   // baseURL: '/api/',
   baseURL: 'http://evilcorp.localhost:8000/api/',
-  // baseURL: 'https://bulkdev.swifttdial.com:2778/api/',
-  // baseURL: 'https://smsapi.swifttdial.com:2778/api/',
+  // baseURL: 'https://bulkdev.swifttdial.com:2779/api/',
   timeout: 9000,
   // headers: {'X-Custom-Header': 'foobar'}
 })

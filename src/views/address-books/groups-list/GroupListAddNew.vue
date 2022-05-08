@@ -248,10 +248,10 @@ export default {
             component: ToastificationContent,
             position: 'top-right',
             props: {
-              title: 'Staff Account Created',
+              title: 'Changes Saved',
               icon: 'CoffeeIcon',
               variant: 'success',
-              text: 'Staff account has been created successfully',
+              text: 'Address Book Created Successfully',
             },
           })
         })

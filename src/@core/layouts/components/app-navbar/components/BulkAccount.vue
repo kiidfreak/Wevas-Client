@@ -76,90 +76,6 @@ export default {
         name: 'EUR',
         value: 'EUR',
       },
-      {
-        name: 'GBP',
-        value: 'GBP',
-      },
-      {
-        name: 'CAD',
-        value: 'CAD',
-      },
-      {
-        name: 'AUD',
-        value: 'AUD',
-      },
-      {
-        name: 'NZD',
-        value: 'NZD',
-      },
-      {
-        name: 'SGD',
-        value: 'SGD',
-      },
-      {
-        name: 'JPY',
-        value: 'JPY',
-      },
-      {
-        name: 'CHF',
-        value: 'CHF',
-      },
-      {
-        name: 'CNY',
-        value: 'CNY',
-      },
-      {
-        name: 'INR',
-        value: 'INR',
-      },
-      {
-        name: 'MYR',
-        value: 'MYR',
-      },
-      {
-        name: 'THB',
-        value: 'THB',
-      },
-      {
-        name: 'PHP',
-        value: 'PHP',
-      },
-      {
-        name: 'IDR',
-        value: 'IDR',
-      },
-      {
-        name: 'KRW',
-        value: 'KRW',
-      },
-      {
-        name: 'VND',
-        value: 'VND',
-      },
-      {
-        name: 'RUB',
-        value: 'RUB',
-      },
-      {
-        name: 'BRL',
-        value: 'BRL',
-      },
-      {
-        name: 'MXN',
-        value: 'MXN',
-      },
-      {
-        name: 'ZAR',
-        value: 'ZAR',
-      },
-      {
-        name: 'TRY',
-        value: 'TRY',
-      },
-      {
-        name: 'PLN',
-        value: 'PLN',
-      },
     ]
     /* eslint-disable global-require */
 
@@ -185,7 +101,7 @@ export default {
           // console.log('New currency: ', JSON.parse(JSON.stringify(userData.value.currency)))
           Vue.$cookies.set('userData', JSON.parse(JSON.stringify(userData.value)), '2m')
         })
-        .catch(err => {
+        .catch(() => {
           // console.log('ERROR OCCURED', err)
         })
     }

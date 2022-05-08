@@ -49,7 +49,7 @@ export default {
     fetchOrganisationShortCodes(ctx, queryParams) {
       return new Promise((resolve, reject) => {
         axios
-          .get(`/organisations/${queryParams.orgId}/senders`, { params: queryParams })
+          .get(`/organisations/${queryParams.orgId}/shortcodes`, { params: queryParams })
           .then(response => resolve(response))
           .catch(error => reject(error))
       })

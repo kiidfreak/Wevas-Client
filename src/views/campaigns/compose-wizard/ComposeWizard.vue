@@ -635,14 +635,16 @@ export default {
       }, 10)
     },
     fetchSenders() {
+      const storeModuleFunc = this.composeData.type === 1 ? 'fetchOrganisationSenders' : 'fetchOrganisationShortCodes'
+      // const campaignSender = this.composeData.type === 1 ? 'organisation_sender' : 'organisation_short_code'
       store
-        .dispatch('campaigns/fetchOrganisationSenders', {
+        .dispatch(`campaigns/${storeModuleFunc}`, {
           orgId: JSON.parse(
             JSON.stringify(
               this.$cookies.get('userData').membership.organisation_id,
             ),
           ),
-          type: this.composeData.type === 1 ? 1 : 4,
+          type: this.composeData.type,
           is_active: true,
         })
         .then(response => {
