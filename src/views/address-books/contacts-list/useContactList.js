@@ -21,6 +21,10 @@ export default function useContactsList(props) {
   const isSortDirDesc = ref(true)
   const operatorFilter = ref(null)
 
+  // Table Handlers
+  const tableColumns = [
+    { key: 'select', label: '#', sortable: false },
+  ]
   const dataMeta = computed(() => {
     const localItemsCount = refContactListTable.value ? refContactListTable.value.localItems.length : 0
     return {
@@ -51,7 +55,11 @@ export default function useContactsList(props) {
       })
       .then(response => {
         const { results, count } = response.data
-
+        Object.keys(results[0]).map(k => tableColumns.push({
+          key: k,
+          sortable: true,
+        }))
+        tableColumns.push({ key: 'actions' })
         callback(results)
         totalContacts.value = count
       })
@@ -85,6 +93,7 @@ export default function useContactsList(props) {
 
   return {
     fetchContacts,
+    tableColumns,
     perPage,
     currentPage,
     totalContacts,

@@ -166,26 +166,46 @@
     </b-row>
     <!-- Spacer -->
     <hr class="invoice-spacing">
+    <!-- Header -->
     <b-row>
       <b-col
         cols="12"
-        xl="12"
-        md="12"
+        md="6"
       >
         <h4 class="card-title">
           Group Contacts
         </h4>
-        <b-card
-          no-body
-          class="invoice-preview-card"
+      </b-col>
+      <b-col
+        cols="12"
+        md="6"
+        class="d-flex align-items-right justify-content-end mb-1"
+      >
+        <b-button
+          variant="primary"
+          @click="isAddContactModalOpen = true"
         >
-          <!-- Header -->
-          <b-card-body v-if="groupData != undefined">
-            <contact-list :group-id="groupData.id" />
-          </b-card-body>
-        </b-card>
+          <span class="text-nowrap">Add Contact</span>
+        </b-button>
       </b-col>
     </b-row>
+    <div>
+      <b-card
+        no-body
+        class="invoice-preview-card"
+      >
+        <b-card-body v-if="groupData != undefined">
+          <contact-list :group-id="groupData.id" />
+        </b-card-body>
+      </b-card>
+    </div>
+    <div class="add-contact-modal">
+      <group-add-contact
+        v-model="isAddContactModalOpen"
+        :group-id="groupData.id"
+        :custom-fields="groupData.custom_fields"
+      />
+    </div>
   </section>
 </template>
 
@@ -210,7 +230,7 @@ import {
 import Ripple from 'vue-ripple-directive'
 import addressBookStoreModule from '../addressBookStoreModule'
 import ContactList from '../contacts-list/ContactList.vue'
-// import GroupSidebarSendGroup from '../GroupSidebarSendGroup.vue'
+import GroupAddContact from '../group-manage-contacts/GroupAddContact.vue'
 // import GroupSidebarAddPayment from '../GroupSidebarAddPayment.vue'
 
 export default {
@@ -224,19 +244,19 @@ export default {
     BCol,
     BCard,
     BCardBody,
+    BButton,
     // BTable,
     // BTableLite,
     // BCardText,
-    // BButton,
     BBadge,
     BAlert,
     BLink,
-    BButton,
-    // GroupSidebarAddPayment,
+    GroupAddContact,
     // GroupSidebarSendGroup,
   },
   setup() {
     const groupData = ref(null)
+    const isAddContactModalOpen = ref(false)
 
     const ADDRESS_BOOK_STORE_MODULE_NAME = 'address-books'
 
@@ -276,6 +296,7 @@ export default {
 
     return {
       groupData,
+      isAddContactModalOpen,
       resolveGroupOperatorVariantAndIcon,
     }
   },
@@ -387,6 +408,12 @@ export default {
   }
   .customizer-toggle {
     display: none !important;
+  }
+  .add-contact-modal{
+    width: 50%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
   }
 
   // Group Specific Styles

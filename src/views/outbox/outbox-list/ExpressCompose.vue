@@ -143,7 +143,7 @@ export default {
       if (store.hasModule(CAMPAIGNS_STORE_MODULE_NAME)) { store.unregisterModule(CAMPAIGNS_STORE_MODULE_NAME) }
     })
     const expressOptions = [
-      { name: 'Ex. Bulk SMS', value: 2 },
+      { name: 'Ex. Bulk SMS', value: 1 },
       { name: 'Ex. Two-Way SMS', value: 5 },
     ]
     const blankComposeData = {

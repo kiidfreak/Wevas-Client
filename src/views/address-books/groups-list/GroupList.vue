@@ -1,24 +1,21 @@
 <template>
 <div>
   <group-list-add-new
-      :is-add-new-group-sidebar-active.sync="isAddNewGroupSidebarActive"
-      @refetch-data="refetchData"
-    />
+    :is-add-new-group-sidebar-active.sync="isAddNewGroupSidebarActive"
+    @refetch-data="refetchData"
+  />
   <!-- Table Container Card -->
   <b-card
     no-body
   >
-
     <div class="m-2">
-
       <!-- Table Top -->
       <b-row>
-
         <!-- Per Page -->
         <b-col
           cols="12"
-          md="6"
-          class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
+          md="5"
+          class="d-flex justify-content-start mb-1 mb-md-0"
         >
           <label>Entries</label>
           <v-select
@@ -35,11 +32,11 @@
             <span  class="text-nowrap">Add New Group</span>
           </b-button>
         </b-col>
-
         <!-- Search -->
         <b-col
           cols="12"
-          md="6"
+          lg="6"
+          md="5"
         >
           <div class="d-flex align-items-center justify-content-end">
             <b-form-input
@@ -47,19 +44,29 @@
               class="d-inline-block mr-1"
               placeholder="Search by Name..."
             />
-            <!-- <v-select
-              v-model="statusFilter"
-              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-              :options="statusOptions"
-              class="group-filter-select"
-              placeholder="Select Status"
-            >
-              <template #selected-option="{ label }">
-                <span class="text-truncate overflow-hidden">
-                  {{ label }}
-                </span>
-              </template>
-            </v-select> -->
+          </div>
+        </b-col>
+        <!-- Delete Button -->
+        <b-col
+          cols="12"
+          lg="1"
+          md="2"
+        >
+          <div class="d-flex align-items-center justify-content-end">
+            <!-- <b-button
+              size="sm"
+              variant="danger"
+              @click="e => deleteGroups()"
+              :visible="selectedGroups.length !== 0"
+            > -->
+            <feather-icon
+              icon="TrashIcon"
+              class="text-white mt-1 mr-2"
+              size="22"
+              @click="e => deleteGroups()"
+              :visible="selectedGroups.length !== 0"
+            />
+            <!-- </b-button> -->
           </div>
         </b-col>
       </b-row>
@@ -79,19 +86,31 @@
       class="position-relative"
     >
       <!-- Column: Name -->
+      <template #cell(select)="data">
+        <b-form-checkbox
+          :id="`select-group-${data.item.id}`"
+          :name="`select-group-${data.item.id}`"
+          :value="true"
+          :unchecked-value="false"
+          @change="e => selectGroups(e, data.item.id)"
+        />
+      </template>
+
+      <!-- Column: Name -->
       <template #cell(name)="data">
         <b-link
           :to="{ name: 'address-books-group-view', params: { id: data.item.id }}"
           class="font-weight-bold"
         >
         <feather-icon
-                icon="FolderPlusIcon"
-                class="text-success mr-1"
-                size="18"
+          icon="FolderPlusIcon"
+          class="text-success mr-1"
+          size="18"
         />
           {{ data.value }}
         </b-link>
       </template>
+
       <!-- Column: Group Status -->
       <template #cell(state_description)="data">
         <b-avatar
@@ -142,7 +161,6 @@
 
       <!-- Column: Actions -->
       <template #cell(actions)="data">
-
         <div class="text-nowrap">
           <b-button
           variant="success"
@@ -229,22 +247,26 @@
       </b-row>
     </div>
   </b-card>
-  <campaign-compose v-model="shallShowEmailComposeModal" :to="groupId"/>
+  <campaign-compose
+    v-model="shallShowEmailComposeModal"
+    :to="groupId"
+  />
 </div>
 </template>
 
 <script>
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination,
+  BBadge, BDropdown, BDropdownItem, BPagination, BFormCheckbox,
 } from 'bootstrap-vue'
+import { useToast } from 'vue-toastification/composition'
 import { avatarText } from '@core/utils/filter'
 import vSelect from 'vue-select'
 import { onUnmounted, ref } from '@vue/composition-api'
 import store from '@/store'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import useGroupsList from './useGroupList'
 import GroupListAddNew from './GroupListAddNew.vue'
-
 import addressBookStoreModule from '../addressBookStoreModule'
 import CampaignCompose from '../../campaigns/CampaignCompose.vue'
 
@@ -265,8 +287,9 @@ export default {
     BDropdown,
     BDropdownItem,
     BPagination,
-
+    BFormCheckbox,
     vSelect,
+    // ToastificationContent,
   },
   setup() {
     const ADDRESS_BOOK_STORE_MODULE_NAME = 'address-books'
@@ -279,6 +302,7 @@ export default {
       if (store.hasModule(ADDRESS_BOOK_STORE_MODULE_NAME)) store.unregisterModule(ADDRESS_BOOK_STORE_MODULE_NAME)
     })
 
+    const toast = useToast()
     const isAddNewGroupSidebarActive = ref(false)
     const shallShowEmailComposeModal = ref(false)
     const groupId = ref(null)
@@ -326,13 +350,9 @@ export default {
       sortBy,
       isSortDirDesc,
       refGroupListTable,
-
       statusFilter,
-
       refetchData,
-
       statusOptions,
-
       avatarText,
       resolveGroupStatusVariantAndIcon,
       resolveClientAvatarVariant,
@@ -340,7 +360,74 @@ export default {
       groupId,
       showCompose,
       shallShowEmailComposeModal,
+      toast,
     }
+  },
+  data() {
+    return {
+      selectedGroups: [],
+    }
+  },
+  methods: {
+    selectGroups(selected, gid) {
+      if (selected && !this.selectedGroups.includes(gid)) {
+        this.selectedGroups.push(gid)
+      } else if (!selected && this.selectedGroups.includes(gid)) {
+        const index = this.selectedGroups.indexOf(gid)
+        if (index > -1) this.selectedGroups.splice(index, 1)
+      }
+    },
+    deleteGroups() {
+      this.$bvModal
+        .msgBoxConfirm(
+          'Please confirm that you want to delete selected groups',
+          {
+            title: 'Delete Groups',
+            size: 'md',
+            buttonSize: 'md',
+            okVariant: 'danger',
+            okTitle: 'Delete',
+            cancelTitle: 'Cancel',
+            hideHeaderClose: false,
+          },
+        )
+        .then(value => {
+          this.status = value
+          if (value) {
+            store
+              .dispatch(
+                'address-books/deleteGroups',
+                {
+                  pks: this.selectedGroups,
+                },
+              )
+              .then(res => {
+                if (res.status === 200) {
+                  this.toast({
+                    component: ToastificationContent,
+                    props: {
+                      title: 'Groups Deleted Successfully!',
+                      icon: 'CoffeeIcon',
+                      variant: 'success',
+                    },
+                  })
+                  this.$router.go()
+                }
+              })
+              .catch(() => {
+                // console.log('ERROR OCCURED', err)
+                this.toast({
+                  component: ToastificationContent,
+                  props: {
+                    title: 'Error Occured!',
+                    icon: 'AlertTriangleIcon',
+                    variant: 'danger',
+                  },
+                })
+              })
+          }
+        })
+    },
   },
 }
 </script>
@@ -349,7 +436,6 @@ export default {
 .per-page-selector {
   width: 90px;
 }
-
 .group-filter-select {
   min-width: 190px;
 

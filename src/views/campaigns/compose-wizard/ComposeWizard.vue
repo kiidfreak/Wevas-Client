@@ -546,8 +546,8 @@ export default {
           // composeData.value = {}
           emit('close-compose-modal')
         })
-        .catch(err => {
-          console.log('ERROR OCCURED', err)
+        .catch(() => {
+          // console.log('ERROR OCCURED', err)
         })
     }
     // eslint-disable-next-line arrow-body-style

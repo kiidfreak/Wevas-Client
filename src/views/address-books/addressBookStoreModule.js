@@ -38,5 +38,29 @@ export default {
           .catch(error => reject(error))
       })
     },
+    deleteGroups(ctx, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('address-books/groups/delete', payload)
+          .then(response => resolve(response))
+          .catch(error => reject(error))
+      })
+    },
+    addContact(ctx, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post(payload.url, payload.body)
+          .then(response => resolve(response))
+          .catch(error => reject(error))
+      })
+    },
+    deleteContacts(ctx, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post(payload.url, payload.body)
+          .then(response => resolve(response))
+          .catch(error => reject(error))
+      })
+    },
   },
 }

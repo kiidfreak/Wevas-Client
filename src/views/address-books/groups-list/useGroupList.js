@@ -12,7 +12,7 @@ export default function useGroupsList() {
 
   // Table Handlers
   const tableColumns = [
-    // { key: 'id', label: '#', sortable: true },
+    { key: 'select', label: '#', sortable: false },
     { key: 'name', sortable: true },
     { key: 'state_description', label: 'Status', sortable: true },
     // { key: 'description', sortable: true },
@@ -61,7 +61,6 @@ export default function useGroupsList() {
       })
       .then(response => {
         const { results, count } = response.data
-
         callback(results)
         totalGroups.value = count
       })

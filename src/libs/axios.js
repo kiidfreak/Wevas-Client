@@ -8,8 +8,9 @@ const axiosIns = axios.create({
   // You can add your headers here
   // ================================
   // baseURL: '/api/',
-  baseURL: 'http://evilcorp.localhost:8000/api/',
-  // baseURL: 'https://bulkdev.swifttdial.com:2779/api/',
+  // baseURL: 'http://evilcorp.localhost:8000/api/',
+  // baseURL: 'https://sandbox.swifttdial.com:2778/api/',
+  baseURL: 'https://bulkdev.swifttdial.com:2778/api/',
   timeout: 9000,
   // headers: {'X-Custom-Header': 'foobar'}
 })
@@ -27,13 +28,13 @@ const axiosIns = axios.create({
 // )
 
 // // Request interceptor to serve as middleware before sending request
-// // axiosIns.interceptors.request.use(
-// //   config => config,
-// //   error => {
-// //     // Do something with request error
-// //     return Promise.reject(error)
-// //   },
-// // )
+// axiosIns.interceptors.request.use(
+//   config => config,
+//   error => {
+//     // Do something with request error
+//     return Promise.reject(error)
+//   },
+// )
 
 Vue.prototype.$http = axiosIns
 

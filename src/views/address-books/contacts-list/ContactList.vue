@@ -10,7 +10,7 @@
         <!-- Per Page -->
         <b-col
           cols="12"
-          md="6"
+          md="5"
           class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
         >
           <label>Entries</label>
@@ -28,11 +28,11 @@
             <span  class="text-nowrap">Add New Contact</span>
           </b-button> -->
         </b-col>
-
         <!-- Search -->
         <b-col
           cols="12"
-          md="6"
+          lg="6"
+          md="5"
         >
           <div class="d-flex align-items-center justify-content-end">
             <b-form-input
@@ -55,6 +55,27 @@
             </v-select>
           </div>
         </b-col>
+        <!-- Delete Button -->
+        <b-col
+          cols="12"
+          lg="1"
+          md="2"
+        >
+          <!-- <b-button
+            size="sm"
+            variant="danger"
+            @click="e => deleteContacts()"
+            :visible="selectedContacts.length !== 0"
+          > -->
+          <feather-icon
+            icon="TrashIcon"
+            class="text-white mt-1 ml-2"
+            size="22"
+            @click="e => deleteContacts()"
+            :visible="selectedContacts.length !== 0"
+          />
+          <!-- </b-button> -->
+        </b-col>
       </b-row>
 
     </div>
@@ -63,6 +84,7 @@
       id="contact-list-table"
       ref="refContactListTable"
       :items="fetchContacts"
+      :fields="tableColumns"
       responsive
       primary-key="id"
       :sort-by.sync="sortBy"
@@ -71,6 +93,16 @@
       :sort-desc.sync="isSortDirDesc"
       class="position-relative"
     >
+      <!-- Select Contact -->
+      <template #cell(select)="data">
+        <b-form-checkbox
+          :id="`select-contacts-${data.item.id}`"
+          :name="`select-contacts-${data.item.id}`"
+          :value="true"
+          :unchecked-value="false"
+          @change="e => selectContacts(e, data.item.id)"
+        />
+      </template>
       <!-- Contact: Id -->
       <template #cell(id)="data">
         <b-link
@@ -97,7 +129,7 @@
       <template #cell(actions)="data">
 
         <div class="text-nowrap">
-          <feather-icon
+          <!-- <feather-icon
             :id="`contact-row-${data.item.id}-send-icon`"
             icon="SendIcon"
             class="cursor-pointer"
@@ -107,9 +139,9 @@
             title="Send Contact"
             class="cursor-pointer"
             :target="`contact-row-${data.item.id}-send-icon`"
-          />
+          /> -->
 
-          <feather-icon
+          <!-- <feather-icon
             :id="`contact-row-${data.item.id}-preview-icon`"
             icon="EyeIcon"
             size="16"
@@ -119,7 +151,7 @@
           <b-tooltip
             title="Preview Contact"
             :target="`contact-row-${data.item.id}-preview-icon`"
-          />
+          /> -->
 
           <!-- Dropdown -->
           <b-dropdown
@@ -136,22 +168,25 @@
                 class="align-middle text-body"
               />
             </template>
-            <b-dropdown-item>
+            <!-- <b-dropdown-item>
               <feather-icon icon="DownloadIcon" />
               <span class="align-middle ml-50">Download</span>
             </b-dropdown-item>
             <b-dropdown-item :to="{ name: 'address', params: { id: data.item.id } }">
               <feather-icon icon="EditIcon" />
               <span class="align-middle ml-50">Edit</span>
-            </b-dropdown-item>
+            </b-dropdown-item> -->
             <b-dropdown-item>
               <feather-icon icon="TrashIcon" />
-              <span class="align-middle ml-50">Delete</span>
+              <span
+                class="align-middle ml-50"
+                @click="e => deleteContacts(data.item.id)"
+              >Delete</span>
             </b-dropdown-item>
-            <b-dropdown-item>
+            <!-- <b-dropdown-item>
               <feather-icon icon="CopyIcon" />
               <span class="align-middle ml-50">Duplicate</span>
-            </b-dropdown-item>
+            </b-dropdown-item> -->
           </b-dropdown>
         </div>
       </template>
@@ -208,12 +243,14 @@
 
 <script>
 import {
-  BCard, BRow, BCol, BFormInput, BTable, BAvatar, BLink,
-  BDropdown, BDropdownItem, BPagination, BTooltip,
+  BCard, BRow, BCol, BFormInput, BFormCheckbox, BTable, BAvatar, BLink,
+  /* BButton */ BDropdown, BDropdownItem, BPagination, /* BTooltip */
 } from 'bootstrap-vue'
 import { avatarText } from '@core/utils/filter'
 import vSelect from 'vue-select'
-import { onUnmounted } from '@vue/composition-api'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { ref, onUnmounted } from '@vue/composition-api'
+import { useToast } from 'vue-toastification/composition'
 import store from '@/store'
 import useContactsList from './useContactList'
 
@@ -225,7 +262,9 @@ export default {
     BRow,
     BCol,
     BFormInput,
+    BFormCheckbox,
     BTable,
+    // BButton,
     // BMedia,
     BAvatar,
     BLink,
@@ -233,9 +272,10 @@ export default {
     BDropdown,
     BDropdownItem,
     BPagination,
-    BTooltip,
+    // BTooltip,
 
     vSelect,
+    // ToastificationContent,
   },
   props: {
     groupId: {
@@ -255,7 +295,7 @@ export default {
     })
 
     // const isAddNewContactSidebarActive = ref(false)
-
+    const toast = useToast()
     const operatorOptions = [
       'Safaricom',
       'Airtel',
@@ -264,6 +304,7 @@ export default {
     ]
     const {
       fetchContacts,
+      tableColumns,
       perPage,
       currentPage,
       totalContacts,
@@ -282,8 +323,13 @@ export default {
       resolveClientAvatarVariant,
     } = useContactsList(props)
 
+    const resetContactData = ref(() => {
+      this.selectedContacts = []
+    })
+
     return {
       fetchContacts,
+      tableColumns,
       perPage,
       currentPage,
       totalContacts,
@@ -293,18 +339,86 @@ export default {
       sortBy,
       isSortDirDesc,
       refContactListTable,
-
       operatorFilter,
-
       refetchData,
-
       operatorOptions,
-
       avatarText,
+      toast,
       resolveContactTypeVariantAndIcon,
       resolveClientAvatarVariant,
+      resetContactData,
       // isAddNewContactSidebarActive,
     }
+  },
+  data() {
+    return {
+      selectedContacts: [],
+    }
+  },
+  methods: {
+    selectContacts(selected, cid) {
+      if (selected && !this.selectedContacts.includes(cid)) {
+        this.selectedContacts.push(cid)
+      } else if (!selected && this.selectedContacts.includes(cid)) {
+        const index = this.selectedContacts.indexOf(cid)
+        if (index > -1) this.selectedContacts.splice(index, 1)
+      }
+    },
+    deleteContacts(cid = null) {
+      this.$bvModal
+        .msgBoxConfirm(
+          'Please confirm that you want to delete selected contacts',
+          {
+            title: 'Delete Contacts',
+            size: 'md',
+            buttonSize: 'md',
+            okVariant: 'danger',
+            okTitle: 'Delete',
+            cancelTitle: 'Cancel',
+            hideHeaderClose: false,
+          },
+        )
+        .then(value => {
+          this.status = value
+          if (value) {
+            if (cid !== null) this.selectedContacts = [cid]
+            store
+              .dispatch(
+                'address-books/deleteContacts',
+                {
+                  url: `address-books/${this.groupId}/delete-contacts`,
+                  body: {
+                    pks: this.selectedContacts,
+                  },
+                },
+              )
+              .then(res => {
+                if (res.status === 200) {
+                  this.toast({
+                    component: ToastificationContent,
+                    props: {
+                      title: 'Contact Deleted Successfully!',
+                      icon: 'CoffeeIcon',
+                      variant: 'success',
+                    },
+                  })
+                  this.$router.go()
+                }
+              })
+              .catch(err => {
+                console.log('ERROR OCCURED', err)
+                this.toast({
+                  component: ToastificationContent,
+                  props: {
+                    title: 'Error Occured!',
+                    icon: 'AlertTriangleIcon',
+                    variant: 'danger',
+                  },
+                })
+              })
+          }
+        })
+    },
   },
 }
 </script>
