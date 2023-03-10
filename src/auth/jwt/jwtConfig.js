@@ -2,6 +2,8 @@ export default {
   // Endpoints
   loginEndpoint: '/auth/login',
   registerEndpoint: '/auth/register',
+  forgotPasswordEndpoint: '/auth/reset_password',
+  resetPasswordEndpoint: '/auth/password_update',
   refreshEndpoint: '/auth/refresh-token',
   logoutEndpoint: '/auth/logout',
 

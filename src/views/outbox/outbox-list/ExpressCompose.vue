@@ -186,7 +186,7 @@ export default {
       store
         .dispatch('campaigns/fetchOrganisationSenders', {
           orgId: this.composeData.org_id,
-          type: this.composeData.type,
+          // type: this.composeData.type,
           is_active: true,
         })
         .then(response => {

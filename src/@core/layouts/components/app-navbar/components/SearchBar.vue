@@ -27,7 +27,7 @@
       <b-form-input
         v-if="showSearchBar"
         v-model="searchQuery"
-        placeholder="Explore SwifttDial SMS"
+        placeholder="Explore SWIFTT SMS"
         autofocus
         autocomplete="off"
         @keyup.up="increaseIndex(false)"

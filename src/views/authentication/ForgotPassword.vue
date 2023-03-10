@@ -4,11 +4,11 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
-
-        <h2 class="brand-text text-primary ml-1">
-          SWIFTT SMS
-        </h2>
+        <b-img
+          style="width:auto; height:100px"
+          :src="appLogoImage"
+          alt="logo"
+        />
       </b-link>
       <!-- /Brand logo-->
 
@@ -46,10 +46,10 @@
           </b-card-text>
 
           <!-- form -->
-          <validation-observer ref="simpleRules">
+          <validation-observer ref="emailForm">
             <b-form
               class="auth-forgot-password-form mt-2"
-              @submit.prevent="validationForm"
+              @submit.prevent="sendResetLink"
             >
               <b-form-group
                 label="Email"
@@ -94,19 +94,20 @@
 </template>
 
 <script>
+import { $themeConfig } from '@themeConfig'
 /* eslint-disable global-require */
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
   BRow, BCol, BLink, BCardTitle, BCardText, BImg, BForm, BFormGroup, BFormInput, BButton,
 } from 'bootstrap-vue'
 import { required, email } from '@validations'
-import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import store from '@/store/index'
+import useJwt from '@/auth/jwt/useJwt'
+// import { response } from 'express'
 
 export default {
   components: {
-    VuexyLogo,
     BRow,
     BCol,
     BLink,
@@ -119,6 +120,8 @@ export default {
     BCardText,
     ValidationProvider,
     ValidationObserver,
+    // eslint-disable-next-line vue/no-unused-components
+    ToastificationContent,
   },
   data() {
     return {
@@ -127,6 +130,7 @@ export default {
       // validation
       required,
       email,
+      appLogoImage: $themeConfig.app.appLogoImage,
     }
   },
   computed: {
@@ -140,17 +144,38 @@ export default {
     },
   },
   methods: {
-    validationForm() {
-      this.$refs.simpleRules.validate().then(success => {
+    sendResetLink() {
+      this.$refs.emailForm.validate().then(success => {
         if (success) {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'This is for UI purpose only.',
-              icon: 'EditIcon',
-              variant: 'success',
-            },
+          useJwt.sendResetLink({
+            email: this.userEmail,
           })
+            .then(response => {
+              // console.log(response)
+              if (String(response.status) === '200') {
+                this.$toast({
+                  component: ToastificationContent,
+                  props: {
+                    title: response.data.detail,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                  },
+                })
+              }
+            })
+            .catch(error => {
+              // console.log(error.response.data.detail)
+              if (error?.response?.data?.detail) {
+                this.$toast({
+                  component: ToastificationContent,
+                  props: {
+                    title: error?.response?.data?.detail,
+                    icon: 'AlertTriangleIcon',
+                    variant: 'danger',
+                  },
+                })
+              }
+            })
         }
       })
     },

@@ -4,14 +4,15 @@
       <!-- Reset Password v1 -->
       <b-card class="mb-0">
 
-        <!-- logo -->
+        <!-- Brand logo-->
         <b-link class="brand-logo">
-          <vuexy-logo />
-
-          <h2 class="brand-text text-primary ml-1">
-            SWIFTT SMS
-          </h2>
+          <b-img
+            style="width:auto; height:100px"
+            :src="appLogoImage"
+            alt="logo"
+          />
         </b-link>
+        <!-- /Brand logo-->
 
         <b-card-title class="mb-1">
           Reset Password 🔒
@@ -21,11 +22,11 @@
         </b-card-text>
 
         <!-- form -->
-        <validation-observer ref="simpleRules">
+        <validation-observer ref="passwordFormRules">
           <b-form
             method="POST"
             class="auth-reset-password-form mt-2"
-            @submit.prevent="validationForm"
+            @submit.prevent="sendPwdResetRequest"
           >
 
             <!-- password -->
@@ -124,22 +125,23 @@
 </template>
 
 <script>
+import { $themeConfig } from '@themeConfig'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
-  BCard, BCardTitle, BCardText, BForm, BFormGroup, BInputGroup, BInputGroupAppend, BLink, BFormInput, BButton,
+  BCard, BCardTitle, BCardText, BForm, BFormGroup, BInputGroup, BInputGroupAppend, BLink, BFormInput, BButton, BImg,
 } from 'bootstrap-vue'
 import { required } from '@validations'
+import useJwt from '@/auth/jwt/useJwt'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
   components: {
-    VuexyLogo,
     BCard,
     BButton,
     BCardTitle,
     BCardText,
     BForm,
+    BImg,
     BFormGroup,
     BInputGroup,
     BLink,
@@ -159,6 +161,7 @@ export default {
       // Toggle Password
       password1FieldType: 'password',
       password2FieldType: 'password',
+      appLogoImage: $themeConfig.app.appLogoImage,
     }
   },
   computed: {
@@ -176,17 +179,41 @@ export default {
     togglePassword2Visibility() {
       this.password2FieldType = this.password2FieldType === 'password' ? 'text' : 'password'
     },
-    validationForm() {
-      this.$refs.simpleRules.validate().then(success => {
+    sendPwdResetRequest() {
+      this.$refs.passwordFormRules.validate().then(success => {
         if (success) {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'Form Submitted',
-              icon: 'EditIcon',
-              variant: 'success',
-            },
+          useJwt.sendResetRequest({
+            password: this.password,
+            uid: this.$route?.params?.uid,
+            token: this.$route?.query?.token,
           })
+            .then(response => {
+              // console.log(response)
+              if (String(response.status) === '200') {
+                this.$toast({
+                  component: ToastificationContent,
+                  props: {
+                    title: response.data.detail,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                  },
+                })
+                this.$router.push('/login')
+              }
+            })
+            .catch(error => {
+              // console.log(error)
+              if (error?.response?.data?.detail) {
+                this.$toast({
+                  component: ToastificationContent,
+                  props: {
+                    title: error?.response?.data?.detail,
+                    icon: 'AlertTriangleIcon',
+                    variant: 'danger',
+                  },
+                })
+              }
+            })
         }
       })
     },

@@ -126,7 +126,7 @@ export default {
     const stopCampaign = () => {
       store
         .dispatch('campaigns/stopCampaign', { id: props.campaignId })
-        .then(response => {
+        .then(() => {
           // console.log('Res', response.data)
           toast({
             component: ToastificationContent,

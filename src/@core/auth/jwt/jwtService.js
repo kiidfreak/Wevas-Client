@@ -104,6 +104,14 @@ export default class JwtService {
     return this.axiosIns.post(this.jwtConfig.registerEndpoint, ...args)
   }
 
+  sendResetLink(...args) {
+    return this.axiosIns.post(this.jwtConfig.forgotPasswordEndpoint, ...args)
+  }
+
+  sendResetRequest(...args) {
+    return this.axiosIns.post(this.jwtConfig.resetPasswordEndpoint, ...args)
+  }
+
   refreshToken() {
     return this.axiosIns.post(this.jwtConfig.refreshEndpoint, {
       refreshToken: this.getRefreshToken(),

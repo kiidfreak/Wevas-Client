@@ -30,11 +30,13 @@ export default [
     },
   },
   {
-    path: '/pages/authentication/reset-password-v1',
-    name: 'auth-reset-password-v1',
+    path: '/reset-password/:uid',
+    name: 'auth-reset-password',
     component: () => import('@/views/authentication/ResetPassword-v1.vue'),
     meta: {
       layout: 'full',
+      resource: 'Auth',
+      redirectIfLoggedIn: false,
     },
   },
   {

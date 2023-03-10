@@ -405,8 +405,8 @@ export default {
                   this.$router.go()
                 }
               })
-              .catch(err => {
-                console.log('ERROR OCCURED', err)
+              .catch(() => {
+                // console.log('ERROR OCCURED', err)
                 this.toast({
                   component: ToastificationContent,
                   props: {

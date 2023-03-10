@@ -4,11 +4,11 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
-
-        <h2 class="brand-text text-primary ml-1">
-          Vuexy
-        </h2>
+        <b-img
+          style="width:auto; height:100px"
+          :src="appLogoImage"
+          alt="logo"
+        />
       </b-link>
       <!-- /Brand logo-->
 
@@ -39,10 +39,10 @@
           class="px-xl-2 mx-auto"
         >
           <b-card-title class="mb-1">
-            Adventure starts here 🚀
+            Welcome to SWIFTT SMS 👋
           </b-card-title>
           <b-card-text class="mb-2">
-            Make your app management easy and fun!
+            Register and start sending SMS today
           </b-card-text>
 
           <!-- form -->
@@ -54,27 +54,148 @@
               class="auth-register-form mt-2"
               @submit.prevent="register"
             >
-              <!-- username -->
+              <!-- divider -->
+              <div class="divider my-2">
+                <div class="divider-text">
+                  Organisation Details
+                </div>
+              </div>
+
+              <!-- org. name -->
               <b-form-group
-                label="Username"
-                label-for="register-username"
+                label="Organisation Name"
+                label-for="register-org-name"
               >
                 <validation-provider
                   #default="{ errors }"
-                  name="Username"
-                  vid="username"
+                  name="Organisation Name"
+                  vid="org_name"
                   rules="required"
                 >
                   <b-form-input
-                    id="register-username"
-                    v-model="username"
-                    name="register-username"
+                    id="register-org-name"
+                    v-model="orgName"
+                    name="register-org-name"
                     :state="errors.length > 0 ? false:null"
-                    placeholder="johndoe"
+                    placeholder="Swifttdial Systems Limited"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
+
+              <!-- org. email -->
+              <b-form-group
+                label="Organisation Billing Email"
+                label-for="register-org-name"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="Organisation Billing Email"
+                  vid="org_email"
+                  rules="required"
+                >
+                  <b-form-input
+                    id="register-org-email"
+                    v-model="orgEmail"
+                    name="register-org-email"
+                    :state="errors.length > 0 ? false:null"
+                    placeholder="billing@example.com"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+
+              <!-- org. address -->
+              <b-form-group
+                label="Organisation Address"
+                label-for="register-address"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="Organisation Address"
+                  vid="org_address"
+                  rules="required"
+                >
+                  <b-form-input
+                    id="register-org-address"
+                    v-model="orgAddress"
+                    name="register-org-address"
+                    :state="errors.length > 0 ? false:null"
+                    placeholder="Lanagata Links Rd., Nairobi, Kenya"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+
+              <!-- divider -->
+              <div class="divider my-2">
+                <div class="divider-text">
+                  Admin Details
+                </div>
+              </div>
+
+              <b-row
+                sm="8"
+                md="6"
+                lg="12"
+                class="mx-0"
+              >
+                <b-col
+                  md="12"
+                  lg="6"
+                  class="mx-0 px-0 cm-2"
+                >
+                  <!-- firstname -->
+                  <b-form-group
+                    label="Firstname"
+                    label-for="register-firstname"
+                  >
+                    <validation-provider
+                      #default="{ errors }"
+                      name="Firstname"
+                      vid="firstname"
+                      rules="required"
+                    >
+                      <b-form-input
+                        id="register-firstname"
+                        v-model="userFirstname"
+                        name="register-firstname"
+                        :state="errors.length > 0 ? false:null"
+                        placeholder="John"
+                      />
+                      <small class="text-danger">{{ errors[0] }}</small>
+                    </validation-provider>
+                  </b-form-group>
+                </b-col>
+
+                <b-col
+                  md="12"
+                  lg="6"
+                  class="mx-0 px-0 cm-2"
+                >
+                  <!-- lastname -->
+                  <b-form-group
+                    label="Lastname"
+                    label-for="register-lastname"
+                  >
+                    <validation-provider
+                      #default="{ errors }"
+                      name="Lastname"
+                      vid="lastname"
+                      rules="required"
+                    >
+                      <b-form-input
+                        id="register-lastname"
+                        v-model="userLastname"
+                        name="register-lastname"
+                        :state="errors.length > 0 ? false:null"
+                        placeholder="Doe"
+                      />
+                      <small class="text-danger">{{ errors[0] }}</small>
+                    </validation-provider>
+                  </b-form-group>
+                </b-col>
+              </b-row>
 
               <!-- email -->
               <b-form-group
@@ -98,8 +219,29 @@
                 </validation-provider>
               </b-form-group>
 
-              <!-- password -->
+              <!-- phone -->
               <b-form-group
+                label="Phone"
+                label-for="register-email"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="Phone Number"
+                  vid="phone"
+                  rules="required"
+                >
+                  <b-form-input
+                    id="register-email"
+                    v-model="userPhone"
+                    name="register-email"
+                    :state="errors.length > 0 ? false:null"
+                    placeholder="2547123456789"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+
+              <!-- <b-form-group
                 label-for="register-password"
                 label="Password"
               >
@@ -132,7 +274,7 @@
                   </b-input-group>
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
-              </b-form-group>
+              </b-form-group> -->
 
               <b-form-group>
                 <b-form-checkbox
@@ -164,7 +306,7 @@
           </p>
 
           <!-- divider -->
-          <div class="divider my-2">
+          <!-- <div class="divider my-2">
             <div class="divider-text">
               or
             </div>
@@ -195,7 +337,7 @@
             >
               <feather-icon icon="GithubIcon" />
             </b-button>
-          </div>
+          </div> -->
         </b-col>
       </b-col>
     <!-- /Register-->
@@ -204,20 +346,32 @@
 </template>
 
 <script>
+import { $themeConfig } from '@themeConfig'
 /* eslint-disable global-require */
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
-  BRow, BCol, BLink, BButton, BForm, BFormCheckbox, BFormGroup, BFormInput, BInputGroup, BInputGroupAppend, BImg, BCardTitle, BCardText,
+  BRow,
+  BCol,
+  BLink,
+  BButton,
+  BForm,
+  BFormCheckbox,
+  BFormGroup,
+  BFormInput,
+  // BInputGroup,
+  // BInputGroupAppend,
+  BImg,
+  BCardTitle,
+  BCardText,
 } from 'bootstrap-vue'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import useJwt from '@/auth/jwt/useJwt'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
   components: {
-    VuexyLogo,
     BRow,
     BImg,
     BCol,
@@ -229,8 +383,8 @@ export default {
     BFormCheckbox,
     BFormGroup,
     BFormInput,
-    BInputGroup,
-    BInputGroupAppend,
+    // BInputGroup,
+    // BInputGroupAppend,
     // validations
     ValidationProvider,
     ValidationObserver,
@@ -239,13 +393,19 @@ export default {
   data() {
     return {
       status: '',
-      username: '',
+      orgName: '',
+      orgEmail: '',
+      orgAddress: '',
+      userFirstname: '',
+      userLastname: '',
       userEmail: '',
+      userPhone: '',
       password: '',
       sideImg: require('@/assets/images/pages/register-v2.svg'),
       // validation
       required,
       email,
+      appLogoImage: $themeConfig.app.appLogoImage,
     }
   },
   computed: {
@@ -264,22 +424,65 @@ export default {
   methods: {
     register() {
       this.$refs.registerForm.validate().then(success => {
-        if (success) {
+        if (success && this.status) {
           useJwt.register({
-            username: this.username,
-            email: this.userEmail,
+            org_name: this.orgName,
+            address: this.orgAddress,
+            email: this.orgEmail,
+            first_name: this.userFirstname,
+            last_name: this.userLastname,
+            contact_email: this.userEmail,
+            contact_phone: this.userPhone,
             password: this.password,
           })
             .then(response => {
-              useJwt.setToken(response.data.accessToken)
-              useJwt.setRefreshToken(response.data.refreshToken)
-              localStorage.setItem('userData', JSON.stringify(response.data.userData))
-              this.$ability.update(response.data.userData.ability)
-              this.$router.push('/')
+              // console.log(response)
+              if (String(response.status) === '200') {
+                this.$toast({
+                  component: ToastificationContent,
+                  props: {
+                    title: response.data.Success,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                  },
+                })
+                this.$toast({
+                  component: ToastificationContent,
+                  props: {
+                    title: 'Credentials sent to admin email',
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                  },
+                })
+                useJwt.setToken(response.data.accessToken)
+                useJwt.setRefreshToken(response.data.refreshToken)
+                localStorage.setItem('userData', JSON.stringify(response.data.userData))
+                this.$ability.update(response.data.userData.ability)
+                this.$router.push('/')
+              }
             })
             .catch(error => {
-              this.$refs.registerForm.setErrors(error.response.data.error)
+              // console.log(error)
+              if (error?.response?.data?.detail) {
+                this.$toast({
+                  component: ToastificationContent,
+                  props: {
+                    title: error?.response?.data?.detail,
+                    icon: 'AlertTriangleIcon',
+                    variant: 'danger',
+                  },
+                })
+              }
             })
+        } else if (!this.status) {
+          this.$toast({
+            component: ToastificationContent,
+            props: {
+              title: 'Accept terms and conditions',
+              icon: 'AlertTriangleIcon',
+              variant: 'danger',
+            },
+          })
         }
       })
     },
@@ -290,4 +493,8 @@ export default {
 
 <style lang="scss">
 @import '@core/scss/vue/pages/page-auth.scss';
+.cm-2{
+  width: 96% !important;
+  margin: auto !important;
+}
 </style>

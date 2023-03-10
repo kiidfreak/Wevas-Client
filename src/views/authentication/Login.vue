@@ -155,6 +155,11 @@
               >
                 Sign in
               </b-button>
+
+              <b-link :to="{name:'auth-register'}">
+                <small class="my-2">Don't have an account? Register</small>
+              </b-link>
+
             </b-form>
           </validation-observer>
 
@@ -318,8 +323,8 @@ export default {
                   })
               }
             })
-            .catch(error => {
-              console.log('Errror', error)
+            .catch(() => {
+              // console.log('Errror', error)
               this.$refs.loginForm.setErrors('Error')
             })
         }

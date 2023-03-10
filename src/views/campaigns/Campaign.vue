@@ -336,8 +336,8 @@ export default {
       }
       // console.log('Post Data', postData)
       store.dispatch('campaigns/deleteCampaigns', postData)
-        .then(response => {
-          console.log(response.data)
+        .then(() => {
+          // console.log(response.data)
           toast({
             component: ToastificationContent,
             props: {
