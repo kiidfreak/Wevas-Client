@@ -1,6 +1,6 @@
 export default [
   {
-    header: 'Bulk Campaigns',
+    header: 'BULK CAMPAIGNS',
   },
   {
     title: 'Campaigns',
@@ -15,14 +15,12 @@ export default [
         route: { name: 'misc-coming-soon' },
         tag: 'Soon',
         tagVariant: 'light-warning',
-        icon: 'AlertOctagonIcon',
       },
       {
         title: 'Whatsapp',
         route: { name: 'misc-coming-soon' },
         tag: 'Soon',
         tagVariant: 'light-warning',
-        icon: 'AlertOctagonIcon',
       },
     ],
   },

@@ -1,6 +1,6 @@
 export default [
   {
-    header: 'API Settings',
+    header: 'API SETTINGS',
   },
   {
     icon: 'KeyIcon',

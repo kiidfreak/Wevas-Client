@@ -22,7 +22,8 @@ export const getUserData = () => JSON.parse(JSON.stringify(Vue.$cookies.get('use
  * @param {String} userRole Role of user
  */
 export const getHomeRouteForLoggedInUser = userRole => {
-  if (userRole === 'Admin') return { name: 'home' }
-  if (userRole === 'Member') return { name: 'home' }
-  return { name: 'auth-login' }
+  // Handle both uppercase and lowercase role names
+  const role = userRole ? userRole.toLowerCase() : ''
+  if (role === 'admin' || role === 'member') return { name: 'home' }
+  return { name: 'home' } // Default to home for any valid role
 }

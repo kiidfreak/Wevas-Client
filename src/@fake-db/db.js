@@ -34,4 +34,4 @@ import './data/pages/profile-data'
 import './data/pages/blog'
 /* eslint-enable import/extensions */
 
-mock.onAny().passThrough() // forwards the matched request over network
+// mock.onAny().passThrough() // Commented out to use mock system instead of forwarding to network

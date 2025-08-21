@@ -1,6 +1,7 @@
-import useJwt from '@core/auth/jwt/useJwt'
 import axios from '@axios'
+// Local wrapper to new core implementation
+import coreUseJwt from '@/@core/auth/jwt/useJwt'
 import jwConfing from './jwtConfig'
 
-const { jwt } = useJwt(axios, jwConfing)
+const { jwt } = coreUseJwt(axios, jwConfing)
 export default jwt

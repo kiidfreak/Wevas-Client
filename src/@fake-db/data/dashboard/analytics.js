@@ -59,14 +59,14 @@ const data = {
     step1: {
       title: '12 Invoices have been paid',
       subtitle: 'Invoices have been paid to the company.',
-      img: require('@/assets/images/icons/json.png'),
+      img: '/favicon.ico',
       fileName: 'data.json',
       duration: '12 min ago',
     },
     step2: {
       title: 'Client Meeting',
       subtitle: 'Project meeting with john @10:15am',
-      avatar: require('@/assets/images/portrait/small/avatar-s-9.jpg'),
+      avatar: '/favicon.ico',
       avatarName: 'John Doe (Client)',
       occupation: 'CEO of Infibeam',
       duration: '45 min ago',
@@ -76,11 +76,11 @@ const data = {
       subtitle: 'Add files to new design folder',
       duration: '2 day ago',
       avatars: [
-        { userImg: require('@/assets/images/portrait/small/avatar-s-9.jpg'), name: 'Billy Hopkins' },
-        { userImg: require('@/assets/images/portrait/small/avatar-s-6.jpg'), name: 'Amy Carson' },
-        { userImg: require('@/assets/images/portrait/small/avatar-s-8.jpg'), name: 'Brandon Miles' },
-        { userImg: require('@/assets/images/portrait/small/avatar-s-7.jpg'), name: 'Daisy Weber' },
-        { userImg: require('@/assets/images/portrait/small/avatar-s-20.jpg'), name: 'Jenny Looper' },
+        { userImg: '/favicon.ico', name: 'Billy Hopkins' },
+        { userImg: '/favicon.ico', name: 'Amy Carson' },
+        { userImg: '/favicon.ico', name: 'Brandon Miles' },
+        { userImg: '/favicon.ico', name: 'Daisy Weber' },
+        { userImg: '/favicon.ico', name: 'Jenny Looper' },
       ],
     },
     step4: {
@@ -110,10 +110,10 @@ const data = {
       { name: 'Wireframe', color: 'light-primary' },
     ],
     members: [
-      { img: require('@/assets/images/portrait/small/avatar-s-9.jpg'), color: 'primary' },
+      { img: '/favicon.ico', color: 'primary' },
       { text: 'PI', color: 'light-danger' },
-      { img: require('@/assets/images/portrait/small/avatar-s-14.jpg'), color: 'primary' },
-      { img: require('@/assets/images/portrait/small/avatar-s-7.jpg'), color: 'primary' },
+      { img: '/favicon.ico', color: 'primary' },
+      { img: '/favicon.ico', color: 'primary' },
       { text: 'AL', color: 'light-secondary' },
     ],
     planing: [

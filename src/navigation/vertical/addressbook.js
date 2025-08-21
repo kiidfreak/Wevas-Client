@@ -1,10 +1,10 @@
 export default [
   {
-    header: 'Address Books',
+    header: 'ADDRESS BOOKS',
   },
   {
     title: 'Contact Groups',
-    route: 'address-books-groups',
-    icon: 'BookIcon',
+    route: 'address-books-groups-list',
+    icon: 'LayersIcon',
   },
 ]

@@ -31,15 +31,22 @@ tagVariant
 
 */
 import dashboard from './dashboard'
-import campaigns from './campaigns'
 import addressbook from './addressbook'
+import campaigns from './campaigns'
 import outbox from './outbox'
-import inbox from './inbox'
-// import premium from './premium'
-// import others from './others'
+import premium from './premium'
 import senders from './senders'
 import topups from './topups'
 import apikeys from './apikeys'
 
 // Array of sections
-export default [...dashboard, ...addressbook, ...campaigns, ...outbox, ...inbox, ...senders, ...topups, ...apikeys]
+export default [
+  ...dashboard, 
+  ...addressbook, 
+  ...campaigns, 
+  ...outbox, 
+  ...premium, 
+  ...senders, 
+  ...topups, 
+  ...apikeys
+]

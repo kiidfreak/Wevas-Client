@@ -47,6 +47,8 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, 'src'),
       '@core': resolve(__dirname, 'src/@core'),
+      '@axios': resolve(__dirname, 'src/libs/axios'),
+      '@themeConfig': resolve(__dirname, 'themeConfig.js'),
       '@components': resolve(__dirname, 'src/components'),
       '@composables': resolve(__dirname, 'src/composables'),
       '@stores': resolve(__dirname, 'src/stores'),
@@ -94,15 +96,8 @@ export default defineConfig({
         additionalData: `@import "@/assets/styles/variables.scss";`,
       },
     },
-    // PostCSS processing
-    postcss: {
-      plugins: [
-        require('autoprefixer'),
-        require('cssnano')({
-          preset: 'default',
-        }),
-      ],
-    },
+    // PostCSS processing - simplified for ES modules
+    postcss: './postcss.config.js',
   },
   
   // Optimize dependencies

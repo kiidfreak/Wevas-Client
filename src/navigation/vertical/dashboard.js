@@ -1,10 +1,10 @@
 export default [
   {
-    header: 'Dashboard',
+    header: 'DASHBOARD',
   },
   {
     title: 'Usage Statistics',
-    route: 'home',
-    icon: 'PieChartIcon',
+    route: 'usage',
+    icon: 'ClockIcon',
   },
 ]

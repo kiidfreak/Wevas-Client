@@ -89,10 +89,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import {
-  ref, onUnmounted,
-} from '@vue/composition-api'
 import { BRow, BCol } from 'bootstrap-vue'
 import flatPickr from 'vue-flatpickr-component'
 import store from '@/store'
@@ -118,84 +114,95 @@ export default {
     flatPickr,
     TrafficPerMonth,
   },
-  setup() {
+  mounted() {
     const STATS_STORE_MODULE_NAME = 'stats'
     // Register module
     if (!store.hasModule(STATS_STORE_MODULE_NAME)) store.registerModule(STATS_STORE_MODULE_NAME, statsStoreModule)
-
+    
+    this.fetchReport()
+  },
+  
+  beforeDestroy() {
+    const STATS_STORE_MODULE_NAME = 'stats'
     // UnRegister on leave
-    onUnmounted(() => {
-      if (store.hasModule(STATS_STORE_MODULE_NAME)) store.unregisterModule(STATS_STORE_MODULE_NAME)
-    })
-    const blankDeliveryReport = {
-      sent: 0,
-      waiting: 0,
-      queued: 0,
-      delivered: 0,
-      undelivered: 0,
-      failed: 0,
-      cancelled: 0,
-      total: 0,
-      units_used: 0,
+    if (store.hasModule(STATS_STORE_MODULE_NAME)) store.unregisterModule(STATS_STORE_MODULE_NAME)
+  },
+  data() {
+    return {
+      data: {},
+      blankDeliveryReport: {
+        sent: 0,
+        waiting: 0,
+        queued: 0,
+        delivered: 0,
+        undelivered: 0,
+        failed: 0,
+        cancelled: 0,
+        total: 0,
+        units_used: 0,
+      },
+      blankConfig: {
+        mode: 'range',
+        dateFormat: 'Y-m-d',
+        allowInput: true,
+        defaultDate: [],
+      },
+      rangeConfig: {
+        mode: 'range',
+        dateFormat: 'Y-m-d',
+        allowInput: true,
+        defaultDate: [],
+      },
+      trafficTableData: [],
+      addressBooksTableData: [],
+      outboxTableData: [],
+      dateRange: [],
+      deliveryReport: {
+        sent: 0,
+        waiting: 0,
+        queued: 0,
+        delivered: 0,
+        undelivered: 0,
+        failed: 0,
+        cancelled: 0,
+        total: 0,
+        units_used: 0,
+      },
     }
-    const blankConfig = {
-      mode: 'range',
-      dateFormat: 'Y-m-d',
-      allowInput: true,
-      defaultDate: [],
-    }
-    const rangeConfig = ref(JSON.parse(JSON.stringify(blankConfig)))
-    const trafficTableData = ref([])
-    const addressBooksTableData = ref([])
-    const outboxTableData = ref([])
-    const dateRange = ref([])
-    const deliveryReport = ref(JSON.parse(JSON.stringify(blankDeliveryReport)))
-    /* eslint-disable */
-    const refreshReport = (selectedDates, dateStr, instance) => {
+  },
+  
+  methods: {
+    refreshReport(selectedDates, dateStr, instance) {
       const start = moment(new Date(String(selectedDates[0]))).format('YYYY-MM-DD')
       const end = moment(new Date(String(selectedDates[1]))).format('YYYY-MM-DD')
       store.dispatch('stats/fetchReport', {
         start: start,
         end: end,
-        org_id: JSON.parse(JSON.stringify(Vue.$cookies.get('userData').membership.organisation_id)),
+        org_id: this.$cookies.get('userData').membership.organisation_id,
       })
         .then(response => {
-          deliveryReport.value = response.data.delivery_report
-          trafficTableData.value = response.data.operator_traffic
-          addressBooksTableData.value = response.data.contacts_by_operator
-          outboxTableData.value = response.data.outbox
+          this.deliveryReport = response.data.delivery_report
+          this.trafficTableData = response.data.operator_traffic
+          this.addressBooksTableData = response.data.contacts_by_operator
+          this.outboxTableData = response.data.outbox
         })
-    }
-    const fetchReport = () => {
+    },
+    
+    fetchReport() {
       store.dispatch('stats/fetchReport', {
-        org_id: JSON.parse(JSON.stringify(Vue.$cookies.get('userData').membership.organisation_id))
+        org_id: this.$cookies.get('userData').membership.organisation_id
       })
         .then(response => {
-          deliveryReport.value = response.data.delivery_report
-          trafficTableData.value = response.data.operator_traffic
-          addressBooksTableData.value = response.data.contacts_by_operator
-          outboxTableData.value = response.data.outbox
-          rangeConfig.value.defaultDate.push(response.data.start)
-          rangeConfig.value.defaultDate.push(response.data.end)
+          this.deliveryReport = response.data.delivery_report
+          this.trafficTableData = response.data.operator_traffic
+          this.addressBooksTableData = response.data.contacts_by_operator
+          this.outboxTableData = response.data.outbox
+          this.rangeConfig.defaultDate = [response.data.start, response.data.end]
         })
-    }
-    /* eslint-enable */
-    fetchReport()
-    return {
-      fetchReport,
-      deliveryReport,
-      refreshReport,
-      trafficTableData,
-      addressBooksTableData,
-      outboxTableData,
-      rangeConfig,
-      dateRange,
-    }
-  },
-  data() {
-    return {
-      data: {},
-    }
+        .catch(error => {
+          console.error('Error fetching report:', error)
+        })
+    },
   },
 }
 </script>

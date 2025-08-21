@@ -1,15 +1,19 @@
 export default [
   {
-    header: 'Premium Services',
+    header: 'SHORT CODES',
   },
   {
-    title: 'Subscription',
-    route: { name: 'misc-coming-soon' },
-    icon: 'SmartphoneIcon',
-  },
-  {
-    title: 'Inbox',
-    route: { name: 'misc-coming-soon' },
-    icon: 'InboxIcon',
+    title: 'Premium SMS',
+    icon: 'StarIcon',
+    children: [
+      {
+        title: 'Inbox',
+        route: 'premium-inbox',
+      },
+      {
+        title: 'Outbox',
+        route: 'premium-outbox',
+      },
+    ],
   },
 ]

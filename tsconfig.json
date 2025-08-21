@@ -31,6 +31,7 @@
     "paths": {
       "@/*": ["src/*"],
       "@core/*": ["src/@core/*"],
+      "@axios": ["src/libs/axios"],
       "@components/*": ["src/components/*"],
       "@composables/*": ["src/composables/*"],
       "@stores/*": ["src/stores/*"],
@@ -59,9 +60,6 @@
     
     // Advanced
     "incremental": true,
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
     "sourceMap": true,
     
     // Experimental Features
@@ -71,9 +69,12 @@
   
   "include": [
     "src/**/*.ts",
+    "src/**/*.js",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "src/@fake-db/**/*.js",
+    "src/router/**/*.js",
     "vite.config.ts",
     "vitest.config.ts"
   ],
@@ -86,7 +87,5 @@
     "**/*.test.ts"
   ],
   
-  "references": [
-    { "path": "./tsconfig.node.json" }
-  ]
+  
 }

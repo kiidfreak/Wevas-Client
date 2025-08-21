@@ -1,6 +1,6 @@
 export default [
   {
-    header: 'Senders & Stop List',
+    header: 'SENDERS & STOP LIST',
   },
   {
     title: 'Senders',
@@ -10,6 +10,6 @@ export default [
   {
     title: 'Stop List',
     route: { name: 'stoplist' },
-    icon: 'AlertOctagonIcon',
+    icon: 'ClockIcon',
   },
 ]

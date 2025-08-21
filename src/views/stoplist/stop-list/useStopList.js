@@ -47,16 +47,43 @@ export default function useStopList() {
 
   const fetchStoplists = (ctx, callback) => {
     isBusy.value = true
-    store
-      .dispatch('stoplists/fetchOrganisationStopList', {
-        org_id: JSON.parse(JSON.stringify(Vue.$cookies.get('userData').membership.organisation_id)),
-        q: searchQuery.value,
-        per_page: perPage.value,
-        page: currentPage.value,
-        sortBy: sortBy.value,
-        sortDesc: isSortDirDesc.value,
-        sender: sendersFilter.value,
-      })
+    try {
+      let userData = Vue.$cookies.get('userData')
+      console.log('useStopList - User data from cookies:', userData)
+      console.log('useStopList - User data membership:', userData?.membership)
+      
+      // Fix old cookie data structure if needed
+      if (userData && typeof userData.membership === 'string') {
+        console.log('useStopList - Fixing old cookie data structure...')
+        userData.membership = {
+          type: userData.membership,
+          organisation_id: 1,
+          name: 'Demo Organisation'
+        }
+        // Update the cookie with fixed data
+        Vue.$cookies.set('userData', userData, '2m')
+        console.log('useStopList - Updated user data:', userData)
+      }
+      
+      const orgId = userData?.membership?.organisation_id
+      if (!orgId) {
+        console.error('No organisation ID found in user data')
+        console.error('Available user data keys:', Object.keys(userData || {}))
+        console.error('Available membership keys:', Object.keys(userData?.membership || {}))
+        isBusy.value = false
+        return
+      }
+      
+      store
+        .dispatch('stoplists/fetchOrganisationStopList', {
+          org_id: orgId,
+          q: searchQuery.value,
+          per_page: perPage.value,
+          page: currentPage.value,
+          sortBy: sortBy.value,
+          sortDesc: isSortDirDesc.value,
+          sender: sendersFilter.value,
+        })
       .then(response => {
         const { results, count } = response.data
         isBusy.value = false
@@ -64,7 +91,9 @@ export default function useStopList() {
         callback(results)
         totalStoplists.value = count
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('Error fetching stoplists:', error)
+        isBusy.value = false
         toast({
           component: ToastificationContent,
           props: {
@@ -74,6 +103,10 @@ export default function useStopList() {
           },
         })
       })
+    } catch (error) {
+      console.error('Error in fetchStoplists:', error)
+      isBusy.value = false
+    }
   }
   return {
     fetchStoplists,

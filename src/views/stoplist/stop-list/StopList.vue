@@ -158,7 +158,6 @@ import { onUnmounted, ref } from '@vue/composition-api'
 import store from '@/store'
 import { formatDateToMonthLong, title } from '@utils/filters'
 import useStopList from './useStopList'
-
 import stoplistStoreModule from '../stoplistStoreModule'
 
 export default {
@@ -180,6 +179,7 @@ export default {
     BPagination,
     BTooltip,
     vSelect,
+    FeatherIcon: () => import('@core/components/feather-icon/FeatherIcon.vue'),
   },
   setup() {
     const STOPLISTS_STORE_MODULE_NAME = 'stoplists'
@@ -193,13 +193,36 @@ export default {
       if (store.hasModule(STOPLISTS_STORE_MODULE_NAME)) store.unregisterModule(STOPLISTS_STORE_MODULE_NAME)
     })
     const fetchSenders = () => {
-      store
-        .dispatch('stoplists/fetchOrganisationSenders', { orgId: JSON.parse(JSON.stringify(Vue.$cookies.get('userData').membership.organisation_id)) })
-        .then(response => {
-          senderOptions.value = response.data.results
-        })
-        .catch(err => err)
+      try {
+        const userData = Vue.$cookies.get('userData')
+        console.log('User data from cookies:', userData)
+        console.log('User data membership:', userData?.membership)
+        
+        const orgId = userData?.membership?.organisation_id
+        if (!orgId) {
+          console.error('No organisation ID found in user data')
+          console.error('Available user data keys:', Object.keys(userData || {}))
+          console.error('Available membership keys:', Object.keys(userData?.membership || {}))
+          return
+        }
+        
+        store
+          .dispatch('stoplists/fetchOrganisationSenders', { orgId })
+          .then(response => {
+            if (response.data && response.data.results) {
+              senderOptions.value = response.data.results
+            }
+          })
+          .catch(err => {
+            console.error('Error fetching senders:', err)
+          })
+      } catch (error) {
+        console.error('Error in fetchSenders:', error)
+      }
     }
+    const stopListComposition = useStopList()
+    console.log('StopList composition result:', stopListComposition)
+    
     const {
       fetchStoplists,
       perPage,
@@ -215,7 +238,23 @@ export default {
       refetchData,
       isBusy,
       sendersFilter,
-    } = useStopList()
+    } = stopListComposition
+    
+    console.log('Destructured properties:', {
+      fetchStoplists: !!fetchStoplists,
+      perPage: !!perPage,
+      tableColumns: !!tableColumns,
+      dataMeta: !!dataMeta,
+      perPageOptions: !!perPageOptions,
+      searchQuery: !!searchQuery,
+      sortBy: !!sortBy,
+      isSortDirDesc: !!isSortDirDesc,
+      refStoplistListTable: !!refStoplistListTable,
+      refetchData: !!refetchData,
+      isBusy: !!isBusy,
+      sendersFilter: !!sendersFilter,
+    })
+    
     fetchSenders()
 
     return {

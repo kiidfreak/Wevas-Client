@@ -1,5 +1,9 @@
-const rtl = require('postcss-rtl')
-
-module.exports = {
-  plugins: [rtl()],
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+    cssnano: {
+      preset: 'default',
+    },
+  },
 }

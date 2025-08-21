@@ -1,7 +1,10 @@
+// Legacy Vue 2 bootstrap disabled in Vue 3 application
+// Keeping file to avoid import resolution by legacy code paths
+/*
 import Vue from 'vue'
 import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
-import VueCookies from 'vue-cookies'
+// import VueCookies from 'vue-cookies'
 import { Upload, Button } from 'element-ui'
 
 // import i18n from '@/libs/i18n'
@@ -27,7 +30,7 @@ import '@/@fake-db/db'
 // Element UI
 
 // cookies
-Vue.use(VueCookies)
+// Vue.use(VueCookies)
 
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
@@ -58,3 +61,4 @@ new Vue({
   // i18n,
   render: h => h(App),
 }).$mount('#app')
+*/

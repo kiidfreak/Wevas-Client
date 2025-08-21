@@ -5,9 +5,9 @@ const data = {
   blogList: [
     {
       id: 1,
-      img: require('@/assets/images/slider/02.jpg'),
+      img: '/favicon.ico',
       title: 'The Best Features Coming to iOS and Web design',
-      avatar: require('@/assets/images/portrait/small/avatar-s-7.jpg'),
+      avatar: '/favicon.ico',
       userFullName: 'Ghani Pradita',
       blogPosted: 'Jan 10, 2020',
       tags: ['Quote', 'Fashion'],
@@ -16,9 +16,9 @@ const data = {
     },
     {
       id: 2,
-      img: require('@/assets/images/slider/06.jpg'),
+      img: '/favicon.ico',
       title: 'Latest Quirky Opening Sentence or Paragraph',
-      avatar: require('@/assets/images/portrait/small/avatar-s-9.jpg'),
+      avatar: '/favicon.ico',
       userFullName: 'Jorge Griffin',
       blogPosted: 'Jan 10, 2020',
       tags: ['Gaming', 'Video'],
@@ -27,9 +27,9 @@ const data = {
     },
     {
       id: 3,
-      img: require('@/assets/images/slider/04.jpg'),
+      img: '/favicon.ico',
       title: 'Share an Amazing and Shocking Fact or Statistic',
-      avatar: require('@/assets/images/portrait/small/avatar-s-3.jpg'),
+      avatar: '/favicon.ico',
       userFullName: 'Claudia Neal',
       blogPosted: 'Jan 10, 2020',
       tags: ['Gaming', 'Food'],
@@ -38,9 +38,9 @@ const data = {
     },
     {
       id: 4,
-      img: require('@/assets/images/slider/03.jpg'),
+      img: '/favicon.ico',
       title: 'Withhold a Compelling Piece of Information',
-      avatar: require('@/assets/images/portrait/small/avatar-s-14.jpg'),
+      avatar: '/favicon.ico',
       userFullName: 'Fred Boone',
       blogPosted: 'Jan 10, 2020',
       tags: ['Video'],
@@ -49,9 +49,9 @@ const data = {
     },
     {
       id: 5,
-      img: require('@/assets/images/slider/09.jpg'),
+      img: '/favicon.ico',
       title: 'Unadvertised Bonus Opening: Share a Quote',
-      avatar: require('@/assets/images/portrait/small/avatar-s-13.jpg'),
+      avatar: '/favicon.ico',
       userFullName: 'Billy French',
       blogPosted: 'Jan 10, 2020',
       tags: ['Quote', 'Fashion'],
@@ -60,9 +60,9 @@ const data = {
     },
     {
       id: 6,
-      img: require('@/assets/images/slider/10.jpg'),
+      img: '/favicon.ico',
       title: 'Ships at a distance have Every Man’s Wish on Board',
-      avatar: require('@/assets/images/portrait/small/avatar-s-13.jpg'),
+      avatar: '/favicon.ico',
       userFullName: 'Helena Hunt',
       blogPosted: 'Jan 10, 2020',
       tags: ['Fashion', 'Video'],
@@ -76,25 +76,25 @@ const data = {
     recentPosts: [
       {
         id: 7,
-        img: require('@/assets/images/banner/banner-22.jpg'),
+        img: '/favicon.ico',
         title: 'Why Should Forget Facebook?',
         createdTime: 'Jan 14 2020',
       },
       {
         id: 8,
-        img: require('@/assets/images/banner/banner-27.jpg'),
+        img: '/favicon.ico',
         title: 'Publish your passions, your way',
         createdTime: 'Mar 04 2020',
       },
       {
         id: 9,
-        img: require('@/assets/images/banner/banner-39.jpg'),
+        img: '/favicon.ico',
         title: 'The Best Ways to Retain More',
         createdTime: 'Feb 18 2020',
       },
       {
         id: 10,
-        img: require('@/assets/images/banner/banner-35.jpg'),
+        img: '/favicon.ico',
         title: 'Share a Shocking Fact or Statistic',
         createdTime: 'Oct 08 2020',
       },
@@ -111,9 +111,9 @@ const data = {
   // detail
   blogDetail: {
     blog: {
-      img: require('@/assets/images/banner/banner-12.jpg'),
+      img: '/favicon.ico',
       title: 'The Best Features Coming to iOS and Web design',
-      avatar: require('@/assets/images/portrait/small/avatar-s-7.jpg'),
+      avatar: '/favicon.ico',
       userFullName: 'Ghani Pradita',
       createdTime: 'Jan 10, 2020',
       tags: ['Gaming', 'Video'],
@@ -123,7 +123,7 @@ const data = {
       bookmarked: 139,
       UserComment: [
         {
-          avatar: require('@/assets/images/portrait/small/avatar-s-6.jpg'),
+          avatar: '/favicon.ico',
           fullName: 'Willie Clark',
           comment:
             'Based in London, Uncode is a blog by Willie Clark. His posts explore modern design trends through photos and quotes by influential creatives and web designer around the world.',
@@ -132,7 +132,7 @@ const data = {
     },
     comments: [
       {
-        avatar: require('@/assets/images/portrait/small/avatar-s-9.jpg'),
+        avatar: '/favicon.ico',
         userFullName: 'Chad Alexander',
         commentedAt: 'May 24, 2020',
         commentText:
@@ -143,7 +143,7 @@ const data = {
 
   // edit
   blogEdit: {
-    avatar: require('@/assets/images/portrait/small/avatar-s-9.jpg'),
+    avatar: '/favicon.ico',
     userFullName: 'Chad Alexander',
     createdTime: 'May 24, 2020',
     blogTitle: 'The Best Features Coming to iOS and Web design',
@@ -152,7 +152,7 @@ const data = {
     status: 'Published',
     excerpt:
       '<p>Cupcake ipsum dolor sit. Amet dessert donut candy chocolate bar cotton dessert candy chocolate. Candy muffin danish. Macaroon brownie jelly beans marzipan cheesecake oat cake. Carrot cake macaroon chocolate cake. Jelly brownie jelly. Marzipan pie sweet roll.</p><p><br></p><p>Liquorice dragée cake chupa chups pie cotton candy jujubes bear claw sesame snaps. Fruitcake chupa chups chocolate bonbon lemon drops croissant caramels lemon drops. Candy jelly cake marshmallow jelly beans dragée macaroon. Gummies sugar plum fruitcake. Candy canes candy cupcake caramels cotton candy jujubes fruitcake.</p>',
-    featuredImage: require('@/assets/images/slider/03.jpg'),
+    featuredImage: '/favicon.ico',
   },
 }
 /* eslint-disable global-require */

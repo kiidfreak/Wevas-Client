@@ -1,10 +1,10 @@
 export default [
   {
-    header: 'Message Outbox',
+    header: 'MESSAGE OUTBOX',
   },
   {
     title: 'SMS Outbox',
-    icon: 'LogOutIcon',
+    icon: 'SendIcon',
     children: [
       {
         title: 'Bulk Outbox',

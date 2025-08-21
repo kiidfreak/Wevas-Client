@@ -2,7 +2,7 @@ export default [
   {
     path: '/login',
     name: 'auth-login',
-    component: () => import('@/views/authentication/Login.vue'),
+    component: () => import('@/views/authentication/LoginSimple.vue'),
     meta: {
       layout: 'full',
       resource: 'Auth',

@@ -9,7 +9,7 @@ export default {
     fetchReport(ctx, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .get('/stats/delivery-report', { params: payload })
+          .post('/stats/fetchReport', payload)
           .then(response => resolve(response))
           .catch(error => reject(error))
       })

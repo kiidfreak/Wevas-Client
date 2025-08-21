@@ -1,6 +1,6 @@
 export default [
   {
-    header: 'Bulk Topups',
+    header: 'BULK TOPUPS',
   },
   {
     title: 'Topups',

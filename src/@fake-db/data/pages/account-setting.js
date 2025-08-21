@@ -3,7 +3,7 @@ import mock from '@/@fake-db/mock'
 const data = {
   accountSetting: {
     general: {
-      avatar: require('@/assets/images/portrait/small/avatar-s-11.jpg'),
+      avatar: '/favicon.ico',
       username: 'johndoe',
       fullName: 'John Doe',
       email: 'granger007@hogward.com',
@@ -27,11 +27,11 @@ const data = {
       },
       connections: {
         twitter: {
-          profileImg: require('@/assets/images/avatars/11-small.png'),
+          profileImg: '/favicon.ico',
           id: 'johndoe',
         },
         google: {
-          profileImg: require('@/assets/images/avatars/3-small.png'),
+          profileImg: '/favicon.ico',
           id: 'luraweber',
         },
         facebook: {},

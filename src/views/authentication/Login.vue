@@ -308,7 +308,11 @@ export default {
                 this.$ability.update(response.data.ability)
                 // console.log('UserData', JSON.parse(JSON.stringify(this.$cookies.get('userData'))))
                 // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
-                this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
+                // Navigate to home route
+                const homeRoute = getHomeRouteForLoggedInUser(userData.role)
+                console.log('Navigating to:', homeRoute, 'User role:', userData.role)
+                
+                this.$router.replace(homeRoute)
                   .then(() => {
                     this.$toast({
                       component: ToastificationContent,
@@ -320,6 +324,11 @@ export default {
                         text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
                       },
                     })
+                  })
+                  .catch(err => {
+                    console.error('Navigation error:', err)
+                    // Fallback navigation
+                    this.$router.push('/')
                   })
               }
             })

@@ -1,15 +1,16 @@
-import Vue from 'vue'
-import VueCookies from 'vue-cookies'
 import { Ability } from '@casl/ability'
 import { initialAbility } from './config'
 
-Vue.use(VueCookies)
-
-//  Read ability from localStorage
-// * Handles auto fetching previous abilities if already logged in user
-// ? You can update this if you store user abilities to more secure place
-// ! Anyone can update localStorage so be careful and please update this
-const userData = JSON.parse(JSON.stringify(Vue.$cookies.get('userData')))
-const existingAbility = userData ? userData.ability : null
+// Read ability from storage (Vue 3 compatible; avoid Vue 2 plugins)
+let existingAbility = null
+try {
+  const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('userData') : null
+  if (raw) {
+    const parsed = JSON.parse(raw)
+    existingAbility = parsed ? parsed.ability : null
+  }
+} catch (_) {
+  existingAbility = null
+}
 
 export default new Ability(existingAbility || initialAbility)

@@ -1,3 +1,5 @@
+// Legacy Vue 2 router left intact for old views. Not used by new Vue 3 app.
+/*
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { canNavigate } from '@/libs/acl/routeProtection'
@@ -47,8 +49,11 @@ const router = new VueRouter({
 // Remove afterEach hook if you are not using splash screen
 router.beforeEach((to, _, next) => {
   const isLoggedIn = isUserLoggedIn()
+  
+  console.log('Router guard - Route:', to.path, 'Logged in:', isLoggedIn, 'Can navigate:', canNavigate(to))
 
   if (!canNavigate(to)) {
+    console.log('Cannot navigate to route:', to.path)
     // Redirect to login if not logged in
     if (!isLoggedIn) return next({ name: 'auth-login' })
 
@@ -59,6 +64,7 @@ router.beforeEach((to, _, next) => {
   // Redirect if logged in
   if (to.meta.redirectIfLoggedIn && isLoggedIn) {
     const userData = getUserData()
+    console.log('Redirecting logged in user to home, role:', userData?.role)
     next(getHomeRouteForLoggedInUser(userData ? userData.role : null))
   }
 
@@ -76,3 +82,5 @@ router.afterEach(() => {
 })
 
 export default router
+*/
+export default {}
