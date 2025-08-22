@@ -61,7 +61,7 @@ function createToken(payload) {
 
 // Auth handlers
 export const authHandlers = [
-  // Login endpoint
+  // Login endpoint - try multiple path variations
   http.post('/auth/login', async ({ request }) => {
     console.log('🔧 MSW: /auth/login endpoint called!')
     
@@ -112,6 +112,64 @@ export const authHandlers = [
       }
     } catch (error) {
       console.error('🔧 MSW: Error in login handler:', error)
+      return HttpResponse.json(
+        { error: 'Internal server error' },
+        { status: 500 }
+      )
+    }
+  }),
+
+  // Also try with full URL path
+  http.post('*/auth/login', async ({ request }) => {
+    console.log('🔧 MSW: */auth/login endpoint called! (wildcard)')
+    
+    try {
+      const { email, password } = await request.json()
+      console.log('🔧 MSW: Login attempt (wildcard):', { email, password })
+
+      const user = users.find(u => u.email === email && u.password === password)
+
+      if (user) {
+        const accessToken = createToken({ id: user.id, exp: Date.now() + 10 * 60 * 1000 })
+        const refreshToken = createToken({ id: user.id, exp: Date.now() + 10 * 60 * 1000 })
+
+        const userData = { ...user }
+        delete userData.password
+
+        const response = {
+          userData,
+          tokens: {
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          },
+          ability: userData.ability,
+          membership: {
+            type: 'premium',
+            organisation_id: 1,
+            name: 'Demo Organisation'
+          },
+          bulk_accounts: [],
+          tenantInfo: {
+            name: 'Demo Tenant',
+            id: 1
+          }
+        }
+
+        console.log('🔧 MSW: Login successful for (wildcard):', email)
+        return HttpResponse.json(response, { status: 200 })
+      } else {
+        console.log('🔧 MSW: Login failed for (wildcard):', email)
+        return HttpResponse.json(
+          {
+            errors: {
+              email: ['Email or Password is Invalid'],
+            },
+          },
+          { status: 400 }
+        )
+      }
+    } catch (error) {
+      console.error('🔧 MSW: Error in login handler (wildcard):', error)
       return HttpResponse.json(
         { error: 'Internal server error' },
         { status: 500 }
@@ -186,10 +244,22 @@ export const dashboardHandlers = [
   }),
 ]
 
+// Catch-all handler to see if any requests are being intercepted
+export const catchAllHandler = [
+  http.all('*', ({ request }) => {
+    console.log('🔧 MSW: Catch-all handler called for:', request.method, request.url)
+    return HttpResponse.json(
+      { message: 'MSW catch-all: Request intercepted but no specific handler found' },
+      { status: 404 }
+    )
+  }),
+]
+
 // Export all handlers
 export const handlers = [
   ...authHandlers,
   ...dashboardHandlers,
+  ...catchAllHandler, // Add catch-all at the end
 ]
 
 console.log('🔧 MSW: Mock handlers loaded successfully. Total handlers:', handlers.length)

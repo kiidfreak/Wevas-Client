@@ -18,56 +18,125 @@ app.use(router)
 // Mount app first
 app.mount('#app')
 
-// Initialize MSW (Mock Service Worker) after app is mounted
-async function enableMocking() {
-  if (typeof window === 'undefined') {
-    return
-  }
-
-  try {
-    // Check if we're in a browser environment
-    if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
-      // Start MSW
-      const { worker } = await import('./mocks/browser')
-      
-      // Wait for the worker to be ready
-      await worker.start({
-        onUnhandledRequest: 'bypass', // Don't warn about unhandled requests
-        serviceWorker: {
-          url: '/mockServiceWorker.js',
-          options: {
-            scope: '/',
-          },
-        },
-        waitUntilReady: true, // Wait for service worker to be ready
-      })
-      
-      console.log('✅ MSW enabled (Mock Service Worker)')
-      
-      // Test that MSW is working
-      try {
-        const testResponse = await fetch('/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: 'test@test.com', password: 'test' })
-        })
-        console.log('🔧 MSW test response status:', testResponse.status)
-      } catch (error) {
-        console.warn('⚠️ MSW test request failed:', error)
+// Simple mock interceptor for axios (temporary solution)
+function setupSimpleMock() {
+  console.log('🔧 Setting up simple axios mock interceptor...')
+  
+  // Import axios and set up interceptors
+  import('@axios').then(({ default: api }) => {
+    console.log('🔧 Axios instance imported, setting up interceptors...')
+    
+    // Add request interceptor for logging
+    api.interceptors.request.use(
+      (config) => {
+        console.log('🔧 Axios request interceptor:', config.method?.toUpperCase(), config.url)
+        return config
+      },
+      (error) => {
+        console.error('🔧 Axios request error:', error)
+        return Promise.reject(error)
       }
-    }
-  } catch (error) {
-    console.warn('⚠️ Failed to initialize MSW:', error)
-    // Don't let MSW errors block the app
-  }
+    )
+    
+    // Add response interceptor for mocking
+    api.interceptors.response.use(
+      (response) => {
+        console.log('🔧 Axios response interceptor:', response.status, response.config.url)
+        return response
+      },
+      async (error) => {
+        console.log('🔧 Axios error interceptor:', error.config?.method, error.config?.url, error.response?.status)
+        
+        // Mock auth/login endpoint
+        if (error.config?.url?.includes('/auth/login') && error.config?.method === 'post') {
+          console.log('🔧 Mock: Intercepting axios /auth/login request')
+          
+          try {
+            const body = JSON.parse(error.config.data || '{}')
+            const { email, password } = body
+            
+            console.log('🔧 Mock: Login attempt:', { email, password })
+            
+            // Simple mock user validation
+            if (email === 'admin@demo.com' && password === 'admin') {
+              console.log('🔧 Mock: Login successful')
+              
+              const mockResponse = {
+                userData: {
+                  id: 1,
+                  fullName: 'John Doe',
+                  email: 'admin@demo.com',
+                  role: 'admin'
+                },
+                tokens: {
+                  access_token: 'mock-token-' + Date.now(),
+                  refresh_token: 'mock-refresh-' + Date.now()
+                },
+                ability: [{ action: 'manage', subject: 'all' }],
+                membership: {
+                  type: 'premium',
+                  organisation_id: 1,
+                  name: 'Demo Organisation'
+                }
+              }
+              
+              // Return a successful response
+              return Promise.resolve({
+                data: mockResponse,
+                status: 200,
+                statusText: 'OK',
+                headers: { 'content-type': 'application/json' },
+                config: error.config
+              })
+            } else {
+              console.log('🔧 Mock: Login failed - invalid credentials')
+              return Promise.reject({
+                response: {
+                  data: { errors: { email: ['Email or Password is Invalid'] } },
+                  status: 400,
+                  statusText: 'Bad Request'
+                }
+              })
+            }
+          } catch (parseError) {
+            console.error('🔧 Mock: Error processing login:', parseError)
+            return Promise.reject({
+              response: {
+                data: { error: 'Internal server error' },
+                status: 500,
+                statusText: 'Internal Server Error'
+              }
+            })
+          }
+        }
+        
+        // Mock auth/logout endpoint
+        if (error.config?.url?.includes('/auth/logout') && error.config?.method === 'post') {
+          console.log('🔧 Mock: Intercepting axios /auth/logout request')
+          return Promise.resolve({
+            data: { message: 'Logged out successfully' },
+            status: 200,
+            statusText: 'OK',
+            headers: { 'content-type': 'application/json' },
+            config: error.config
+          })
+        }
+        
+        // For all other errors, pass through
+        return Promise.reject(error)
+      }
+    )
+    
+    console.log('✅ Simple axios mock interceptor setup complete')
+  }).catch(error => {
+    console.error('❌ Failed to import axios instance:', error)
+  })
 }
 
-// Enable mocking after app is mounted (non-blocking)
+// Initialize simple mock after app is mounted
 setTimeout(() => {
-  enableMocking().catch(error => {
-    console.warn('⚠️ MSW initialization failed, but app is running:', error)
-  })
-}, 500) // Increased delay to ensure app is fully mounted
+  setupSimpleMock()
+}, 500)
 
 console.log('🚀 Wevas Next-Gen starting up...')
-console.log('✨ Vue 3 + Vite + TypeScript + Tailwind CSS + MSW')
+console.log('✨ Vue 3 + Vite + TypeScript + Tailwind CSS + Axios Mock')
