@@ -28,13 +28,13 @@
               <!-- Small Logo Icon (always visible) -->
               <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                </svg>
-              </div>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+              </svg>
+            </div>
               <!-- Text (hidden when collapsed) -->
               <div v-show="!isCollapsed" class="ml-3">
-                <h1 class="text-xl font-bold text-gray-900">Wevas</h1>
-                <p class="text-sm text-gray-500">Next-Gen SMS Platform</p>
+              <h1 class="text-xl font-bold text-gray-900">Wevas</h1>
+              <p class="text-sm text-gray-500">Next-Gen SMS Platform</p>
               </div>
             </div>
             <!-- Collapse Button -->
@@ -44,8 +44,8 @@
               class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
               title="Collapse Sidebar"
             >
-                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7m-6-7l7-7"></path>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
             </button>
           </div>
@@ -97,7 +97,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                 </svg>
                 <span v-show="!isCollapsed">Campaigns</span>
-              </div>
+            </div>
               <svg 
                 v-show="!isCollapsed"
                 class="w-4 h-4 transform transition-transform" 
@@ -110,8 +110,8 @@
               </svg>
             </div>
             <div v-show="openSections.campaigns && !isCollapsed" class="space-y-1 transition-all duration-200">
-              <RouterLink to="/bulk-campaigns" class="nav-item sub-item" active-class="active">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <RouterLink to="/bulk-campaigns" class="nav-item sub-item" active-class="active">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="10"></circle>
                 </svg>
                 <span>SMS</span>
@@ -119,17 +119,17 @@
               <RouterLink to="/misc-coming-soon" class="nav-item sub-item" active-class="active">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                </svg>
+              </svg>
                 <span>Email</span>
                 <span class="tag tag-warning">Soon</span>
-              </RouterLink>
+            </RouterLink>
               <RouterLink to="/misc-coming-soon" class="nav-item sub-item" active-class="active">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                </svg>
+              </svg>
                 <span>Whatsapp</span>
                 <span class="tag tag-warning">Soon</span>
-              </RouterLink>
+            </RouterLink>
             </div>
           </div>
 
@@ -165,18 +165,18 @@
               </svg>
             </div>
             <div v-show="openSections.outbox && !isCollapsed" class="space-y-1 transition-all duration-200">
-              <RouterLink to="/outbox" class="nav-item sub-item" active-class="active">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <RouterLink to="/outbox" class="nav-item sub-item" active-class="active">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="10"></circle>
-                </svg>
+              </svg>
                 <span>Bulk Outbox</span>
-              </RouterLink>
+            </RouterLink>
               <RouterLink to="/api-outbox" class="nav-item sub-item" active-class="active">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="10"></circle>
-                </svg>
+              </svg>
                 <span>API Outbox</span>
-              </RouterLink>
+            </RouterLink>
             </div>
           </div>
 
@@ -213,36 +213,36 @@
             </div>
             <div v-show="openSections.premium && !isCollapsed" class="space-y-1 transition-all duration-200">
               <RouterLink to="/premium-inbox" class="nav-item sub-item" active-class="active">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="10"></circle>
-                </svg>
+              </svg>
                 <span>Inbox</span>
-              </RouterLink>
+            </RouterLink>
               <RouterLink to="/premium-outbox" class="nav-item sub-item" active-class="active">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="10"></circle>
-                </svg>
+              </svg>
                 <span>Outbox</span>
-              </RouterLink>
+            </RouterLink>
             </div>
           </div>
 
           <!-- SENDERS & STOP LIST -->
           <div v-show="!isCollapsed" class="nav-section-header">
             <span>SENDERS & STOP LIST</span>
-          </div>
+            </div>
           <RouterLink to="/senders" class="nav-item" active-class="active" :class="{ 'justify-center': isCollapsed, 'px-2': isCollapsed }">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
-            </svg>
+              </svg>
             <span v-show="!isCollapsed">Senders</span>
-          </RouterLink>
+            </RouterLink>
           <RouterLink to="/stoplist" class="nav-item" active-class="active" :class="{ 'justify-center': isCollapsed, 'px-2': isCollapsed }">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
+              </svg>
             <span v-show="!isCollapsed">Stop List</span>
-          </RouterLink>
+            </RouterLink>
 
           <!-- BULK TOPUPS -->
           <div v-show="!isCollapsed" class="nav-section-header">
@@ -251,15 +251,15 @@
           <RouterLink to="/bulk-topups" class="nav-item" active-class="active" :class="{ 'justify-center': isCollapsed, 'px-2': isCollapsed }">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-            </svg>
+              </svg>
             <span v-show="!isCollapsed">Topups</span>
-          </RouterLink>
+            </RouterLink>
           <RouterLink to="/transactions" class="nav-item" active-class="active" :class="{ 'justify-center': isCollapsed, 'px-2': isCollapsed }">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
-            </svg>
+              </svg>
             <span v-show="!isCollapsed">Transactions</span>
-          </RouterLink>
+            </RouterLink>
 
           <!-- API SETTINGS -->
           <div v-show="!isCollapsed" class="nav-section-header">
@@ -287,12 +287,12 @@
         </div>
       </aside>
 
-              <!-- Main Content Area -->
-        <main class="flex-1 flex flex-col overflow-hidden">
-          <!-- Top Header Bar -->
+      <!-- Main Content Area -->
+      <main class="flex-1 flex flex-col overflow-hidden">
+        <!-- Top Header Bar -->
           <header v-if="$route.name !== 'login'" class="bg-white border-b border-gray-200 px-6 py-4">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center space-x-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
                 <!-- Mobile Menu Button -->
                 <button 
                   @click="toggleSidebar"
@@ -303,12 +303,12 @@
                   </svg>
                 </button>
                 
-                <h2 class="text-2xl font-bold text-gray-900">{{ $route.meta?.title || 'Dashboard' }}</h2>
-                <div class="flex items-center space-x-2">
-                  <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span class="text-sm text-gray-600">System Online</span>
-                </div>
+              <h2 class="text-2xl font-bold text-gray-900">{{ $route.meta?.title || 'Dashboard' }}</h2>
+              <div class="flex items-center space-x-2">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-sm text-gray-600">System Online</span>
               </div>
+            </div>
             
             <div class="flex items-center space-x-4">
               <!-- Search Bar -->
@@ -359,8 +359,8 @@
                     </svg>
                   </div>
                   <div class="hidden md:block text-left">
-                    <p class="text-sm font-medium text-gray-900">Admin User</p>
-                    <p class="text-xs text-gray-500">admin@wevas.com</p>
+                  <p class="text-sm font-medium text-gray-900">Admin User</p>
+                  <p class="text-xs text-gray-500">admin@wevas.com</p>
                   </div>
                   <svg class="w-4 h-4 text-gray-400 transform transition-transform" :class="{ 'rotate-180': showProfileMenu }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -409,15 +409,27 @@ interface SearchResult {
 
 const router = useRouter()
 
-// Reactive state for collapsible sections
+// Reactive state for collapsible sections (all closed by default for cleaner initial view)
 const openSections = ref({
-  campaigns: true,
-  outbox: true,
-  premium: true
+  campaigns: false,
+  outbox: false,
+  premium: false
 })
 
 // Toggle section visibility
 const toggleSection = (section: keyof typeof openSections.value) => {
+  if (isCollapsed.value) {
+    const firstSubRoute: Record<keyof typeof openSections.value, string> = {
+      campaigns: '/bulk-campaigns',
+      outbox: '/outbox',
+      premium: '/premium-inbox',
+    }
+    const target = firstSubRoute[section]
+    if (target) {
+      router.push(target)
+      return
+    }
+  }
   openSections.value[section] = !openSections.value[section]
 }
 
