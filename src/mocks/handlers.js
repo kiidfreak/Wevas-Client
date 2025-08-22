@@ -1,5 +1,7 @@
 import { http, HttpResponse } from 'msw'
 
+console.log('🔧 MSW: Loading mock handlers...')
+
 // Mock user data
 const users = [
   {
@@ -61,62 +63,71 @@ function createToken(payload) {
 export const authHandlers = [
   // Login endpoint
   http.post('/auth/login', async ({ request }) => {
-    const { email, password } = await request.json()
+    console.log('🔧 MSW: /auth/login endpoint called!')
+    
+    try {
+      const { email, password } = await request.json()
+      console.log('🔧 MSW: Login attempt:', { email, password })
 
-    console.log('🔧 MSW: Login attempt:', { email, password })
+      const user = users.find(u => u.email === email && u.password === password)
 
-    const user = users.find(u => u.email === email && u.password === password)
+      if (user) {
+        const accessToken = createToken({ id: user.id, exp: Date.now() + 10 * 60 * 1000 })
+        const refreshToken = createToken({ id: user.id, exp: Date.now() + 10 * 60 * 1000 })
 
-    if (user) {
-      const accessToken = createToken({ id: user.id, exp: Date.now() + 10 * 60 * 1000 })
-      const refreshToken = createToken({ id: user.id, exp: Date.now() + 10 * 60 * 1000 })
+        const userData = { ...user }
+        delete userData.password
 
-      const userData = { ...user }
-      delete userData.password
-
-      const response = {
-        userData,
-        tokens: {
-          access_token: accessToken,
-          refresh_token: refreshToken,
-        },
-        ability: userData.ability,
-        membership: {
-          type: 'premium',
-          organisation_id: 1,
-          name: 'Demo Organisation'
-        },
-        bulk_accounts: [],
-        tenantInfo: {
-          name: 'Demo Tenant',
-          id: 1
-        }
-      }
-
-      console.log('🔧 MSW: Login successful for:', email)
-      return HttpResponse.json(response, { status: 200 })
-    } else {
-      console.log('🔧 MSW: Login failed for:', email)
-      return HttpResponse.json(
-        {
-          errors: {
-            email: ['Email or Password is Invalid'],
+        const response = {
+          userData,
+          tokens: {
+            access_token: accessToken,
+            refresh_token: refreshToken,
           },
-        },
-        { status: 400 }
+          ability: userData.ability,
+          membership: {
+            type: 'premium',
+            organisation_id: 1,
+            name: 'Demo Organisation'
+          },
+          bulk_accounts: [],
+          tenantInfo: {
+            name: 'Demo Tenant',
+            id: 1
+          }
+        }
+
+        console.log('🔧 MSW: Login successful for:', email)
+        return HttpResponse.json(response, { status: 200 })
+      } else {
+        console.log('🔧 MSW: Login failed for:', email)
+        return HttpResponse.json(
+          {
+            errors: {
+              email: ['Email or Password is Invalid'],
+            },
+          },
+          { status: 400 }
+        )
+      }
+    } catch (error) {
+      console.error('🔧 MSW: Error in login handler:', error)
+      return HttpResponse.json(
+        { error: 'Internal server error' },
+        { status: 500 }
       )
     }
   }),
 
   // Logout endpoint
   http.post('/auth/logout', () => {
-    console.log('🔧 MSW: Logout called')
+    console.log('🔧 MSW: /auth/logout endpoint called!')
     return HttpResponse.json({ message: 'Logged out successfully' }, { status: 200 })
   }),
 
   // Refresh token endpoint
   http.post('/auth/refresh-token', () => {
-    console.log('🔧 MSW: Refresh token called')
+    console.log('🔧 MSW: /auth/refresh-token endpoint called!')
     const accessToken = createToken({ id: 1, exp: Date.now() + 10 * 60 * 1000 })
     return HttpResponse.json(
       {
@@ -131,7 +142,7 @@ export const authHandlers = [
 export const dashboardHandlers = [
   // Dashboard stats
   http.get('/api/stats/dashboard', () => {
-    console.log('🔧 MSW: Dashboard stats requested')
+    console.log('🔧 MSW: /api/stats/dashboard endpoint called!')
     return HttpResponse.json(
       {
         total_campaigns: 25,
@@ -149,7 +160,7 @@ export const dashboardHandlers = [
 
   // Delivery report
   http.get('/api/stats/delivery-report', () => {
-    console.log('🔧 MSW: Delivery report requested')
+    console.log('🔧 MSW: /api/stats/delivery-report endpoint called!')
     return HttpResponse.json(
       {
         delivery_report: {
@@ -180,3 +191,6 @@ export const handlers = [
   ...authHandlers,
   ...dashboardHandlers,
 ]
+
+console.log('🔧 MSW: Mock handlers loaded successfully. Total handlers:', handlers.length)
+console.log('🔧 MSW: Available endpoints:', handlers.map(h => `${h.method} ${h.path}`))
