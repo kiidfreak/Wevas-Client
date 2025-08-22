@@ -28,7 +28,14 @@ export const useAuthStore = defineStore('auth', () => {
       isLoading.value = true
       errorMessage.value = null
 
+      console.log('🔐 Auth: Attempting login with:', payload)
+      console.log('🔐 Auth: API base URL:', api.defaults.baseURL)
+      console.log('🔐 Auth: Making request to /auth/login')
+
       const { data } = await api.post('/auth/login', payload)
+      
+      console.log('🔐 Auth: Login response received:', data)
+      
       // Handle mock or real API response
       if (data?.errors) {
         const first = Array.isArray(data.errors?.email) ? data.errors.email[0] : undefined
@@ -41,8 +48,11 @@ export const useAuthStore = defineStore('auth', () => {
 
       if (typeof localStorage !== 'undefined') localStorage.setItem('token', accessToken)
 
+      console.log('🔐 Auth: Login successful, token stored:', accessToken)
       return { success: true }
     } catch (err: any) {
+      console.error('🔐 Auth: Login error:', err)
+      console.error('🔐 Auth: Error response:', err?.response)
       errorMessage.value = err?.response?.data?.message || err?.response?.data?.error || 'Login failed'
       return { success: false, error: errorMessage.value }
     } finally {
