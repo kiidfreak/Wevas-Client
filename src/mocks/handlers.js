@@ -1,4 +1,4 @@
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 // Mock user data
 const users = [
@@ -60,8 +60,8 @@ function createToken(payload) {
 // Auth handlers
 export const authHandlers = [
   // Login endpoint
-  rest.post('/auth/login', (req, res, ctx) => {
-    const { email, password } = req.body
+  http.post('/auth/login', async ({ request }) => {
+    const { email, password } = await request.json()
 
     console.log('🔧 MSW: Login attempt:', { email, password })
 
@@ -94,35 +94,35 @@ export const authHandlers = [
       }
 
       console.log('🔧 MSW: Login successful for:', email)
-      return res(ctx.status(200), ctx.json(response))
+      return HttpResponse.json(response, { status: 200 })
     } else {
       console.log('🔧 MSW: Login failed for:', email)
-      return res(
-        ctx.status(400),
-        ctx.json({
+      return HttpResponse.json(
+        {
           errors: {
             email: ['Email or Password is Invalid'],
           },
-        })
+        },
+        { status: 400 }
       )
     }
   }),
 
   // Logout endpoint
-  rest.post('/auth/logout', (req, res, ctx) => {
+  http.post('/auth/logout', () => {
     console.log('🔧 MSW: Logout called')
-    return res(ctx.status(200), ctx.json({ message: 'Logged out successfully' }))
+    return HttpResponse.json({ message: 'Logged out successfully' }, { status: 200 })
   }),
 
   // Refresh token endpoint
-  rest.post('/auth/refresh-token', (req, res, ctx) => {
+  http.post('/auth/refresh-token', () => {
     console.log('🔧 MSW: Refresh token called')
     const accessToken = createToken({ id: 1, exp: Date.now() + 10 * 60 * 1000 })
-    return res(
-      ctx.status(200),
-      ctx.json({
+    return HttpResponse.json(
+      {
         access_token: accessToken,
-      })
+      },
+      { status: 200 }
     )
   }),
 ]
@@ -130,11 +130,10 @@ export const authHandlers = [
 // Dashboard and stats handlers
 export const dashboardHandlers = [
   // Dashboard stats
-  rest.get('/api/stats/dashboard', (req, res, ctx) => {
+  http.get('/api/stats/dashboard', () => {
     console.log('🔧 MSW: Dashboard stats requested')
-    return res(
-      ctx.status(200),
-      ctx.json({
+    return HttpResponse.json(
+      {
         total_campaigns: 25,
         total_contacts: 1500,
         total_sent: 12500,
@@ -143,16 +142,16 @@ export const dashboardHandlers = [
           { id: 1, action: 'Campaign sent', timestamp: new Date().toISOString() },
           { id: 2, action: 'New contact added', timestamp: new Date().toISOString() },
         ]
-      })
+      },
+      { status: 200 }
     )
   }),
 
   // Delivery report
-  rest.get('/api/stats/delivery-report', (req, res, ctx) => {
+  http.get('/api/stats/delivery-report', () => {
     console.log('🔧 MSW: Delivery report requested')
-    return res(
-      ctx.status(200),
-      ctx.json({
+    return HttpResponse.json(
+      {
         delivery_report: {
           sent: 1250,
           waiting: 45,
@@ -170,7 +169,8 @@ export const dashboardHandlers = [
           { operator: 'Glo', count: 220, percentage: 17.6 },
           { operator: '9mobile', count: 200, percentage: 16 }
         ]
-      })
+      },
+      { status: 200 }
     )
   }),
 ]
