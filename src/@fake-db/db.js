@@ -1,9 +1,12 @@
 import mock from './mock'
 
+console.log('🔧 Mock DB: Starting initialization...')
+
 /* eslint-disable import/extensions */
 
 // JWT
 import './jwt'
+console.log('🔧 Mock DB: JWT module loaded')
 
 // Table
 import './data/extensions/good-table'
@@ -35,3 +38,6 @@ import './data/pages/blog'
 /* eslint-enable import/extensions */
 
 // mock.onAny().passThrough() // Commented out to use mock system instead of forwarding to network
+
+console.log('🔧 Mock DB: All modules loaded successfully')
+console.log('🔧 Mock DB: Mock system ready:', mock)
