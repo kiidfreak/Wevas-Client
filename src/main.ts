@@ -6,7 +6,19 @@ import './assets/styles/main.css'
 import { router } from './router'
 import { createPinia } from 'pinia'
 
-// Initialize MSW (Mock Service Worker) for both development and production
+// Create app instance
+const app = createApp(App)
+
+// Install Pinia
+const pinia = createPinia()
+app.use(pinia)
+
+app.use(router)
+
+// Mount app first
+app.mount('#app')
+
+// Initialize MSW (Mock Service Worker) after app is mounted
 async function enableMocking() {
   if (typeof window === 'undefined') {
     return
@@ -27,23 +39,16 @@ async function enableMocking() {
     }
   } catch (error) {
     console.warn('⚠️ Failed to initialize MSW:', error)
+    // Don't let MSW errors block the app
   }
 }
 
-// Enable mocking before app mounts
-await enableMocking()
-
-// Create app instance
-const app = createApp(App)
-
-// Install Pinia
-const pinia = createPinia()
-app.use(pinia)
-
-app.use(router)
-
-// Mount app
-app.mount('#app')
+// Enable mocking after app is mounted (non-blocking)
+setTimeout(() => {
+  enableMocking().catch(error => {
+    console.warn('⚠️ MSW initialization failed, but app is running:', error)
+  })
+}, 100)
 
 console.log('🚀 Wevas Next-Gen starting up...')
 console.log('✨ Vue 3 + Vite + TypeScript + Tailwind CSS + MSW')

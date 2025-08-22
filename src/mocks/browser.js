@@ -10,3 +10,12 @@ if (typeof window !== 'undefined') {
     worker,
   }
 }
+
+// Add error handling for worker setup
+worker.events.on('unhandledException', (error) => {
+  console.warn('MSW: Unhandled exception:', error)
+})
+
+worker.events.on('unhandledRejection', (error) => {
+  console.warn('MSW: Unhandled rejection:', error)
+})
